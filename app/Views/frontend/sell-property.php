@@ -38,44 +38,65 @@
 <main role="main">
 
   <section class="jumbotron">
-    <div class="container"> 
+    <div class="container">
      
-      <h1>Sign-In</h1>
+      <h1>Sell your property on PropertyRaja</h1>
       <p class="lead text-muted">India's No 1 Property Site</p>
        <hr>  
   <form>
-  
-  <div class="form-group">
-    <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
-  </div>
- 
-  <div class="form-group">
-    <label for="inputCity">Choose Password</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password">
-  </div>
-
   <div class="form-group">
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="gridCheck">
       <label class="form-check-label" for="gridCheck">
-        Remember me
+        I accept terms and condtions to use services of propertyraja.com
       </label>
     </div>
   </div>
-
+  <div class="form-group">
+  	<div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+        <label class="form-check-label" for="inlineRadio1">House Owner</label>
+    </div>
+	<div class="form-check form-check-inline">
+	  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+	  <label class="form-check-label" for="inlineRadio2">Real Estate Developer</label>
+	</div>
+	<div class="form-check form-check-inline">
+	  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+	  <label class="form-check-label" for="inlineRadio3">Agent</label>
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Display Name</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="Display Name">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Mobile Number</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">Choose Password</label>
+      <input type="password" class="form-control" id="inputCity">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputState">Email</label>
+      <input type="email" class="form-control" id="inputAddress2" placeholder="Email">
+    </div>
+  </div>
   <button type="submit" class="btn btn-light">Cancel</button>
-  <button type="submit" class="btn btn-primary">Sign In</button>
+  <button type="submit" class="btn btn-primary">Sign up</button>
   <hr>
    <div class="form-group">
     <label for="inputAddress">
-    	Not a member?
-    	<a href="<?= base_url();?>/Auth/register">Sign-up</a>
+    	Already a member ? 
+    	<a href="<?= base_url();?>/Auth/login">SignIn</a>
     </label>
   </div>
 </form>
       
          
+   
     </div>
   </section>
 

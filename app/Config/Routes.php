@@ -30,10 +30,21 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+//HOME Controller
 $routes->get('/', 'Home::index');
 $routes->get('buy/', 'Home::buy');
 $routes->get('sell/', 'Home::sell');
 $routes->get('rent/', 'Home::rent');    
+
+//Sell Property Controller
+$routes->get('sellproperty/', 'SellProperty::index');
+
+
+//Auth Property Controller
+$routes->get('login/', 'Auth::login');
+$routes->get('staff-login/', 'Auth::agent_login');
+$routes->get('staff-login/', 'Auth::staff_login'); 
 
 /**
  * --------------------------------------------------------------------

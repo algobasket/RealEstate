@@ -12,11 +12,11 @@
           <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Contact</h4>
+          <h4 class="text-white">Login</h4>
           <ul class="list-unstyled">
-            <li><a href="#" class="text-white">Follow on Twitter</a></li>
-            <li><a href="#" class="text-white">Like on Facebook</a></li>
-            <li><a href="#" class="text-white">Email me</a></li>
+            <li><a href="<?= base_url();?>/Auth/login" class="text-white">Customer Login</a></li>
+            <li><a href="<?= base_url();?>/Auth/agent_login" class="text-white">Agent Login</a></li>
+            <li><a href="<?= base_url();?>/Auth/staff_login" class="text-white">Staff Login</a></li>
           </ul>
         </div>
       </div>
@@ -24,8 +24,8 @@
   </div>
   <div class="navbar navbar-light bg-light shadow-sm">
     <div class="container d-flex justify-content-between">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <img src="./images/propertyraja.png" width="200"/>
+      <a href="<?= base_url();?>/sellproperty" class="navbar-brand d-flex align-items-center btn btn-outline-dark btn-sm">
+        Sell Property
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -37,7 +37,12 @@
 <main role="main">
 
   <section class="jumbotron text-center">
-    <div class="container"> 
+    <div class="container">
+      <center>
+       <a href="<?= base_url();?>"> 
+        <img src="<?= base_url();?>/images/propertyraja.png" width="300"/> 
+       </a>
+      </center>
       <h1>Welcome back, continue your home search</h1>
       <p class="lead text-muted">India's No 1 Property Site</p>
       <p>
@@ -264,7 +269,7 @@
 <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
       <div class="col-12 col-md">
-        <img class="mb-2" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+        <img class="mb-2" src="<?= base_url();?>/images/propertyraja.png" alt="" width="150">
         <small class="d-block mb-3 text-muted">&copy; 2017-2020 | Developed by Algobasket</small>
       </div>
       <div class="col-6 col-md">
