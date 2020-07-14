@@ -15,9 +15,9 @@
         <div class="col-sm-4 offset-md-1 py-4">
           <h4 class="text-white">Login</h4>
           <ul class="list-unstyled">
-            <li><a href="<?= base_url();?>/Auth/login" class="text-white">Customer Login</a></li>
-            <li><a href="<?= base_url();?>/Auth/agent_login" class="text-white">Agent Login</a></li>
-            <li><a href="<?= base_url();?>/Auth/staff_login" class="text-white">Staff Login</a></li>
+            <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
+            <li><a href="<?= base_url();?>/login-agent" class="text-white">Agent Login</a></li>
+            <li><a href="<?= base_url();?>/login-staff" class="text-white">Staff Login</a></li>
           </ul>
         </div>
       </div>
@@ -40,21 +40,62 @@
   <section class="jumbotron">
     <div class="container"> 
      
-      <h1>Sign-In</h1>
-      <p class="lead text-muted">India's No 1 Property Site</p>
-       <hr>  
+      
+
+  <?php if($role == "customer") : ?> 
+  <h1>Sign-In</h1>
+  <p class="lead text-muted">India's No 1 Property Site</p>
+  <hr>
+  <?= \Config\Services::validation()->listErrors(); ?>    
+  <?= form_open('login') ?>
+  <?= csrf_field() ?>
+  <div class="form-group">
+    <label for="inputAddress2">Mobile Number</label>
+    <input type="text" name="mobile-number" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+  </div>
+  <div class="form-group">
+    <label for="inputCity">Choose Password</label>
+    <input type="password" name="password" class="form-control" id="inputCity" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Remember me
+      </label> 
+    </div>
+  </div>
+  <button type="submit" class="btn btn-light">Cancel</button>
+  <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" />
+  <hr>
+   <div class="form-group">
+    <label for="inputAddress">
+    	Not a member?
+    	<a href="<?= base_url();?>/Auth/register">Sign-up</a>
+    </label>
+  </div>
+<?= form_close() ?>
+
+<?php endif ?>
+ 
+ <?php if($role == "agent") : ?> 
+ 
+ <h1>Sign-In Agent</h1>
+  <p class="lead text-muted">India's No 1 Property Site</p>
+  <hr>    
   <form>
-  
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
     <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
   </div>
- 
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
     <input type="password" class="form-control" id="inputCity" placeholder="Password">
   </div>
-
+  <div class="form-group">
+    <label for="inputCity">Agent Access Code</label>
+    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+  </div>
   <div class="form-group">
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="gridCheck">
@@ -63,20 +104,56 @@
       </label>
     </div>
   </div>
-
   <button type="submit" class="btn btn-light">Cancel</button>
   <button type="submit" class="btn btn-primary">Sign In</button>
   <hr>
    <div class="form-group">
     <label for="inputAddress">
-    	Not a member?
-    	<a href="<?= base_url();?>/Auth/register">Sign-up</a>
+      Not a member?
+      <a href="<?= base_url();?>/Auth/register">Sign-up</a>
     </label>
   </div>
 </form>
+<?php endif ?>
+ <?php if($role == "staff") : ?> 
       
-         
+  <h1>Sign-In Staff</h1>
+  <p class="lead text-muted">India's No 1 Property Site</p>
+  <hr>    
+  <form>
+  <div class="form-group">
+    <label for="inputAddress2">Mobile Number</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+  </div>
+  <div class="form-group">
+    <label for="inputCity">Choose Password</label>
+    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="inputCity">Staff Access Code</label>
+    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Remember me
+      </label>
     </div>
+  </div>
+  <button type="submit" class="btn btn-light">Cancel</button>
+  <button type="submit" class="btn btn-primary">Sign In</button>
+  <hr>
+   <div class="form-group">
+    <label for="inputAddress">
+      Not a member?
+      <a href="<?= base_url();?>/Auth/register">Sign-up</a>
+    </label>
+  </div>
+</form>
+<?php endif ?>
+
+  </div>
   </section>
 
 </main>

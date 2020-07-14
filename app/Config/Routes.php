@@ -43,8 +43,9 @@ $routes->get('sellproperty/', 'SellProperty::index');
 
 //Auth Property Controller
 $routes->get('login/', 'Auth::login');
-$routes->get('staff-login/', 'Auth::agent_login');
-$routes->get('staff-login/', 'Auth::staff_login'); 
+$routes->post('login/', 'Auth::login');
+$routes->get('login-agent/', 'Auth::login_agent'); 
+$routes->get('login-staff/', 'Auth::login_staff'); 
 
 /**
  * --------------------------------------------------------------------

@@ -14,9 +14,9 @@
         <div class="col-sm-4 offset-md-1 py-4">
           <h4 class="text-white">Login</h4>
           <ul class="list-unstyled">
-            <li><a href="<?= base_url();?>/Auth/login" class="text-white">Customer Login</a></li>
-            <li><a href="<?= base_url();?>/Auth/agent_login" class="text-white">Agent Login</a></li>
-            <li><a href="<?= base_url();?>/Auth/staff_login" class="text-white">Staff Login</a></li>
+            <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
+            <li><a href="<?= base_url();?>/login-agent" class="text-white">Agent Login</a></li>
+            <li><a href="<?= base_url();?>/login-staff" class="text-white">Staff Login</a></li>
           </ul>
         </div>
       </div>
