@@ -36,6 +36,7 @@ $routes->get('/', 'Home::index');
 $routes->get('buy/', 'Home::buy');
 $routes->get('sell/', 'Home::sell');
 $routes->get('rent/', 'Home::rent');    
+$routes->get('browse/', 'Home::browse'); 
 
 //Sell Property Controller
 $routes->get('sellproperty/', 'SellProperty::index');
@@ -45,7 +46,13 @@ $routes->get('sellproperty/', 'SellProperty::index');
 $routes->get('login/', 'Auth::login');
 $routes->post('login/', 'Auth::login');
 $routes->get('login-agent/', 'Auth::login_agent'); 
+$routes->get('login-developer/', 'Auth::login_developer'); 
 $routes->get('login-staff/', 'Auth::login_staff'); 
+$routes->get('register/', 'Auth::register'); 
+$routes->post('register/', 'Auth::register'); 
+$routes->get('logout/', 'Auth::logout');
+
+
 
 /**
  * --------------------------------------------------------------------

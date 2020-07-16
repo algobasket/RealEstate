@@ -5,18 +5,21 @@
 
 <link href="https://getbootstrap.com/docs/4.5/examples/album/album.css" rel="stylesheet">    
  <header> 
-  <div class="collapse bg-dark" id="navbarHeader">
+  <div class="collapse bg-warning" id="navbarHeader">
     <div class="container">
       <div class="row">
         <div class="col-sm-8 col-md-7 py-4">
           <h4 class="text-white">About PropertyRaja</h4>
-          <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+          <p class="text-muted">
+            Launched in 2020, PropertyRaja.com, India’s No. 1 property portal, deals with every aspect of the consumers’ needs in the real estate industry. It is an online forum where buyers, sellers and brokers/agents can exchange information about real estate properties quickly, effectively and inexpensively. At PropertyRaja.com, you can advertise a property, search for a property, browse through properties, build your own property microsite, and keep yourself updated with the latest news and trends making headlines in the realty sector.
+          </p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
           <h4 class="text-white">Login</h4>
           <ul class="list-unstyled">
-           <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
+             <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
             <li><a href="<?= base_url();?>/login-agent" class="text-white">Agent Login</a></li>
+            <li><a href="<?= base_url();?>/login-developer" class="text-white">Developer Login</a></li>  
             <li><a href="<?= base_url();?>/login-staff" class="text-white">Staff Login</a></li>
           </ul>
         </div>
@@ -43,7 +46,11 @@
       <h1>Sign-Up</h1>
       <p class="lead text-muted">India's No 1 Property Site</p>
        <hr>  
-  <form>
+  
+  <?= \Config\Services::session()->getFlashdata('alert');?> 
+
+  <?= form_open('register') ?>
+  <?= csrf_field() ?> 
   <div class="form-group">
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="gridCheck">
@@ -54,25 +61,26 @@
   </div>
   <div class="form-group">
       <div class="btn-group" role="group" aria-label="Basic example" style="width:100%">
-        <button type="button" class="btn btn-primary active" onclick="$('#collapseExample').collapse('hide')">Searching for Home</button>
-        <button type="button" class="btn btn-primary" data-toggle="collapse" href="#collapseExample">Selling Property</button>
+        <button type="button" class="btn btn-primary active" 
+        onclick="searchingForHome()">Searching for Home</button>
+        <button type="button" class="btn btn-primary" onclick="sellingProperty()">Selling Property</button>
       </div>
   </div>
-  
+  <input type="hidden" name="purpose" value="buy_rent" id="purpose" /> 
   <div class="collapse" id="collapseExample">
       <div class="card card-body">
-          <div class="form-group">
-            <label class="badge badge-success">I'm</label><br>
+          <div class="form-group"> 
+            <label class="badge badge-success">I'm</label><br> 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                <input class="form-check-input" type="radio" name="rolename" id="inlineRadio1" value="customer" checked >
                 <label class="form-check-label" for="inlineRadio1">House Owner</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+              <input class="form-check-input" type="radio" name="rolename" id="inlineRadio2" value="developer">
               <label class="form-check-label" for="inlineRadio2">Real Estate Developer</label>
-            </div>
+            </div> 
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+              <input class="form-check-input" type="radio" name="rolename" id="inlineRadio3" value="agent">
               <label class="form-check-label" for="inlineRadio3">Agent</label>
             </div>
           </div>
@@ -81,24 +89,24 @@
  
   <div class="form-group">
     <label for="inputAddress">Display Name</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="Display Name">
+    <input type="text" class="form-control" id="display-name" name="display-name" placeholder="Display Name">
   </div>
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+    <input type="text" class="form-control" id="mobile-number" name="mobile-number" placeholder="Mobile Number">
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputCity">Choose Password</label>
-      <input type="password" class="form-control" id="inputCity" placeholder="Password">
+      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
     </div>
     <div class="form-group col-md-6">
       <label for="inputState">Email</label>
-      <input type="email" class="form-control" id="inputAddress2" placeholder="Email">
+      <input type="text" class="form-control" id="email" name="email" placeholder="Email">
     </div>
   </div>
-  <button type="submit" class="btn btn-light">Cancel</button>
-  <button type="submit" class="btn btn-primary">Sign up</button>
+  <button type="submit" class="btn btn-light">Cancel</button> 
+  <input type="submit" class="btn btn-primary" name="sign-up" value="Sign up"/>  
   <hr>
    <div class="form-group">
     <label for="inputAddress">
@@ -106,22 +114,21 @@
     	<a href="<?= base_url();?>/Auth/login">SignIn</a>
     </label>
   </div>
-</form>
-      
-         
-   
+  <?= form_close() ?> 
+
+
     </div>
   </section>
+</main> 
 
-</main>
+
 
 <div class="container">
 <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
       <div class="col-12 col-md">
-        <img class="mb-2" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+        <img class="mb-2" src="<?= base_url();?>/images/propertyraja.png" alt="" width="150">
         <small class="d-block mb-3 text-muted">&copy; 2017-2020 | Developed by Algobasket</small>
-      </div>
       <div class="col-6 col-md">
         <h5>Quick links</h5>
         <ul class="list-unstyled text-small">
@@ -159,5 +166,16 @@
   </footer>
  </div>
 
+ <script>
+   function searchingForHome(){
+    $('#collapseExample').collapse('hide');
+    $('#purpose').val('buy_rent');
+    $('input[value="customer"]').click();
+   }
+   function sellingProperty(){
+     $('#collapseExample').collapse('show');
+     $('#purpose').val('sell');
+   }
+ </script>
 
 <?= $this->endSection() ?>

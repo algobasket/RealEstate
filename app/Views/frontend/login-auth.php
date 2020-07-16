@@ -5,18 +5,21 @@
 
 <link href="https://getbootstrap.com/docs/4.5/examples/album/album.css" rel="stylesheet">    
  <header> 
-  <div class="collapse bg-dark" id="navbarHeader">
+  <div class="collapse bg-warning" id="navbarHeader">
     <div class="container">
       <div class="row">
         <div class="col-sm-8 col-md-7 py-4">
           <h4 class="text-white">About PropertyRaja</h4>
-          <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-        </div>
+          <p class="text-muted">
+            Launched in 2020, PropertyRaja.com, India’s No. 1 property portal, deals with every aspect of the consumers’ needs in the real estate industry. It is an online forum where buyers, sellers and brokers/agents can exchange information about real estate properties quickly, effectively and inexpensively. At PropertyRaja.com, you can advertise a property, search for a property, browse through properties, build your own property microsite, and keep yourself updated with the latest news and trends making headlines in the realty sector.
+          </p>
+        </div> 
         <div class="col-sm-4 offset-md-1 py-4">
           <h4 class="text-white">Login</h4>
           <ul class="list-unstyled">
-            <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
+             <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
             <li><a href="<?= base_url();?>/login-agent" class="text-white">Agent Login</a></li>
+            <li><a href="<?= base_url();?>/login-developer" class="text-white">Developer Login</a></li>  
             <li><a href="<?= base_url();?>/login-staff" class="text-white">Staff Login</a></li>
           </ul>
         </div>
@@ -38,15 +41,14 @@
 <main role="main">
 
   <section class="jumbotron">
-    <div class="container"> 
+    <div class="container">  
      
-      
-
   <?php if($role == "customer") : ?> 
   <h1>Sign-In</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
-  <hr>
-  <?= \Config\Services::validation()->listErrors(); ?>    
+  <hr>  
+  <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
+  <?= \Config\Services::session()->getFlashdata('alert');?>  
   <?= form_open('login') ?>
   <?= csrf_field() ?>
   <div class="form-group">
@@ -80,7 +82,7 @@
  
  <?php if($role == "agent") : ?> 
  
- <h1>Sign-In Agent</h1>
+ <h1>Sign-In | Agent</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
   <hr>    
   <form>
@@ -115,9 +117,48 @@
   </div>
 </form>
 <?php endif ?>
+
+<?php if($role == "developer") : ?>  
+ 
+ <h1>Sign-In | RealEstate Developer</h1>
+  <p class="lead text-muted">India's No 1 Property Site</p>
+  <hr>    
+  <form>
+  <div class="form-group">
+    <label for="inputAddress2">Mobile Number</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+  </div>
+  <div class="form-group">
+    <label for="inputCity">Choose Password</label>
+    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="inputCity">Developer Access Code</label>
+    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Remember me
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-light">Cancel</button>
+  <button type="submit" class="btn btn-primary">Sign In</button>
+  <hr>
+   <div class="form-group">
+    <label for="inputAddress">
+      Not a member?
+      <a href="<?= base_url();?>/Auth/register">Sign-up</a>
+    </label>
+  </div>
+</form>
+<?php endif ?>
+
  <?php if($role == "staff") : ?> 
       
-  <h1>Sign-In Staff</h1>
+  <h1>Sign-In | Staff</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
   <hr>    
   <form>

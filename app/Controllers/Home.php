@@ -16,43 +16,43 @@ class Home extends BaseController
 
 	public function sell()
 	{
-		$data['sell'] = "Sell Properties";
+		$data['title'] = "Sell Properties";
 	    return view('frontend/sell',$data);
 	}
 
 	public function rent()
 	{
-		$data['rent'] = "Rent Properties";
+		$data['title'] = "Rent Properties";
 	    return view('frontend/rent',$data);
 	}
 
 	public function browse() 
 	{
-		$data['browse'] = "Browse Properties";
-	    return view('frontend/browse',$data);
+		$data['title'] = "Browse Properties";
+	    return view('frontend/browse',$data); 
 	}
     
     public function contact()
     {
-       $data['contact'] = "Contact Us";
+       $data['title'] = "Contact Us";
 	   return view('frontend/contact',$data);
     }
 
 	public function about()
     {
-       $data['rent'] = "About Us";
+       $data['title'] = "About Us";
 	   return view('frontend/about',$data);
     } 
     
 	public function policy()
     {
-       $data['policy'] = "Our Policy";
+       $data['title'] = "Our Policy";
 	   return view('frontend/policy',$data);
     }
     
 	public function support()
     {
-       $data['support'] = "Customer Support";
+       $data['title'] = "Customer Support";
 	   return view('frontend/support',$data);
     } 
     
