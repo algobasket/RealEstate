@@ -52,7 +52,7 @@
 
         <center>
       	<div class="input-group">
-           
+        
 			<select class="form-control form-control-lg col-3">
 	             <option>Buy</option>
 	             <option>Rent</option>

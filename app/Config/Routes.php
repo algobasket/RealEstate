@@ -52,6 +52,15 @@ $routes->get('register/', 'Auth::register');
 $routes->post('register/', 'Auth::register'); 
 $routes->get('logout/', 'Auth::logout');
 
+//Account Property Controller
+$routes->get('profile/', 'Account::profile');
+$routes->post('profile/', 'Account::profile');
+
+//Property Controller
+$routes->get('add-property/(:any)', 'Property::addProperty');
+$routes->post('add-property/(:any)', 'Property::addProperty');
+$routes->get('add-property/', 'Property::addProperty'); 
+$routes->post('add-property/', 'Property::addProperty');  
 
 
 /**

@@ -6,6 +6,10 @@
 <link href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" rel="stylesheet">
 <link href="https://getbootstrap.com/docs/4.5/assets/css/docs.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+ <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+
 <style type="text/css">
   .star {
   position: relative;
@@ -118,7 +122,6 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
-                <a class="dropdown-item" href="<?= base_url();?>/favourites">My Listings</a>
                 <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
                 <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
                 <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
@@ -139,148 +142,166 @@
   </div>
 </header>
 
-<main role="main">
+<main role="main"> 
 
   <div class="album py-5 bg-light">
-    <div class="container bd-callout bd-callout-danger" >
-        <div class="row">
-            <h5 class="custom-select-lg mb-4" style="font-size: 24px">&nbsp;&nbsp;Search By</h5>
-            <select class="custom-select custom-select-lg mb-3" style="width:120px;margin-left:15px">
-              <option selected>Buy</option>
-              <option value="1">Buy</option>
-              <option value="2">Rent</option> 
-            </select>
-            <select class="custom-select custom-select-lg mb-4" style="width:120px">
-              <option selected>Flat</option>
-              <option value="1">Villa</option>
-              <option value="2">Plot</option> 
-            </select>
-            <select class="custom-select custom-select-lg mb-4" style="width:120px">
-              <option selected>Any</option>
-              <option value="1">50 Lakh</option>
-              <option value="2">90 Lakh</option>
-              <option value="2">1 Cr</option>
-              <option value="2">2 Cr</option>
-              <option value="2">4 Cr</option>
-            </select>
-            <select class="custom-select custom-select-lg mb-4" style="width:120px">
-              <option selected>Facing</option>
-              <option value="1">East</option>
-              <option value="2">West</option>
-              <option value="2">North</option>
-              <option value="2">South</option>
-            </select>
-            <select class="custom-select custom-select-lg mb-4" style="width:120px">
-              <option selected>1 BHK</option>
-              <option value="0">Studio</option>
-              <option value="1">2 BHK</option>
-              <option value="2">3 BHK</option>
-              <option value="2">4 BHK</option>
-              <option value="2">5 BHK</option>
-              <option value="2">5+ BHK</option> 
-            </select>
-            
-            <select class="custom-select custom-select-lg mb-4" style="width:120px">
-              <option selected>Options</option>
-              <option value="0">Studio</option>
-              <option value="1">2 BHK</option>
-              <option value="2">3 BHK</option>
-              <option value="2">4 BHK</option>
-              <option value="2">5 BHK</option>
-              <option value="2">5+ BHK</option>
-            </select>
-        </div> 
-        <div class="row">
-          
-            <div class="custom-control custom-radio custom-control-inline">
-              <h4>Posted By </h4>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="checkbox" id="customRadioInline" name="customRadioInline1" class="custom-control-input">
-              <label class="custom-control-label" for="customRadioInline2">All</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="checkbox" id="customRadioInline" name="customRadioInline1" class="custom-control-input">
-              <label class="custom-control-label" for="customRadioInline1">House Owner</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="checkbox" id="customRadioInline" name="customRadioInline1" class="custom-control-input">
-              <label class="custom-control-label" for="customRadioInline2">RealEstate Developer</label>
-            </div>
-             <div class="custom-control custom-radio custom-control-inline">
-              <input type="checkbox" id="customRadioInline" name="customRadioInline1" class="custom-control-input">
-              <label class="custom-control-label" for="customRadioInline2">Agent</label>
-            </div>
-        </div>
-    </div>
+   
     <div class="container">
-       <h3>Rishikesh Real Estate & Homes For Sale</h3>
-       <h5>36,874 results</h5>
+       <h3 class="display-4">Add Property <a href="<?= base_url();?>/add-property" class="btn btn-outline-danger float-right"> See Listings</a></h3>
        <hr>
-
-
 
       <div class="row"> 
         
-         <div class="card mb-3" style="width:100%;" >
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              <img src="https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg" class="card-img" width="150">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h3 class="card-title">
-                  <span>50,00,000 INR</span> 
-                  <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/>
-                </h3>
-                <p class="card-text">18277 Peru Creek Ave, Parker, CO 80134</p>
-                <p class="card-text">Open plot for sale at bolligudem boduppal.Located in a newly developing society with all proposed facilities....</p>
-                <p class="card-text">
-                    <h6>House for sale <span class="badge badge-success">New</span>   | 1170 sft | 2Bhk | East | Ready to Occupy</h6> 
-                    <a href="" class="btn btn-primary btn-sm float-right">I'm Interested</a>   
-                </p>
-                <p class="card-text">
-                   Posted By : Vaishnav (Developer)  | Posted At : 12 Days ago | <a href="<?= base_url();?>/property-detail/" class="text-success">Full Detail</a>
-                </p>
+         <div class="col-md-8 order-md-1">
+
+            <!---- Flat Section ----->
+
+
+             <?= \Config\Services::session()->getFlashdata('alert');?>
+             <?= form_open('add-property','id="addPropertyForm"') ?>
+             <?php //foreach ($profile as $info){} ?>
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                   <label for="country">Listing Type </label><br>
+                    <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                      <label class="btn btn-outline-danger active" data-listingtype="sell" id="listing_type_lb">   
+                        <input type="radio" name="listing_type" class="listing_type" id="listing_type" value="sell" checked> Selling
+                      </label>
+                      <label class="btn btn-outline-dark" data-listingtype="rent" id="listing_type_lb">  
+                        <input type="radio" name="listing_type" class="listing_type" id="listing_type" value="rent"> Renting 
+                      </label>
+                    </div>
+                </div>  
+                <div class="col-md-5 mb-3">
+                  <label for="country">Property Type</label> 
+                  <select class="custom-select d-block w-100" name="property_type" id="property_type" required > 
+                       <option value="">Select property type</option>
+                      <?php foreach ($property_type as $ptype) : ?>
+                        <option value="<?= $ptype['id'];?>" > 
+                          <?= $ptype['type_name'];?>  
+                        </option>
+                      <?php endforeach ?>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select property type.
+                  </div>
+                </div>
+                <input type="hidden" id="listing_type_hide" name="listing_type_hide" value="sell"/> 
               </div>
-            </div>
-          </div>
-        </div> 
 
-       <div class="card mb-3" style="width:100%;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg" class="card-img" width="150">
-          </div>
-          <div class="col-md-8">
+
+
+            <div id="dynamicPageLoad">  
+
+            </div>
+
+
+
+             <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label for="country">Amenities</label><br>
+                        <?php foreach($amenities as $am) : ?>
+                        <div class="form-check form-check-inline"> 
+                          <input class="form-check-input" type="checkbox" id="amenities" name="amenities[]" value="<?= $am['id'];?>">
+                          <label class="form-check-label" for="amenities"><?= $am['name'];?></label>
+                        </div>
+                      <?php endforeach ?>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8 mb-3">
+                   <label for="country">Facing </label>
+                    <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-outline-danger active">
+                        <input type="radio" name="facing" id="facing" value="north" checked> North
+                      </label>
+                      <label class="btn btn-outline-danger">
+                        <input type="radio" name="facing" id="facing" value="south"> South 
+                      </label>
+                      <label class="btn btn-outline-danger">
+                        <input type="radio" name="facing" id="facing" value="east"> East 
+                      </label>
+                      <label class="btn btn-outline-danger">
+                        <input type="radio" name="facing" id="facing" value="west"> West 
+                      </label>
+                    </div>
+                </div>
+              </div>
+
+
+              <hr class="mb-4"> 
+
+              <h4 class="mb-3">Property Detail</h4>
+
+               <div class="row">
+                <div class="col-md-10 mb-3">
+                    <label for="title">Title</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="title">
+                    </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                    <label for="title">Description</label>
+                    <div class="input-group">
+                      <textarea type="text" class="form-control" placeholder="Please input" name="description"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-5 mb-3">
+                    <label for="title">Specification</label>
+                    <div class="input-group">
+                      <textarea type="text" class="form-control" placeholder="Please input" name="specification"></textarea>
+                    </div>
+                </div>
+              </div>
+             
+              <hr class="mb-4"> 
+
+              <h4 class="mb-3">Upload Photos</h4>
+
+              <div class="d-block my-3">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupFileAddon01">Images</span>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-danger" type="button" id="inputGroupFileAddon04">+ Add More</button>
+                    </div>
+                  </div>
+              </div>
+              
+              <hr class="mb-4">
+
+              <a href="<?= base_url().'/add-property';?>" class="btn btn-outline-dark btn-lg">Cancel</a> 
+              <input class="btn btn-outline-danger btn-lg " type="submit" name="add_property" value="Save and add photos"/> 
+
+            <?= form_close();?>
+      </div>
+      <div class="col-md-4 order-md-2">
+        <h3 class="text-left">Sponsored Ads</h3>
+          <div class="card" style="width: 18rem;">
+            <img src="https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h3 class="card-title">
-                  <span>50,00,000 INR</span>    
-                   <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/>
-              </h3>
-              <p class="card-text"></p>
-              <p class="card-text">18277 Peru Creek Ave, Parker, CO 80134</p>
-              <p class="card-text">Open plot for sale at bolligudem boduppal.Located in a newly developing society with all proposed facilities....</p>
-              <p class="card-text">
-                 <h6>New construction <span class="badge badge-success">New</span> | 1170 sft | 2Bhk | East | Ready to Occupy</h6>
-                <a href="" class="btn btn-primary btn-sm float-right">I'm Interested</a>
-              </p>
-               <p class="card-text">
-                Posted By : Vaishnav (Developer)  | Posted At : 12 Days ago | <a href="<?= base_url();?>/property-detail/" class="text-success">Full Detail</a>
-              </p>
+              <p class="card-text"><b>Aurabindo Kohinoor</b> <br>luxury 2 and 3 bhk homes in prime location</p>
             </div>
           </div>
-        </div>
-      </div>  
-
-
+          <div class="card" style="width: 18rem;">
+            <img src="https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+               <p class="card-text"><b>Aurabindo Kohinoor</b> <br>luxury 2 and 3 bhk homes in prime location</p>
+            </div>
+          </div>
       </div>
 
 
 
-
-
-
+  </div>
 
     </div>
   </div>
