@@ -106,7 +106,7 @@
       <input class="form-check-input" type="checkbox" id="gridCheck">
       <label class="form-check-label" for="gridCheck">
         Remember me
-      </label>
+      </label> 
     </div>
   </div>
   <button type="submit" class="btn btn-light">Cancel</button>

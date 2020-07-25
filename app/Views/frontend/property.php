@@ -211,7 +211,7 @@
                 
                 <div class="col-md-12">
                     <?php if($detail['bhk_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= strtoupper($detail['bhk_type']);?></div>
+                      <div class="d-inline p-2 bg-danger text-white"><?= ucfirst($detail['bhk_type']);?></div>
                   <?php endif ?>
                    <?php if($detail['status_type']) : ?>
                       <div class="d-inline p-2 bg-danger text-white"><?= str_replace('_',' ',strtoupper($detail['status_type']));?></div>
@@ -234,19 +234,19 @@
                 <div class="col-md-12">
                 
                   <?php if($detail['bhk_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= strtoupper($detail['bhk_type']);?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= strtoupper($detail['bhk_type']);?></div>
                   <?php endif ?>
                    <?php if($detail['status_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= str_replace('_',' ',strtoupper($detail['status_type']));?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= str_replace('_',' ',strtoupper($detail['status_type']));?></div>
                   <?php endif ?>  
                    <?php if($detail['condition_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= strtoupper($detail['condition_type']);?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= strtoupper($detail['condition_type']);?></div>
                    <?php endif ?>
                    <?php if($detail['facing']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= strtoupper($detail['facing']);?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= strtoupper($detail['facing']);?></div>
                    <?php endif ?>
                    <?php if($detail['complex_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= strtoupper($detail['complex_type']);?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= strtoupper($detail['complex_type']);?></div>
                    <?php endif ?>
                       
                 </div>
@@ -273,7 +273,7 @@
               <div class="col-md-8">
                 <h3>Amenities</h3>
                      <?php foreach($detail['amenitiesName'] as $am) : ?>
-                           <div class="d-inline p-2 bg-danger text-white"><?= $am['name'];?></div>
+                           <div class="shadow d-inline p-2 bg-danger text-white"><?= $am['name'];?></div>
                      <?php endforeach ?> 
               </div>
                <div class="col-6 col-md-4">
@@ -291,7 +291,8 @@
                   <div class="shadow media position-relative">
                     <img src="http://localhost:8080/user-images/agent-1.jpeg" class="mr-3" alt="..." width="200">
                     <div class="media-body"><br>
-                      <h5 class="mt-0">Madan Kumar (Agent)</h5>
+                      <h5 class="mt-0">Madan Kumar</h5>
+                      <b class="mt-0">Verified Agent <img src="http://localhost:8080/images/verified-blue.png" class="mr-3" alt="..." width="25"></b>
                       <h5>
                         Rating <img src="http://localhost:8080/images/star.png" width="25">
                         <img src="http://localhost:8080/images/star.png" width="25" >
@@ -299,7 +300,9 @@
                         <img src="http://localhost:8080/images/star.png" width="25">
                         <img src="http://localhost:8080/images/star-empty.png" width="25">
                       </h5>
-                      <a href="javascript:void(0)" class="btn btn-danger stretched-link">Contact Agent</a>
+                      <a href="javascript:void(0)" class="btn btn-danger stretched-link">
+                      <img src="http://localhost:8080/images/contact-phone2.png" class="mr-3" alt="..." width="25">Contact Agent 
+                      </a>
                     </div>
                   </div>
               </div>
@@ -315,7 +318,8 @@
     </div>
   </div>
 
-</main>
+</main> 
+
 
 
 
