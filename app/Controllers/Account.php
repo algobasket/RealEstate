@@ -55,21 +55,21 @@ class Account extends BaseController
 	public function favourites()
 	{
 		$data['title'] = "My Favourites | PropertyRaja.com";
-	    return view('frontend/favourites',$data);    
+	    return view('frontend/favorites',$data);    
 	}
 
 
 	public function messages()
 	{
 		$data['title'] = "Messages | PropertyRaja.com";
-	    return view('frontend/favourites',$data);    
+	    return view('frontend/messages',$data);    
 	}
 
 
 	public function notifications()
 	{
 		$data['title'] = "Notifications | PropertyRaja.com";
-	    return view('frontend/favourites',$data);    
+	    return view('frontend/notifications',$data);     
 	}
 
 

@@ -55,12 +55,34 @@ $routes->get('logout/', 'Auth::logout');
 //Account Property Controller
 $routes->get('profile/', 'Account::profile');
 $routes->post('profile/', 'Account::profile');
+ 
+$routes->get('messages/', 'Account::messages');
+$routes->get('notifications/', 'Account::notifications');
+$routes->get('favourites/', 'Account::favourites'); 
 
 //Property Controller
 $routes->get('add-property/(:any)', 'Property::addProperty');
 $routes->post('add-property/(:any)', 'Property::addProperty');
 $routes->get('add-property/', 'Property::addProperty'); 
 $routes->post('add-property/', 'Property::addProperty');  
+$routes->get('add-property-images/', 'Property::addPropertyImages'); 
+$routes->post('add-property-images/', 'Property::addPropertyImages');
+$routes->get('add-property-images/(:any)', 'Property::addPropertyImages'); 
+$routes->post('add-property-images/(:any)', 'Property::addPropertyImages'); 
+
+$routes->get('property-detail/(:any)', 'Property::index');
+$routes->post('property-detail/(:any)', 'Property::index');
+
+//Home Controller
+$routes->get('about/', 'Home::about');
+$routes->get('contact/', 'Home::contact');
+$routes->get('careers/', 'Home::careers');
+$routes->get('terms-and-conditions/', 'Home::terms');
+$routes->get('testimonials/', 'Home::testimonials');
+$routes->get('policy/', 'Home::policy');
+$routes->get('report/', 'Home::report'); 
+$routes->get('safety/', 'Home::safety');  
+$routes->get('find-agent/', 'Home::findAgent');  
 
 
 /**

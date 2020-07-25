@@ -1,0 +1,11 @@
+.imgp {
+  width:200px;
+  height:200px;
+  object-fit:cover;
+}
+
+.img-lg {
+  width:500px;
+  height:400px; 
+  object-fit:cover;
+}

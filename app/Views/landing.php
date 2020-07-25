@@ -2,7 +2,12 @@
 
 <?= $this->section('content') ?>
 
-<link href="https://getbootstrap.com/docs/4.5/examples/album/album.css" rel="stylesheet">    
+<link href="https://getbootstrap.com/docs/4.5/examples/album/album.css" rel="stylesheet">
+<style type="text/css">
+  select,option {
+    font-size: 15px !important;
+  }
+</style>    
  <header> 
   <div class="collapse bg-warning" id="navbarHeader">
     <div class="container">
@@ -14,13 +19,26 @@
           </p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Login</h4>
-          <ul class="list-unstyled">
-            <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
-            <li><a href="<?= base_url();?>/login-agent" class="text-white">Agent Login</a></li>
-            <li><a href="<?= base_url();?>/login-developer" class="text-white">Developer Login</a></li>  
-            <li><a href="<?= base_url();?>/login-staff" class="text-white">Staff Login</a></li>
-          </ul>
+         
+           <?php if(\Config\Services::session()->get('userId')){ ?>
+               <h4 class="text-white">Welcome</h4>
+               <ul class="list-unstyled">
+                  <li><a href="<?= base_url();?>/login" class="text-white"><?php echo strtoupper(\Config\Services::session()->get('display'));?></a></li>
+                  <li><a href="<?= base_url();?>/profile" class="text-white">My Profile</a></li>
+                  <li><a href="<?= base_url();?>/messages" class="text-white">Messages</a></li>
+                  <li><a href="<?= base_url();?>/notification" class="text-white">Notifications</a></li>
+                  <li><a href="<?= base_url();?>/logout" class="text-white">Logout</a></li>
+               </ul>    
+            <?php }else{ ?>
+              <h4 class="text-white">Login</h4>
+              <ul class="list-unstyled">
+                <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
+                <li><a href="<?= base_url();?>/login-agent" class="text-white">Agent Login</a></li>
+                <li><a href="<?= base_url();?>/login-developer" class="text-white">Developer Login</a></li>  
+                <li><a href="<?= base_url();?>/login-staff" class="text-white">Staff Login</a></li>
+              </ul>
+            <?php } ?>
+
         </div>
       </div>
     </div>
@@ -30,9 +48,36 @@
       <a href="<?= base_url();?>/sellproperty" class="navbar-brand d-flex align-items-center btn btn-outline-dark btn-sm">
         Sell Property
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <div class="btn-group">
+            <?php if(\Config\Services::session()->get('userId')){ ?> 
+                <button type="button" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="All messages sent to owners">
+              <img src="<?= base_url();?>/images/messages.png" width="22"/> <span class="badge badge-danger">7</span>
+              <span class="sr-only">unread messages</span>
+            </button>
+            <button type="button" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="shortlisted properties">
+              <img src="<?= base_url();?>/images/star-empty.png" width="22"/> <span class="badge badge-danger">9</span>
+              <span class="sr-only">unread messages</span>
+            </button>
+            <button class="btn btn-outline-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             <?php echo strtoupper(\Config\Services::session()->get('display'));?>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
+                <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
+                <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
+                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
+            </div>
+            <?php }else{ ?> 
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <?php } ?>
+
+            
+
+      </div>
     </div>
   </div>
 </header>
@@ -53,67 +98,46 @@
         <center>
       	<div class="input-group">
         
-			<select class="form-control form-control-lg col-3">
-	             <option>Buy</option>
-	             <option>Rent</option>
+			      <select class="form-control form-control-lg col-3 searchByListingType">  
+	             <option value="sell">Buy</option>
+	             <option value="rent">Rent</option>
             </select>
-			<select class="form-control form-control-lg col-7">
-	             <option>Any</option>
-	             <option>Flat</option>
-	             <option>Villa</option>
-	             <option>Individual House</option>
-	             <option>Plot</option>
-	             <option>Agricultural Land</option>
-	             <option>Commercial Land</option>
+			      <select class="form-control form-control-lg col-7 searchByPropertyType" style="width: 100px">
+                <option value="any" selected>Any</option>
+	              <?php foreach($property_type as $pt) : ?>
+                 <option value="<?= $pt['id'];?>"><?= ucfirst($pt['type_name']);?></option>
+               <?php endforeach ?> 
             </select>
              <div class="input-group-append">
               <span class="input-group-text">Under</span>
             </div>
-            <select class="form-control form-control-lg col-3">
-	             <option>Any</option>
-	             <option>50 Lakh</option>
-	             <option>90 Lakh</option>
-	             <option>1 Crore</option>
-	             <option>2 Crore</option>
-	             <option>5 Crore</option>
+            <select class="form-control form-control-lg col-3 searchByPriceType" style="width: 60px">
+	             <option value="any" selected >Any</option>
+	             <option value="5000000">50 Lakh</option>
+	             <option value="9000000">90 Lakh</option>
+	             <option value="10000000">1 Crore</option>
+	             <option value="20000000">2 Crore</option>
+	             <option value="50000000">5 Crore</option> 
             </select>
             <div class="input-group-append">
               <span class="input-group-text">in</span>
             </div>
-			<select class="form-control form-control-lg col-7">
-	             <option>Delhi</option>
-	             <option>Chennai</option>
-	             <option>Mumbai</option>
-	             <option>Kolkata</option>
-            </select>
+			     <select class="form-control form-control-lg col-7 searchByCity" style="width: 90px">
+	             <?php foreach($cities as $city) : ?>
+                 <option value="<?= $city['id'];?>"><?= $city['city_name'];?></option>
+               <?php endforeach ?> 
+            </select> 
 
 		</div>
 		<br>
 		<div class="input-group">
-          <input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="All areas in Delhi">
-		</div>	
-        </center>
-      <!-- 	<div class="row">
-      		<div class="col-md-3">
-      			<select class="form-control form-control-lg">
-	             <option>Buy</option>
-	             <option>Rent</option>
-               </select>
-      		</div>
-      		<div class="col-md-3">
-      			<select class="form-control form-control-lg">
-	             <option>Any</option>
-	             <option>Rent</option>
-               </select>
-      		</div>
-      			
-      		<div class="col-md-3">
-      			<select class="form-control form-control-lg">
-	             <option>Buy</option>
-	             <option>Rent</option>
-               </select>
-      		</div>
-      	</div> -->
+          <input type="text" class="form-control form-control-lg searchArea" placeholder="All areas in Delhi">
+		</div>
+    <div class="input-group" id="searchResult">
+          
+    </div>  	
+    </center>
+     
          
       </p>
     </div>
@@ -121,147 +145,60 @@
 
   <div class="album py-5 bg-light">
     <div class="container">
-       <h1 class="display-4">FEATURED NEW PROJECTS</h1>
+       <h1 class="display-4">FEATURED NEW PROPERTIES</h1>
        <hr>
       <div class="row">
 
+        <?php foreach($featured as $fp) : ?>
+        
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <?php foreach($fp['images'] as $key => $img) : ?>
+                <?php $active = ($key == 1) ? "active": "" ;?> 
+                <div class="carousel-item <?= $active;?>"> 
+                    <img src="<?= base_url().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
                 </div>
-                <small class="text-muted">9 mins</small>
+                <?php endforeach ?>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+
+            <div class="card-body"> 
+
+                  <?php if($fp['listing_type'] == "sell") : ?>
+                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none"><h5><?= ucfirst(number_format($fp['total_price']));?> INR</h5></a>
+                  <?php endif ?>
+                   <?php if($fp['listing_type'] == "rent") : ?>
+                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none"><h5><?= ucfirst(number_format($fp['rent_per_mon']));?> INR per month</h5></a>
+                  <?php endif ?>
+              
+              <p class="card-text"><b><?= ucfirst($fp['title']);?></b></p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+
+                  <?php if($fp['listing_type'] == "sell") : ?>
+                  <button type="button" class="btn btn-sm btn-outline-success">Available for <?= ucfirst($fp['listing_type']);?></button>
+                  <?php endif ?>
+                   <?php if($fp['listing_type'] == "rent") : ?>
+                  <button type="button" class="btn btn-sm btn-warning">Available for <?= ucfirst($fp['listing_type']);?></button>
+                  <?php endif ?> 
+
                 </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
+                <small class="text-muted">Posted : <?= date('D, d M Y', strtotime($fp['created_at']));?></small>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
+      <?php endforeach ?>
+
+       
+       
+        
+     
       </div>
     </div>
   </div>
@@ -279,24 +216,24 @@
         <h5>Quick links</h5>
         <ul class="list-unstyled text-small">
           <li><a class="text-muted" href="#">Mobile Apps</a></li>
-          <li><a class="text-muted" href="#">Residential Property</a></li>
-          <li><a class="text-muted" href="#">Commercial Property</a></li>
-          <li><a class="text-muted" href="#">New Projects</a></li>
-          <li><a class="text-muted" href="#">Price Trends</a></li>
-          <li><a class="text-muted" href="#">Find Agent</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/browse?q=residential+property">Residential Property</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/browse?q=commercial+property">Commercial Property</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/browse?q=new+projects">New Projects</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/browse?q=price+trends">Price Trends</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/find-agent">Find Agent</a></li>
         </ul>
       </div>
       <div class="col-6 col-md">
         <h5>COMPANY</h5>
         <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">About Us</a></li>
-          <li><a class="text-muted" href="#">Contact Us</a></li>
-          <li><a class="text-muted" href="#">Careers with Us</a></li>
-          <li><a class="text-muted" href="#">Terms & Conditions</a></li>
-          <li><a class="text-muted" href="#">Testimonials</a></li>
-          <li><a class="text-muted" href="#">Privacy Policy</a></li>
-          <li><a class="text-muted" href="#">Report a problem</a></li>
-          <li><a class="text-muted" href="#">Safety Guide</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/about">About Us</a></li> 
+          <li><a class="text-muted" href="<?= base_url();?>/contact">Contact Us</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/careers">Careers with Us</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/terms-and-conditions">Terms & Conditions</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/testimonials">Testimonials</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/policy">Privacy Policy</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/report">Report a problem</a></li>
+          <li><a class="text-muted" href="<?= base_url();?>/safety">Safety Guide</a></li>
         </ul>
       </div>
       <div class="col-6 col-md">

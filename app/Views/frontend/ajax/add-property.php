@@ -15,8 +15,8 @@
                
                <div class="col-md-5 mb-3" id="div_bhk_type">   
                   <label for="country">BHKs</label>
-                  <select class="custom-select d-block w-100" name="bhk_type" id="bhk_type" required="">
-                      <option>Select BHK</option>
+                  <select class="custom-select d-block w-100" name="bhk_type" id="bhk_type" required >
+                      <option selected="true" disabled="disabled" value="">Select BHK</option>
                       <option value="studio">Studio</option>
                       <option value="1bhk">1 BHK</option>   
                       <option value="2bhk">2 BHK</option>  
@@ -24,6 +24,9 @@
                       <option value="4bhk">4 BHK</option>  
                       <option value="+5bhk">5+ BHK</option>     
                   </select>
+                  <div class="invalid-feedback">
+                    Please select BHK type.
+                  </div>
                 </div>
               </div>  
 
@@ -38,9 +41,9 @@
                 </div>
                 <div class="col-md-5 mb-3">
                   <label for="country">Locality</label>
-                  <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="All areas in" name="locality">
+                  <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="All areas in" name="locality" required />
                   <div class="invalid-feedback">
-                    Please select a valid country. 
+                    Please select your locality. 
                   </div>
                 </div>
               </div>
@@ -80,9 +83,9 @@
                 <div class="col-md-5 mb-3">
                     <label for="country">Builtup Area</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" aria-label="Text input with dropdown button" name="builtup_area" placeholder="Please input">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button" name="builtup_area" placeholder="Please input" required >
                       <div class="input-group-append">
-                         <select class="custom-select d-block w-100" name="builtup_area_dm" id="builtup_area_dm" required="">
+                         <select class="custom-select d-block w-100" name="builtup_area_dm" id="builtup_area_dm" required >
                             <option value="">scale</option> 
                             <option value="sft">sft</option>
                             <option value="sq-yards">sq yards</option>
@@ -90,13 +93,20 @@
                             <option value="acres">acres</option>
                         </select>
                       </div>
+                      <div class="invalid-feedback">
+                         Builtup Area required.
+                      </div>
                     </div>
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="country">Project Name/Society</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_name">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_name" required />
+                       <div class="invalid-feedback">
+                         Project name required.
+                       </div>
                     </div>
+                    
                 </div>
               </div>
               
@@ -105,16 +115,22 @@
                 <div class="col-md-5 mb-3">
                     <label for="country">Unit Price</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" aria-label="Text input with dropdown button" name="unit_price" placeholder="Please input">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button" name="unit_price" placeholder="Please input" required />
                       <div class="input-group-append">
                          <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sqft</button>  
                       </div>
+                       <div class="invalid-feedback">
+                         Unit price required.
+                       </div>
                     </div>
                 </div>
                 <div class="col-md-5 mb-3 div_total_price"> 
                     <label for="country">Total Price</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="total_price">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="total_price" required />
+                      <div class="invalid-feedback">
+                         Total price required.
+                       </div>
                     </div>
                 </div>
               </div>
@@ -124,14 +140,17 @@
                 <div class="col-md-5 mb-3">
                     <label for="country">Floor</label>
                     <div class="input-group">
-                      <input type="number" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="floor">
+                      <input type="number" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="floor" required />
+                      <div class="invalid-feedback">
+                         No of floor required.
+                      </div>
                     </div>
                 </div>
                 <?php if($listing_type == "sell") : ?>
                 <div class="col-md-5 mb-3 div_project_total_area">
                     <label for="country">Project Total Area</label> 
                     <div class="input-group">
-                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_total_area">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_total_area" required />
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="project_total_area_dm" id="project_total_area_dm" required="">
                             <option value="sft">sft</option>
@@ -139,6 +158,9 @@
                             <option value="acres">acres</option>
                         </select>
                       </div>
+                      <div class="invalid-feedback">
+                         Project Total Area required.
+                       </div>
                     </div>
                 </div>
                 <?php endif ?>
@@ -149,26 +171,33 @@
                 <div class="col-md-5 mb-3">
                     <label for="country">Launch Date</label>
                     <div class="input-group">
-                      <input type="date" class="form-control datePicker" aria-label="Text input with dropdown button" placeholder="Please input" name="launch_date">
+                      <input type="date" class="form-control datePicker" aria-label="Text input with dropdown button" placeholder="Please input" name="launch_date" required />
+                        <div class="invalid-feedback">
+                         Launch Date required.
+                       </div>
                     </div>
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="country">Posession Date</label>
                     <div class="input-group">
-                      <input type="date" class="form-control datePicker" aria-label="Text input with dropdown button" placeholder="Please input" name="posession_date">
+                      <input type="date" class="form-control datePicker" aria-label="Text input with dropdown button" placeholder="Please input" name="posession_date" required />
+                      <div class="invalid-feedback">
+                         Posession Date required.
+                       </div>
                     </div>
                 </div>
               </div>
 
                <div class="row div_rera_id">
                 <div class="col-md-5 mb-3">
-                    <label for="country">RERA ID</label>
+                    <label for="country">RERA ID (optional)</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="rera_id">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="rera_id" />
+        
                     </div>
                 </div>
                 <div class="col-md-5 mb-3">
-                    <label for="country">Approving Authority</label>
+                    <label for="country">Approving Authority(optional)</label>
                     <div class="input-group">
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="approving_authority">
                     </div>
@@ -181,7 +210,10 @@
                 <div class="col-md-5 mb-3">
                     <label for="country">Rent Per Month</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="rent_per_mon">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="rent_per_mon" required />
+                      <div class="invalid-feedback">
+                         Rent Per Month required!
+                       </div>
                     </div>
                 </div>
               </div>

@@ -85,18 +85,21 @@
  <h1>Sign-In | Agent</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
   <hr>    
-  <form>
+ <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
+  <?= \Config\Services::session()->getFlashdata('alert');?>  
+  <?= form_open('login-agent') ?>
+  <?= csrf_field() ?> 
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number"name="mobile-number" >
   </div>
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+    <input type="password" class="form-control" id="inputCity" placeholder="Password" name="password">
   </div>
   <div class="form-group">
     <label for="inputCity">Agent Access Code</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+    <input type="text" class="form-control" id="inputCity" placeholder="Password" name="access_code">
   </div>
   <div class="form-group">
     <div class="form-check">
@@ -107,7 +110,7 @@
     </div>
   </div>
   <button type="submit" class="btn btn-light">Cancel</button>
-  <button type="submit" class="btn btn-primary">Sign In</button>
+  <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" />
   <hr>
    <div class="form-group">
     <label for="inputAddress">
@@ -145,7 +148,7 @@
     </div>
   </div>
   <button type="submit" class="btn btn-light">Cancel</button>
-  <button type="submit" class="btn btn-primary">Sign In</button>
+  <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" />
   <hr>
    <div class="form-group">
     <label for="inputAddress">

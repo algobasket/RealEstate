@@ -1,11 +1,21 @@
 <?php namespace App\Controllers;
 
 class Home extends BaseController
-{
+{   
+	function __construct()
+	{
+        $this->AccountModel   = model('AccountModel');   
+        $this->GeographyModel = model('GeographyModel');   
+        $this->PropertyModel  = model('PropertyModel');  
+	}
+
 	public function index()
 	{
 		$data['title'] = "Welcome to PropertyRaja";
-		return view('landing',$data);      
+		$data['featured'] = $this->PropertyModel->getAllFeaturedProperties();
+		$data['cities']    = $this->GeographyModel->cities();
+		$data['property_type'] = $this->PropertyModel->getPropertyType();
+	    return view('landing',$data);      
 	}
 
 	public function buy()  
@@ -54,6 +64,42 @@ class Home extends BaseController
     {
        $data['title'] = "Customer Support";
 	   return view('frontend/support',$data);
+    }
+
+    public function terms()
+    {
+       $data['title'] = "Terms And Conditions";
+	   return view('frontend/terms',$data);
     } 
+
+     public function testimonials()
+    {
+       $data['title'] = "Testimonials";
+	   return view('frontend/testimonials',$data);
+    }
+
+    public function report()
+    {
+       $data['title'] = "Report a problem";
+	   return view('frontend/report',$data);
+    }
+
+    public function safety()
+    {
+       $data['title'] = "Safety Guide";
+	   return view('frontend/safety',$data);
+    }
+
+    public function careers()
+    {
+       $data['title'] = "Careers";
+	   return view('frontend/careers',$data);
+    }
+
+    public function findAgent()
+    {
+       $data['title'] = "Find Agent";
+	   return view('frontend/find-agent',$data);
+    }                  
     
 }
