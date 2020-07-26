@@ -46,8 +46,11 @@ $routes->get('sellproperty/', 'SellProperty::index');
 $routes->get('login/', 'Auth::login');
 $routes->post('login/', 'Auth::login');
 $routes->get('login-agent/', 'Auth::login_agent'); 
+$routes->post('login-agent/', 'Auth::login_agent'); 
 $routes->get('login-developer/', 'Auth::login_developer'); 
+$routes->post('login-developer/', 'Auth::login_developer'); 
 $routes->get('login-staff/', 'Auth::login_staff'); 
+$routes->post('login-staff/', 'Auth::login_staff'); 
 $routes->get('register/', 'Auth::register'); 
 $routes->post('register/', 'Auth::register'); 
 $routes->get('logout/', 'Auth::logout');
@@ -83,6 +86,12 @@ $routes->get('policy/', 'Home::policy');
 $routes->get('report/', 'Home::report'); 
 $routes->get('safety/', 'Home::safety');  
 $routes->get('find-agent/', 'Home::findAgent');  
+
+
+//Dashboard Controller
+$routes->get('dashboard/', 'Dashboard::index');  
+
+
 
 
 /**

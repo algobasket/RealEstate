@@ -294,15 +294,17 @@
                       <h5 class="mt-0">Madan Kumar</h5>
                       <b class="mt-0">Verified Agent <img src="http://localhost:8080/images/verified-blue.png" class="mr-3" alt="..." width="25"></b>
                       <h5>
-                        Rating <img src="http://localhost:8080/images/star.png" width="25">
-                        <img src="http://localhost:8080/images/star.png" width="25" >
-                        <img src="http://localhost:8080/images/star.png" width="25">
-                        <img src="http://localhost:8080/images/star.png" width="25">
-                        <img src="http://localhost:8080/images/star-empty.png" width="25">
+                        Rating <img src="http://localhost:8080/images/star.png" width="20">
+                        <img src="http://localhost:8080/images/star.png" width="20" >
+                        <img src="http://localhost:8080/images/star.png" width="20">
+                        <img src="http://localhost:8080/images/star.png" width="20">
+                        <img src="http://localhost:8080/images/star-empty.png" width="20">
                       </h5>
-                      <a href="javascript:void(0)" class="btn btn-danger stretched-link">
-                      <img src="http://localhost:8080/images/contact-phone2.png" class="mr-3" alt="..." width="25">Contact Agent 
+                      <a href="javascript:void(0)" class="btn btn-danger">
+                         <img src="http://localhost:8080/images/contact-phone2.png" class="mr-3" alt="..." width="25">Contact Agent 
                       </a>
+                      <br>
+                      <b>3 Reviews | 6 Recent Sales</b>
                     </div>
                   </div>
               </div>

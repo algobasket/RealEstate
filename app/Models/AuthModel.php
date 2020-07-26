@@ -9,15 +9,30 @@ class UserModel extends Model
        protected $users_sess_logs_tb = '_users_session_logs'; 
 
 
-    function login($mobile,$password)
+    function login($mobile,$password,$role)
     {
-        $query = $this->db->query("SELECT * FROM $this->users_tb WHERE mobile = ? AND password= ?",[$mobile,$password]);
-        foreach($query->getResultArray() as $r){
-            if($r){
-             return $data[] = $r;
-           }  
+        $query = $this->db->query("SELECT * FROM $this->users_tb WHERE mobile = ? AND password= ? AND role = ?",[$mobile,$password,$role]); 
+        foreach($query->getResultArray() as $r)
+        {
+            if($r)
+            {
+               return $data[] = $r;
+            }  
         }   
-    }
+    }  
+
+
+    function backendLogin($username,$password,$role,$access_code)         
+    {
+          $query = $this->db->query("SELECT * FROM $this->users_tb WHERE mobile = ? AND password= ? AND access_code = ?",[$mobile,$password,$role,$access_code]);
+          foreach($query->getResultArray() as $r)
+          {
+            if($r)   
+            {
+               return $data[] = $r;
+            }  
+        }   
+    }       
 
 
     function register($data,$data2) 
@@ -27,21 +42,21 @@ class UserModel extends Model
        $data2['user_id'] = $this->db->insertID();
        $this->saveUserDetail($data2);
        return $data2['user_id']; 
-    }
+    } 
 
 
     function saveUserDetail($data)
     {
         $builder = $this->db->table($this->user_detail_tb);
         $builder->insert($data); 
-    }
+    } 
 
 
     function saveUserSessLog($data)
     {
        $builder = $this->db->table($this->users_sess_logs_tb);
        $builder->insert($data); 
-    }   
+    }     
 
 
 }

@@ -86,20 +86,16 @@
   <p class="lead text-muted">India's No 1 Property Site</p>
   <hr>    
  <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
-  <?= \Config\Services::session()->getFlashdata('alert');?>  
+  <?= \Config\Services::session()->getFlashdata('alert');?>      
   <?= form_open('login-agent') ?>
   <?= csrf_field() ?> 
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number"name="mobile-number" >
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number" name="mobile-number" >
   </div>
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
     <input type="password" class="form-control" id="inputCity" placeholder="Password" name="password">
-  </div>
-  <div class="form-group">
-    <label for="inputCity">Agent Access Code</label>
-    <input type="text" class="form-control" id="inputCity" placeholder="Password" name="access_code">
   </div>
   <div class="form-group">
     <div class="form-check">
@@ -126,18 +122,17 @@
  <h1>Sign-In | RealEstate Developer</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
   <hr>    
-  <form>
+  <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
+  <?= \Config\Services::session()->getFlashdata('alert');?>  
+  <?= form_open('login-developer') ?>
+  <?= csrf_field() ?> 
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number" name="mobile-number">
   </div>
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password">
-  </div>
-  <div class="form-group">
-    <label for="inputCity">Developer Access Code</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+    <input type="password" class="form-control" id="inputCity" placeholder="Password" name="password">
   </div>
   <div class="form-group">
     <div class="form-check">
@@ -148,7 +143,7 @@
     </div>
   </div>
   <button type="submit" class="btn btn-light">Cancel</button>
-  <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" />
+  <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" /> 
   <hr>
    <div class="form-group">
     <label for="inputAddress">
@@ -164,18 +159,21 @@
   <h1>Sign-In | Staff</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
   <hr>    
-  <form>
+  <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
+  <?= \Config\Services::session()->getFlashdata('alert');?>  
+  <?= form_open('login-staff') ?>
+  <?= csrf_field() ?> 
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Username" name="username" /> 
   </div>
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+    <input type="password" class="form-control" id="inputCity" placeholder="Password" name="password" /> 
   </div>
   <div class="form-group">
     <label for="inputCity">Staff Access Code</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password">
+    <input type="text" class="form-control" id="inputCity" placeholder="Access Code" name="access_code" />
   </div>
   <div class="form-group">
     <div class="form-check">
@@ -186,7 +184,7 @@
     </div>
   </div>
   <button type="submit" class="btn btn-light">Cancel</button>
-  <button type="submit" class="btn btn-primary">Sign In</button>
+  <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" /> 
   <hr>
    <div class="form-group">
     <label for="inputAddress">
@@ -198,7 +196,7 @@
 <?php endif ?>
 
   </div>
-  </section>
+  </section> 
 
 </main>
 

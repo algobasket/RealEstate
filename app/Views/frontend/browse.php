@@ -80,7 +80,7 @@
                   <li><a href="<?= base_url();?>/messages" class="text-white">Messages</a></li>
                   <li><a href="<?= base_url();?>/notification" class="text-white">Notifications</a></li>
                   <li><a href="<?= base_url();?>/logout" class="text-white">Logout</a></li>
-               </ul>    
+               </ul>     
             <?php }else{ ?>
               <h4 class="text-white">Login</h4>
               <ul class="list-unstyled">
@@ -147,8 +147,8 @@
             <h5 class="custom-select-lg mb-4" style="font-size: 24px">&nbsp;&nbsp;Search By</h5>
             <select class="custom-select custom-select-lg mb-3" style="width:120px;margin-left:15px">
               <option selected>Buy</option>
-              <option value="1">Buy</option>
-              <option value="2">Rent</option> 
+              <option value="sell">Buy</option>
+              <option value="rent">Rent</option> 
             </select>
             <select class="custom-select custom-select-lg mb-4" style="width:120px">
               <option selected>Flat</option>

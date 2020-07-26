@@ -32,7 +32,7 @@ class Auth extends BaseController
            }else{
                 $status = $this->AuthModel->login(
                 	$this->request->getPost('mobile-number'),
-                	$this->request->getPost('password'));
+                	$this->request->getPost('password'),$data['role']); 
                 if($status){
                    $this->session->set([
                      'userId'  => $status['id'],
@@ -48,12 +48,39 @@ class Auth extends BaseController
            }
 		}     
 		return view('frontend/login-auth',$data);      
-	}   
+	}
+
 
 	public function login_agent()  
 	{
 		$data['title'] = "Agent Login to PropertyRaja";
 		$data['role']  = "agent";
+		if($this->request->getPost('sign-in')){
+           if(! $this->validate([
+              'mobile-number' => 'required|min_length[10]|max_length[12]|numeric',  
+              'password'      => 'required|min_length[6]|max_length[20]'
+           ])){
+               
+           }else{
+                $status = $this->AuthModel->login(
+                	$this->request->getPost('mobile-number'),
+                	$this->request->getPost('password'),
+                	$data['role']); 
+
+                if($status){
+                   $this->session->set([  
+                     'userId'  => $status['id'],   
+                     'display' => $status['display_name'],
+                     'role'    => $status['role'],
+                     'email'   => $status['email']
+                   ]);
+                   return redirect()->to('/dashboard');  
+                }else{
+                 $this->session->setFlashdata('alert','<div class="alert alert-danger">Agent Not Found</div>');
+                 return redirect()->to('/login-agent');
+               } 
+           }
+		}     
 		return view('frontend/login-auth',$data);      
 	}
 
@@ -61,13 +88,66 @@ class Auth extends BaseController
 	{
 		$data['title'] = "Developer Login to PropertyRaja";
 		$data['role']  = "developer";
+		if($this->request->getPost('sign-in')){
+           if(! $this->validate([
+              'mobile-number' => 'required|min_length[10]|max_length[12]|numeric',  
+              'password'      => 'required|min_length[6]|max_length[20]'
+           ])){
+               
+           }else{
+                $status = $this->AuthModel->login(
+                	$this->request->getPost('mobile-number'),
+                	$this->request->getPost('password'),
+                	$data['role']); 
+
+                if($status){
+                   $this->session->set([
+                     'userId'  => $status['id'],   
+                     'display' => $status['display_name'],
+                     'role'    => $status['role'],
+                     'email'   => $status['email']
+                   ]);
+                   return redirect()->to('/dashboard');  
+                }else{
+                 $this->session->setFlashdata('alert','<div class="alert alert-danger">Agent Not Found</div>');
+                 return redirect()->to('/login-agent');
+               } 
+           }
+		}    
 		return view('frontend/login-auth',$data);       
 	}  
 
 	public function login_staff()
 	{ 
 		$data['title'] = "Staff Login to PropertyRaja";
-		$data['role']  = "staff";
+		$data['role']  = "staff"; 
+		if($this->request->getPost('sign-in')){
+           if(! $this->validate([
+              'mobile-number' => 'required|min_length[10]|max_length[12]|numeric',  
+              'password'      => 'required|min_length[6]|max_length[20]'
+           ])){
+               
+           }else{
+                $status = $this->AuthModel->login(
+                	$this->request->getPost('username'), 
+                	$this->request->getPost('password'), 
+                	$this->request->getPost('access_code'),     
+                	$data['role']); 
+
+                if($status){
+                   $this->session->set([
+                     'userId'  => $status['id'],   
+                     'display' => $status['display_name'],
+                     'role'    => $status['role'],
+                     'email'   => $status['email']
+                   ]);
+                   return redirect()->to('/dashboard');  
+                }else{
+                 $this->session->setFlashdata('alert','<div class="alert alert-danger">Agent Not Found</div>');
+                 return redirect()->to('/login-agent');
+               } 
+           }
+		}    
 		return view('frontend/login-auth',$data);      
 	} 
 
@@ -85,12 +165,12 @@ class Auth extends BaseController
            ])){ 
                $this->session->setFlashdata('alert','<div class="alert alert-danger">'.\Config\Services::validation()->listErrors().'</div>');
            }else{
-           	   $rolename = $this->request->getPost('rolename');
-              if($rolename == "developer" || $rolename == "agent"){
-                 $access_code = strtoupper(uniqid());
-              }else{
-              	 $access_code = 0; 
-              }   
+           	       $rolename = $this->request->getPost('rolename');
+	              if($rolename == "developer" || $rolename == "agent"){
+	                 $access_code = strtoupper(uniqid());
+	                }else{
+	              	 $access_code = 0; 
+	                }   
                $uid = $this->AuthModel->register([
 			      'display_name' => $this->request->getPost('display-name'), 
 			      'email'        => $this->request->getPost('email'),  
@@ -127,7 +207,7 @@ class Auth extends BaseController
 
     
 
-    function logout() 
+    public function logout() 
     { 
     	$array_items = ['userId', 'email','display','role'];
         $this->session->remove($array_items);

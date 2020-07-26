@@ -3,12 +3,12 @@
 class Property extends BaseController
 {
    
-   function __construct()
+  function __construct()
 	{
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel');  
-	}
+	} 
 
   public function index()
 	{
@@ -164,15 +164,15 @@ class Property extends BaseController
 
 
 
-	function addPropertyImages()
-	{    
-		 $data['title'] = "Add Photos | PropertyRaja.com"; 
+	public function addPropertyImages()
+	{      
+		     $data['title'] = "Add Photos | PropertyRaja.com"; 
          $exts = ['jpg','png','JPG','PNG','JPEG'];    
 
          if($this->request->getPost('add-images'))
           {    
 	          	   
-	                    if($imagefile = $this->request->getFiles())
+	           if($imagefile = $this->request->getFiles())
 						{  $i = 0;
 						   foreach($imagefile['images'] as $img)
 						   {
@@ -182,7 +182,7 @@ class Property extends BaseController
 						      	     {         
 						      	     	       if($img->getSizeByUnit('mb') > 10)
 						      	     	       {
-                                                   $invalid_size =  "Please upload image less than 10MB";
+                                      $invalid_size =  "Please upload image less than 10MB";
 						      	     	       }else{
                                                        $newName = $img->getRandomName();
 											           if($img->move(WRITEPATH.'../public/property-images', $newName)){ 
@@ -192,17 +192,17 @@ class Property extends BaseController
 							                                      'user_id'     => cUserId(),
 							                                      'mime_type'   => $img->getClientMimeType(),
 							                                      'created_at'  => date('Y-m-d h:i:s'), 
-									                              'updated_at'  => date('Y-m-d h:i:s'),
-									                              'status'      => 1
+									                                  'updated_at'  => date('Y-m-d h:i:s'),
+									                                  'status'      => 1
 											           	      ];  
 											           	   $this->PropertyModel->addPropertyImages($insert);
 											           	   //$this->watermarkPropertyImages($newName);
 											           	   $i++;  
-											           }
-						      	     	       }
+											             }
+						      	     	      }
                                                
 						      	     }else{
-                                       $invalid_ext =  $img->getClientExtension() . " - Invalid image extension";
+                                       $invalid_ext = $img->getClientExtension() . " - Invalid image extension";
 						      	     }
 						           
 						      }
@@ -254,7 +254,8 @@ class Property extends BaseController
         ]) 
         ->save(WRITEPATH.'uploads/watermarked/'.$filename);
         return true;
-	}
+	} 
+
 
 	function test() 
   { 

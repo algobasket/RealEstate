@@ -11,11 +11,11 @@ class Home extends BaseController
 
 	public function index()
 	{
-		$data['title'] = "Welcome to PropertyRaja";
-		$data['featured'] = $this->PropertyModel->getAllFeaturedProperties();
-		$data['cities']    = $this->GeographyModel->cities();
+		$data['title']         = "Welcome to PropertyRaja"; 
+		$data['featured']      = $this->PropertyModel->getAllFeaturedProperties();
+		$data['cities']        = $this->GeographyModel->cities();
 		$data['property_type'] = $this->PropertyModel->getPropertyType();
-	    return view('landing',$data);      
+	    return view('landing',$data);       
 	}
 
 	public function buy()  
@@ -86,7 +86,7 @@ class Home extends BaseController
 
     public function safety()
     {
-       $data['title'] = "Safety Guide";
+       $data['title'] = "Safety Guide"; 
 	   return view('frontend/safety',$data);
     }
 
