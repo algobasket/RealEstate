@@ -61,7 +61,8 @@ $routes->post('profile/', 'Account::profile');
  
 $routes->get('messages/', 'Account::messages');
 $routes->get('notifications/', 'Account::notifications');
-$routes->get('favourites/', 'Account::favourites'); 
+$routes->get('favourites/', 'Account::favourites');
+$routes->get('favourites/(:any)', 'Account::favourites'); 
 
 //Property Controller
 $routes->get('add-property/(:any)', 'Property::addProperty');

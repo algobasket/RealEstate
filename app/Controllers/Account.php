@@ -2,10 +2,11 @@
 
 class Account extends BaseController
 {
-   function __construct()
-	{
-        $this->AccountModel = model('AccountModel');   
+    function __construct()
+	{ 
+        $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
+        $this->PropertyModel  = model('PropertyModel');     
 	}
 
    public function index()
@@ -26,8 +27,8 @@ class Account extends BaseController
         if($this->request->getPost('update_profile'))
         {
            if(! $this->validate([
-              'firstname'   => 'required|min_length[1]|max_length[20]|alpha',  
-              'lastname'    => 'required|min_length[1]|max_length[20]|alpha',
+              'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
+              'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
               'display_name' => 'required|min_length[2]|max_length[20]|alpha',
               'username'    => 'min_length[0]|max_length[15]|alpha_numeric',
               'mobile'      => 'min_length[10]|max_length[15]|numeric',
@@ -45,18 +46,52 @@ class Account extends BaseController
 	}
     
 
-	public function listings()
+	public function listings() 
 	{
 		$data['title'] = "My Listings | PropertyRaja.com";
 	    return view('frontend/listings',$data);    
 	} 
 
 
-	public function favourites()
+	public function favourites()  
 	{
 		$data['title'] = "My Favourites | PropertyRaja.com";
-	    return view('frontend/favorites',$data);    
-	}
+		$propertyId = segment(2);
+        $data['isInterested'] = $this->PropertyModel->isInterested(cUserId(),$propertyId);
+        $data['isFavourited'] = $this->PropertyModel->isFavourited(cUserId(),$propertyId);
+        
+            if($this->request->uri->getTotalSegments() >= 3 && segment(3) == "interested")
+		    {
+		       $this->PropertyModel->interestedProperty([
+		        'user_id'     => cUserId(),
+		        'property_id' => $propertyId,
+		        'created_at'  => date('Y-m-d h:i:s'),
+		        'updated_at'  => date('Y-m-d h:i:s'),
+		        'status'      => 1
+		      ]); 
+		       $this->session->setFlashdata('alert','<div class="alert alert-success">Your contact details forwarded!</div>');
+		       return redirect()->to('/favourites/');
+
+		    }elseif($this->request->uri->getTotalSegments() >= 3 && segment(3) == "favourite"){  
+
+		       $this->PropertyModel->upsertFavouriteProperty([
+		        'user_id'     => cUserId(), 
+		        'property_id' => $propertyId,
+		        'created_at'  => date('Y-m-d h:i:s'),
+		        'updated_at'  => date('Y-m-d h:i:s'),
+		        'status'      => 1
+		      ]); 
+		       if($data['isFavourited'] == true){
+		           $this->session->setFlashdata('alert',warningAlert('Property removed from your favourites!'));
+		       }else{
+		           $this->session->setFlashdata('alert',successAlert('Property added to your favourites!'));
+		       }
+		       
+		       return redirect()->to('/favourites/');
+		    }
+		$data['properties'] = $this->PropertyModel->getPropertiesByUserFavourite(cUserId());
+	    return view('frontend/favourites',$data);   
+	}  
 
 
 	public function messages()

@@ -12,7 +12,7 @@
             <div class="card"> 
               <div class="card-header"><?= $this->include('frontend/dashboard/tabs') ?></div>
               <div class="card-body">
-                <h1 class="display-4">My Listings <b class="text-muted float-right" style="font-size: 20px;margin-top:20px">Showing 06 Result . Active</b> </h1> 
+                <h1 class="display-4">Appointments <b class="text-muted float-right" style="font-size: 20px;margin-top:20px">Showing 06 Result . Active</b> </h1> 
                 
                 
                 <div class="table-responsive">
@@ -21,7 +21,6 @@
                         <tr>
                           <th scope="col">#</th>
                           <th scope="col">PROPERTY</th>
-                          <th scope="col"></th>
                           <th scope="col">LEADS</th>
                           <th scope="col">STATS</th>
                           <th scope="col">POSTED ON</th>
@@ -30,87 +29,43 @@
                         </tr>
                       </thead>
                       <tbody>
-                      <?php if(is_array($listings)) : ?>
-                        <?php foreach($listings as $property) : ?>
+
                         <tr>
                           <th scope="row">1</th>
-                          <td style="width: 200px">  
-                      
-                               
-                               <?php foreach($property['images'] as $key => $img) : ?>
-                                   
-                                   <?php if($key == 1){ ?>
-                                   
-                                      <img src="<?= base_url().'/property-images/'.$img['image_name'];?>" class="rounded imgp" />
-                                   
-                                     
-                                   <?php } ?> 
-                                    
-                               <?php endforeach ?>
-
-                               <?php if($property['has_ads'] == "1") : ?>
-                                  <label class="badge badge-warning" style="position: absolute;margin:10px 0 0 -70px">Featured</label> 
-                               <?php endif ?>
-                               <?php if($property['has_ads'] == "2") : ?>
-                                  <label class="badge badge-warning" style="position: absolute;margin:10px 0 0 -70px">Sponsored</label> 
-                               <?php endif ?>  
-                                     
-                           </td>
-                           <td>   
-                             <h5><?= $property['title'];?></h5>
-                             <h6> 
-                                <?php if($property['bhk_type']) : ?>
-                                <label class="badge badge-dark"><?= strtoupper($property['bhk_type']);?></label>
-                                <?php endif ?> 
-                                <?php if($property['status_type']) : ?>
-                                <label class="badge badge-dark"><?= str_replace('_',' ',strtoupper($property['status_type']));?></label>
-                                <?php endif ?> 
-                                <?php if($property['condition_type']) : ?>
-                                <label class="badge badge-dark"><?= strtoupper($property['condition_type']);?></label>
-                                 <?php endif ?> 
-                                 <?php if($property['facing']) : ?>
-                                  <label class="badge badge-dark"><?= strtoupper($property['facing']);?></label>
-                                 <?php endif ?> 
-                                 <?php if($property['complex_type']) : ?> 
-                                  <label class="badge badge-dark"><?= strtoupper($property['complex_type']);?></label>
-                                 <?php endif ?>    
-                              </h6>       
-                                         
-                              <?php if($property['listing_type'] =="sell") : ?> 
-                                <?= displayPrice($property['total_price']);?>
-                              <?php endif ?>  
-
-                              <?php if($property['listing_type'] =="rent") : ?>
-                                   <h3><?= displayPrice($property['rent_per_mon']);?></h3>
-                              <?php endif ?> 
-                               
-                              <label class="badge badge-success">Available for <?= ucfirst($property['listing_type']);?></label> 
-                                  
+                          <td>
+                              <div class="card" style="max-width: 540px;">
+                                <div class="row no-gutters">
+                                  <div class="col-md-4">
+                                    <img src="<?= base_url();?>/images/default.jpg" class="card-img" alt="...">
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                      <h5 class="card-title">5 BHK Luxury Villa</h5>
+                                      <p class="card-text text-monospace small">This is a wider card with supporting</p>
+                                      <a href="<?= base_url();?>/property-detail/20" target="__blank" class="text-muted stretched-link">50,00,000 INR</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                         
                           </td>
                           <td>
                             <p>45 till now . 5 hot</p>
-                            <a href="">
                             <img src="<?= base_url();?>/images/default.jpg" alt="..." class="rounded-circle " width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
                             <img src="<?= base_url();?>/images/default.jpg" alt="..." class="rounded-circle " width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
                             <img src="<?= base_url();?>/images/default.jpg" alt="..." class="rounded-circle" width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
                             <img src="<?= base_url();?>/images/default.jpg" alt="..." class="rounded-circle" width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
                             <svg style="margin-left: -25px;border:3px solid #fff" class="bd-placeholder-img rounded-circle text-sm" width="53" height="53" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Completely round image: 75x75"><title>Completely round image</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">56+</text></svg>
-                            </a>
                           </td>
                           <td><b>345+<span class="text-success">06</span></b><br>Total Views</td>
-                          <td><?= $property['created_at'];?><br><?= time_stamp(strtotime($property['created_at']));?></td>
-                          <td>
-                            <h5><span class="badge badge-success">Active</span></h5>
-                            <?= $property['posession_date'] ? "Till " . $property['posession_date'] : "";?>
-                          </td>
+                          <td>15th March 13:44PM<br>6 days ago</td>
+                          <td><h5><span class="badge badge-success">Active</span></h5>Till 14th June</td>
                           <td>
                             <img src="<?= base_url();?>/images/edit.png" data-toggle="tooltip" data-placement="bottom" title="Edit this property"><br> <br>
                             <img src="<?= base_url();?>/images/delete.png" data-toggle="tooltip" data-placement="bottom" title="Delete this property" width="28px">
                           </td>
                         </tr>
-                        <?php endforeach ?> 
-                        <?php endif ?>
+
                     
                       </tbody>
                 </table>

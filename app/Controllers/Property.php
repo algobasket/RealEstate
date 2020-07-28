@@ -10,13 +10,49 @@ class Property extends BaseController
         $this->PropertyModel  = model('PropertyModel');  
 	} 
 
+
+
   public function index()
 	{
-		$data['title'] = "List your property for sale";
-		$propertyId = segment(2);
-		$data['propertyDetail'] = $this->PropertyModel->getPropertyDetail($propertyId);
+		  $data['title'] = "Property Detail | PropertyRaja.com"; 
+		  $propertyId = segment(2);
+      
+      $data['propertyDetail'] = $this->PropertyModel->getPropertyDetail($propertyId);
+      $data['isInterested']   = $this->PropertyModel->isInterested(cUserId(),$propertyId);
+      $data['isFavourited']   = $this->PropertyModel->isFavourited(cUserId(),$propertyId);
+
+      if(segment(3) == "interested")
+      {
+          $this->PropertyModel->interestedProperty([
+            'user_id'     => cUserId(),
+            'property_id' => $propertyId,
+            'created_at'  => date('Y-m-d h:i:s'),
+            'updated_at'  => date('Y-m-d h:i:s'),
+            'status'      => 1
+          ]); 
+          $this->session->setFlashdata('alert','<div class="alert alert-success">Your contact details forwarded!</div>');
+           return redirect()->to('/property-detail/'.$propertyId);
+
+      }elseif(segment(3) == "favourite"){  
+
+       $this->PropertyModel->upsertFavouriteProperty([
+        'user_id'     => cUserId(), 
+        'property_id' => $propertyId,
+        'created_at'  => date('Y-m-d h:i:s'),
+        'updated_at'  => date('Y-m-d h:i:s'),
+        'status'      => 1
+      ]); 
+       if($data['isFavourited'] == true){
+           $this->session->setFlashdata('alert',warningAlert('Property removed from your favourites!'));
+       }else{
+           $this->session->setFlashdata('alert',successAlert('Property added to your favourites!'));
+       }
+       return redirect()->to('/property-detail/'.$propertyId);
+    }
 	    return view('frontend/property',$data);            
 	}
+
+
 
 
 	public function addProperty()

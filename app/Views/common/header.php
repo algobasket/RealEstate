@@ -55,7 +55,26 @@
             <button class="btn btn-outline-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              <?php echo strtoupper(\Config\Services::session()->get('display'));?>
             </button>
-            <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-menu dropdown-menu-right animate slideIn">
+                <span class="dropdown-menu-arrow"></span>
+                <?php if(\Config\Services::session()->get('role') == "customer"){ ?> 
+                <a class="dropdown-item" href="<?= base_url();?>/add-property">Add Property</a>
+                <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
+                <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
+                <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
+                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
+                <div class="dropdown-divider"></div> 
+                <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
+                <?php }elseif(\Config\Services::session()->get('role') == "agent"){ ?>
+                <a class="dropdown-item" href="<?= base_url();?>/dashboard/index">Dashboard</a>
+                <a class="dropdown-item" href="<?= base_url();?>/add-property">Add Property</a>
+                <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
+                <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
+                <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
+                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
+                <div class="dropdown-divider"></div> 
+                <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
+                <?php }elseif(\Config\Services::session()->get('role') == "developer"){ ?>
                 <a class="dropdown-item" href="<?= base_url();?>/profile">Dashboard</a>
                 <a class="dropdown-item" href="<?= base_url();?>/add-property">Add Property</a>
                 <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
@@ -64,6 +83,17 @@
                 <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
                 <div class="dropdown-divider"></div> 
                 <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
+                <?php }elseif(\Config\Services::session()->get('role') == "staff"){ ?>
+                <a class="dropdown-item" href="<?= base_url();?>/profile">Dashboard</a>
+                <a class="dropdown-item" href="<?= base_url();?>/add-property">Add Property</a>
+                <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
+                <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
+                <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
+                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
+                <div class="dropdown-divider"></div> 
+                <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
+                <?php } ?>
+
             </div>
             <?php }else{ ?> 
              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">

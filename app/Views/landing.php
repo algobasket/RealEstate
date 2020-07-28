@@ -1,86 +1,13 @@
 <?= $this->extend('common/layout') ?>
-
 <?= $this->section('content') ?>
 
-<link href="https://getbootstrap.com/docs/4.5/examples/album/album.css" rel="stylesheet">
 <style type="text/css">
   select,option {
     font-size: 15px !important;
   }
 </style>    
- <header> 
-  <div class="collapse bg-warning" id="navbarHeader">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">About PropertyRaja</h4>
-          <p class="text-muted">
-          	Launched in 2020, PropertyRaja.com, India’s No. 1 property portal, deals with every aspect of the consumers’ needs in the real estate industry. It is an online forum where buyers, sellers and brokers/agents can exchange information about real estate properties quickly, effectively and inexpensively. At PropertyRaja.com, you can advertise a property, search for a property, browse through properties, build your own property microsite, and keep yourself updated with the latest news and trends making headlines in the realty sector.
-          </p>
-        </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-         
-           <?php if(\Config\Services::session()->get('userId')){ ?>
-               <h4 class="text-white">Welcome</h4>
-               <ul class="list-unstyled">
-                  <li><a href="<?= base_url();?>/login" class="text-white"><?php echo strtoupper(\Config\Services::session()->get('display'));?></a></li>
-                  <li><a href="<?= base_url();?>/profile" class="text-white">My Profile</a></li>
-                  <li><a href="<?= base_url();?>/messages" class="text-white">Messages</a></li>
-                  <li><a href="<?= base_url();?>/notification" class="text-white">Notifications</a></li>
-                  <li><a href="<?= base_url();?>/logout" class="text-white">Logout</a></li>
-               </ul>    
-            <?php }else{ ?>
-              <h4 class="text-white">Login</h4>
-              <ul class="list-unstyled">
-                <li><a href="<?= base_url();?>/login" class="text-white">Customer Login</a></li>
-                <li><a href="<?= base_url();?>/login-agent" class="text-white">Agent Login</a></li>
-                <li><a href="<?= base_url();?>/login-developer" class="text-white">Developer Login</a></li>  
-                <li><a href="<?= base_url();?>/login-staff" class="text-white">Staff Login</a></li>
-              </ul>
-            <?php } ?>
 
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="navbar navbar-light bg-light shadow-sm">
-    <div class="container d-flex justify-content-between">
-      <a href="<?= base_url();?>/sellproperty" class="navbar-brand d-flex align-items-center btn btn-outline-dark btn-sm">
-        Sell Property
-      </a>
-      <div class="btn-group">
-            <?php if(\Config\Services::session()->get('userId')){ ?> 
-                <button type="button" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="All messages sent to owners">
-              <img src="<?= base_url();?>/images/messages.png" width="22"/> <span class="badge badge-danger">7</span>
-              <span class="sr-only">unread messages</span>
-            </button>
-            <button type="button" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="shortlisted properties">
-              <img src="<?= base_url();?>/images/star-empty.png" width="22"/> <span class="badge badge-danger">9</span>
-              <span class="sr-only">unread messages</span>
-            </button>
-            <button class="btn btn-outline-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             <?php echo strtoupper(\Config\Services::session()->get('display'));?>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
-                <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
-                <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
-                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
-            </div>
-            <?php }else{ ?> 
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <?php } ?>
-
-            
-
-      </div>
-    </div>
-  </div>
-</header>
+<?= $this->include('common/header');?>
 
 <main role="main">
 
@@ -168,10 +95,14 @@
             <div class="card-body"> 
 
                   <?php if($fp['listing_type'] == "sell") : ?>
-                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none"><h5><?= ucfirst(number_format($fp['total_price']));?> INR</h5></a>
+                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none">
+                    <h5><?= ucfirst(number_format($fp['total_price']));?> INR</h5>
+                  </a>
                   <?php endif ?>
                    <?php if($fp['listing_type'] == "rent") : ?>
-                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none"><h5><?= ucfirst(number_format($fp['rent_per_mon']));?> INR per month</h5></a>
+                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none">
+                    <h5><?= ucfirst(number_format($fp['rent_per_mon']));?> INR per month</h5>
+                  </a> 
                   <?php endif ?>
               
               <p class="card-text"><b><?= ucfirst($fp['title']);?></b></p>
@@ -188,7 +119,8 @@
                 </div>
                 <small class="text-muted">Posted : <?= date('D, d M Y', strtotime($fp['created_at']));?></small>
               </div>
-            </div>
+            </div> 
+
           </div>
         </div>
 

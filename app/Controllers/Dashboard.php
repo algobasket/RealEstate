@@ -22,13 +22,15 @@ class Dashboard extends BaseController
 	public function listings()
 	{
 	   $data['title'] = "Agent Listings | Welcome to PropertyRaja";
-	   return view('frontend/dashboard/listings',$data);
+	   $data['listings'] = $this->PropertyModel->getPropertiesByUserId(cUserId());
+	   return view('frontend/dashboard/listings',$data); 
 	}
 
 
 
 	public function properties()
-	{
+	{  
+
 	   return view('frontend/dashboard/properties',$data);
 	}
 
@@ -36,6 +38,7 @@ class Dashboard extends BaseController
 
 	public function appointments()
 	{
+		$data['title'] = "Agent Appointments | Welcome to PropertyRaja";
 	   return view('frontend/dashboard/appointments',$data);
 	}
 
@@ -44,6 +47,8 @@ class Dashboard extends BaseController
 
 	public function leads() 
 	{
+	   $data['title'] = "Agent Leads | Welcome to PropertyRaja";
+	   $data['listings'] = $this->PropertyModel->getPropertiesByUserId(cUserId());
 	   return view('frontend/dashboard/leads',$data);
 	}
 

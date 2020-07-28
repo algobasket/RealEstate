@@ -3,39 +3,56 @@
 
 if(!function_exists('segment')){ 
     
-    function segment($param) 
-    {
-      $request = \Config\Services::request();
-	  return $request->uri->getSegment($param);
-    }  
+	    function segment($param) 
+	    {
+	      $request = \Config\Services::request();
+		  return $request->uri->getSegment($param);
+	    }  
 
-}
+   }
 
 
- function cUserId()
-    {
-    	return \Config\Services::session()->get('userId');
-    }
 
-    function count_digit($number)
-    {
-       return strlen($number);
-    }
+if(!function_exists('cUserId')){  
 
-    function divider($number_of_digits)
-    {
-	       $tens="1";
+	    function cUserId() 
+	    {
+	    	return \Config\Services::session()->get('userId');
+	    }
 
-		  if($number_of_digits>8)
-		    return 10000000;
+   }
 
-		  while(($number_of_digits-1)>0)
-		  {
-		    $tens.="0";
-		    $number_of_digits--;
-		  }
-		  return $tens;
+if(!function_exists('count_digit')){   
+
+	    function count_digit($number)
+	    {
+	       return strlen($number);
+	    }
 	}
+	
+
+
+if(!function_exists('divider')){
+
+	    function divider($number_of_digits)
+	    {
+		       $tens="1";
+
+			  if($number_of_digits>8)
+			    return 10000000;
+
+			  while(($number_of_digits-1)>0)
+			  {
+			    $tens.="0";
+			    $number_of_digits--;
+			  }
+			  return $tens;
+		}
+    }
+
+
+
+if(!function_exists('displayPrice')){
 
 	function displayPrice($num)
 	{
@@ -62,7 +79,10 @@ if(!function_exists('segment')){
 		    $ext="Cr";
 		return $fraction." ".$ext;
 	}
+  }
 
+
+if(!function_exists('convertCurrency')){
 
 	function convertCurrency($number)
 	{
@@ -98,4 +118,147 @@ if(!function_exists('segment')){
 
 	    return $currency;
 	}
+  }
 
+
+if(!function_exists('isTabActive'))
+{
+
+	function isTabActive($tabname,$segment) 
+	{
+       return ($tabname == segment($segment)) ? "active" : "";
+	}
+
+  }
+
+
+ if(!function_exists('time_stamp'))
+ {
+
+ 	    function time_stamp($session_time)
+		{
+			$time_difference = time() - $session_time ;
+
+			$seconds = $time_difference ;
+			$minutes = round($time_difference / 60 );
+			$hours = round($time_difference / 3600 );
+			$days = round($time_difference / 86400 );
+			$weeks = round($time_difference / 604800 );
+			$months = round($time_difference / 2419200 );
+			$years = round($time_difference / 29030400 );
+				// Seconds
+				if($seconds <= 60)
+				{
+				return "$seconds seconds ago";
+				}
+				//Minutes
+				else if($minutes <=60)
+				{
+
+				   if($minutes==1)
+				  {
+				   return "one minute ago";
+				   }
+				   else
+				   {
+				    return "$minutes minutes ago";
+				   }
+
+				}
+				//Hours
+				else if($hours <=24)
+				{
+
+				   if($hours==1)
+				  {
+				   return "one hour ago";
+				  }
+				  else
+				  {
+				   return "$hours hours ago";
+				  }
+
+				}
+				//Days
+				else if($days <= 7)
+				{
+
+				  if($days==1)
+				  {
+				   return "one day ago";
+				  }
+				  else
+				  {
+				   return "$days days ago";
+				   }
+
+				}
+				//Weeks
+				else if($weeks <= 4)
+				{
+
+				   if($weeks==1)
+				  {
+				   return "one week ago";
+				   }
+				  else
+				  {
+				   return "$weeks weeks ago";
+				  }
+
+				}
+				//Months
+				else if($months <=12)
+				{
+
+				   if($months==1)
+				  {
+				   return "one month ago";
+				   }
+				  else
+				  {
+				   return "$months months ago";
+				   }
+
+				}
+				//Years
+				else
+				{
+
+				   if($years==1)
+				   {
+				    return "one year ago";
+				   }
+				   else
+				  {
+				    return "$years years ago";
+				   }
+
+				}
+
+		}
+
+    }   
+
+
+ if(!function_exists('warningAlert')){
+      function warningAlert($text)
+      {
+      	return '<div class="alert alert-warning alert-dismissible fade show">
+      	    '.$text.'<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      	          <span aria-hidden="true">&times;</span>
+                 </button>
+               </div>';
+      }
+ }
+
+  if(!function_exists('successAlert')){
+      function successAlert($text)
+      {
+      	return '<div class="alert alert-success alert-dismissible fade show">
+      	    '.$text.'<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      	          <span aria-hidden="true">&times;</span>
+                 </button>
+               </div>';
+      }
+ }

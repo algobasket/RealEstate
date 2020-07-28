@@ -4,27 +4,29 @@ use CodeIgniter\Model;
 
 class PropertyModel extends Model
 {
-       protected $users_tb = '_users';
-       protected $user_detail_tb = '_user_details';
+       protected $users_tb           = '_users';
+       protected $user_detail_tb     = '_user_details';
        protected $users_sess_logs_tb = '_users_session_logs'; 
-       protected $countries = '_countries'; 
-
-       protected $states = '_states'; 
-       protected $cities = '_cities'; 
-
-       protected $properties_tb = '_properties'; 
-       protected $property_ty_tb = '_property_type'; 
-       protected $amenities_tb = '_amenities'; 
-       protected $property_ty_mp_tb = '_property_type_map'; 
-       protected $property_imgs_tb = '_property_images'; 
+       protected $countries          = '_countries'; 
+       protected $states             = '_states'; 
+       protected $cities             = '_cities';  
+       protected $properties_tb      = '_properties'; 
+       protected $property_ty_tb     = '_property_type'; 
+       protected $amenities_tb       = '_amenities'; 
+       protected $property_ty_mp_tb  = '_property_type_map'; 
+       protected $property_imgs_tb   = '_property_images'; 
+       protected $property_fav_tb    = '_favourites'; 
+       protected $property_interested_tb = '_interested';  
         
 
-    function addProperty($data)
+    function addProperty($data)  
     {
        $builder = $this->db->table($this->properties_tb); 
        $builder->insert($data);
        return $this->db->insertID();
     }
+
+
 
     function addPropertyImages($data)  
     {
@@ -32,6 +34,8 @@ class PropertyModel extends Model
        $builder->insert($data);
        return true; 
     }
+
+
 
     function getPropertyImages($id)  
     {    
@@ -46,7 +50,9 @@ class PropertyModel extends Model
                $data[] = $r;
              return $data;  
           } 
-    }  
+    }   
+
+
 
     function getPropertyType() 
     {
@@ -57,6 +63,8 @@ class PropertyModel extends Model
           return $data;  
     }
 
+
+
    function getPropertyAmeneties()  
     {
         $builder = $this->db->table($this->amenities_tb); 
@@ -65,6 +73,8 @@ class PropertyModel extends Model
                $data[] = $r;
           return $data;  
     }
+
+
 
     function getAmenitiesByPropertyId($propertyId)  
     {
@@ -88,6 +98,8 @@ class PropertyModel extends Model
           }     
     }
 
+
+
     function checkPropertyAccess($propertyId,$userId)
     {   
         $builder = $this->db->table($this->properties_tb);
@@ -95,6 +107,7 @@ class PropertyModel extends Model
         $query = $builder->get(); 
         return $builder->countAll();
     }
+
 
 
    function getAllFeaturedProperties() 
@@ -113,6 +126,8 @@ class PropertyModel extends Model
           }
           
    }
+
+
 
    function getAllSponsoredProperties() 
    {
@@ -136,12 +151,33 @@ class PropertyModel extends Model
          $query = $builder->get();
           if(!empty($query->getResultArray()))
           {
-             foreach($query->getResultArray() as $r)
-               $r['images'] = $this->getPropertyImages($r['id']);
-               $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']);
-               $data[] = $r;
+             foreach($query->getResultArray() as $r){
+                $r['isFavourited'] = $this->isFavourited($r['user_id'],$propertyId);   
+                $r['isInterested'] = $this->isInterested($r['user_id'],$propertyId);
+                $r['contact']  = $this->getPropertyContact($r['user_id']); 
+                $r['images']   = $this->getPropertyImages($r['id']);
+                $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']); 
+                $r['propertyType']  = $this->getPropertyTypeFromPropertyId($r['property_type']);
+                $data = $r; 
+             } 
              return $data;   
           } 
+   }
+
+
+
+   function getPropertyContact($userId) 
+   {
+         $builder = $this->db->table($this->users_tb);
+         $builder->select('*');
+         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id = '.$this->users_tb.'.id');
+         $builder->where($this->users_tb.'.id',$userId); 
+         $query = $builder->get();
+          foreach($query->getResultArray() as $r){
+            if($r){
+             return $data = $r;
+           }  
+        }  
    }
 
 
@@ -164,12 +200,122 @@ class PropertyModel extends Model
    }     
 
 
+   function getPropertiesByUserId($userId)  
+   {  
+       $builder = $this->db->table($this->properties_tb); 
+       $builder->where(['user_id' => $userId,'status' => 1]);  
+       $query = $builder->get(); 
+        if(!empty($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r){
+             $r['images'] = $this->getPropertyImages($r['id']);
+             $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']);
+             $data[] = $r;
+           } 
+           return $data;   
+        } 
+   }
+
+
+   function getPropertiesByUserFavourite($userId)  
+   {  
+       $builder = $this->db->table($this->property_fav_tb); 
+       $builder->where(['user_id' => $userId,'status' => 1]);  
+       $query = $builder->get(); 
+        if(!empty($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r){
+            
+             $data[] = $this->getPropertyDetail($r['property_id']);   
+           }
+           return $data;   
+        } 
+   }     
+
+
+   function interestedProperty($data) 
+   {    
+       $builder = $this->db->table($this->property_interested_tb);
+       $builder->where(['user_id' => $data['user_id'],'property_id' => $data['property_id']]);  
+       $query = $builder->get();
+        if(empty($query->getResultArray()))
+        {
+           $builder->insert($data);
+        }else{
+           $builder->where(['user_id' => $data['user_id'],'property_id' => $data['property_id']]);  
+           $builder->update([
+              'updated_at'  => date('Y-m-d h:i:s'),
+              'status'      => 1
+            ]);
+        } 
+       return true; 
+   } 
+
+
+   function isInterested($user_id,$property_id)
+   {
+       $builder = $this->db->table($this->property_interested_tb);
+       $builder->where(['user_id' => $user_id,'property_id' => $property_id]);  
+       $query = $builder->get();
+        if(!empty($query->getResultArray()))
+        {
+           return true;
+        }
+   }   
+
+
+   function upsertFavouriteProperty($data)  
+   {
+       $builder = $this->db->table($this->property_fav_tb);  
+       $builder->where(['user_id' => $data['user_id'],'property_id' => $data['property_id']]);  
+       $query = $builder->get();
+        if(empty($query->getResultArray()))
+        {
+           $builder->insert($data);
+           return 1;
+        }else{
+           $builder->where(['user_id' => $data['user_id'],'property_id' => $data['property_id']]);  
+           $builder->delete();
+           return 0;
+        }  
+   }
+
+
+   function isFavourited($user_id,$property_id)
+   {
+       $builder = $this->db->table($this->property_fav_tb);
+       $builder->where(['user_id' => $user_id,'property_id' => $property_id]);  
+       $query = $builder->get();
+        if(!empty($query->getResultArray()))
+        {
+           return true;
+        }
+   } 
+
+
+   function getPropertyTypeFromPropertyId($propertyId)
+   {
+       $builder = $this->db->table($this->property_ty_tb); 
+       $builder->where(['id' => $propertyId]);  
+       $query = $builder->get(); 
+        if(!empty($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r){ 
+             $data  = $r; 
+           
+           return $data;   
+          }
+        }  
+   } 
+
+   
     function saveUserSessLog($data)
     {
        $builder = $this->db->table($this->users_sess_logs_tb); 
        $builder->insert($data);
        return true; 
-    }   
+    }     
+
 
 
 }
