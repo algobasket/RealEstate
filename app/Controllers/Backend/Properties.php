@@ -395,8 +395,8 @@ class Properties extends BackendController
 
 
 
-	    function test()  
-     { 
+	   function test()  
+     {  
      
 		   print_r($this->PropertyModel->getAmenetiesByPropertyId(20));  
 	   }
