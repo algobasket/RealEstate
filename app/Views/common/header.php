@@ -62,7 +62,7 @@
                 <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
                 <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
                 <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
-                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
+                <a class="dropdown-item" href="<?= base_url();?>/notifications">Notifications</a>
                 <div class="dropdown-divider"></div> 
                 <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
                 <?php }elseif(\Config\Services::session()->get('role') == "agent"){ ?>
@@ -71,7 +71,7 @@
                 <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
                 <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
                 <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
-                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
+                <a class="dropdown-item" href="<?= base_url();?>/notifications">Notifications</a>
                 <div class="dropdown-divider"></div> 
                 <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
                 <?php }elseif(\Config\Services::session()->get('role') == "developer"){ ?>
@@ -80,7 +80,7 @@
                 <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
                 <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
                 <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
-                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
+                <a class="dropdown-item" href="<?= base_url();?>/notifications">Notifications</a>
                 <div class="dropdown-divider"></div> 
                 <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
                 <?php }elseif(\Config\Services::session()->get('role') == "staff"){ ?>
@@ -89,7 +89,7 @@
                 <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
                 <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
                 <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
-                <a class="dropdown-item" href="<?= base_url();?>/notification">Notifications</a>
+                <a class="dropdown-item" href="<?= base_url();?>/notifications">Notifications</a> 
                 <div class="dropdown-divider"></div> 
                 <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
                 <?php } ?>

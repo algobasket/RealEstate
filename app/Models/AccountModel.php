@@ -10,7 +10,7 @@ class AccountModel extends Model
        protected $countries = '_countries'; 
        protected $states = '_states'; 
        protected $cities = '_cities'; 
-        
+       protected $status_tb = '_status';  
 
     
     function getProfileDetail($userId)
@@ -32,7 +32,17 @@ class AccountModel extends Model
         $builder = $this->db->table($this->user_detail_tb);
         $builder->insert($data); 
     }
+    
+    function allStatus()  
+    {
+         $builder = $this->db->table($this->status_tb);
+         $builder->select('*');
+         $query = $builder->get();
+          foreach($query->getResultArray() as $r)
+              $data[] = $r;
 
+           return $data;     
+    }
 
     function saveUserSessLog($data)
     {

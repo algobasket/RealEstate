@@ -17,6 +17,7 @@ class PropertyModel extends Model
        protected $property_imgs_tb   = '_property_images'; 
        protected $property_fav_tb    = '_favourites'; 
        protected $property_interested_tb = '_interested';  
+       protected $status_tb = '_status';   
         
 
     function addProperty($data)  
@@ -56,18 +57,33 @@ class PropertyModel extends Model
 
     function getPropertyType() 
     {
-       $builder = $this->db->table($this->property_ty_tb); 
-         $query = $builder->get();
-          foreach($query->getResultArray() as $r)
-               $data[] = $r;
-          return $data;  
-    }
+       $builder = $this->db->table($this->property_ty_tb);
+       $select = implode(',',[
+           $this->property_ty_tb.'.*',
+           $this->status_tb.'.status_name', 
+           $this->status_tb.'.status_badge'   
+       ]); 
+       $builder->select($select);  
+       $builder->join($this->status_tb,$this->status_tb.'.id = '.$this->property_ty_tb.'.status','LEFT');   
+       $query = $builder->get();
+        foreach($query->getResultArray() as $r){
+           $data[] = $r;
+        } 
+       return $data;     
+    } 
 
 
 
    function getPropertyAmeneties()  
-    {
-        $builder = $this->db->table($this->amenities_tb); 
+    {   
+        $builder = $this->db->table($this->amenities_tb);
+        $select = implode(',',[
+           $this->amenities_tb.'.*',
+           $this->status_tb.'.status_name', 
+           $this->status_tb.'.status_badge'   
+       ]); 
+       $builder->select($select);
+        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->amenities_tb.'.status','LEFT'); 
          $query = $builder->get();
           foreach($query->getResultArray() as $r)
                $data[] = $r;
@@ -163,6 +179,26 @@ class PropertyModel extends Model
              return $data;   
           } 
    }
+
+
+
+    function getProperties()  
+    {
+         $builder = $this->db->table($this->properties_tb); 
+         $query = $builder->get();
+          if(!empty($query->getResultArray()))
+          {
+             foreach($query->getResultArray() as $r){
+                $r['contact']  = $this->getPropertyContact($r['user_id']); 
+                $r['images']   = $this->getPropertyImages($r['id']);
+                $r['statusName']   = $this->getStatusNameFromStatusId($r['status']);
+                $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']); 
+                $r['propertyType']  = $this->getPropertyTypeFromPropertyId($r['property_type']);
+                $data[] = $r; 
+             } 
+             return $data;   
+          } 
+    }
 
 
 
@@ -296,17 +332,96 @@ class PropertyModel extends Model
    function getPropertyTypeFromPropertyId($propertyId)
    {
        $builder = $this->db->table($this->property_ty_tb); 
-       $builder->where(['id' => $propertyId]);  
+       $select = implode(',',[
+           $this->property_ty_tb.'.*',
+           $this->status_tb.'.status_name', 
+           $this->status_tb.'.status_badge'   
+       ]); 
+       $builder->select($select);
+       $builder->where([$this->property_ty_tb.'.id' => $propertyId]); 
+       $builder->join($this->status_tb,$this->status_tb.'.id='.$this->property_ty_tb.'.status','LEFT'); 
+        
+       $query = $builder->get(); 
+
+        if(!empty($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r)
+             $data  = $r;
+           return $data; 
+        }  
+   }
+
+    function getAmenityFromAmenityId($AmenityId)
+   {
+       $builder = $this->db->table($this->amenities_tb); 
+       $select = implode(',',[
+           $this->amenities_tb.'.*',
+           $this->status_tb.'.status_name', 
+           $this->status_tb.'.status_badge'    
+       ]); 
+       $builder->select($select);
+       $builder->where([$this->amenities_tb.'.id' => $AmenityId]); 
+       $builder->join($this->status_tb,$this->status_tb.'.id='.$this->amenities_tb.'.status','LEFT'); 
+        
+       $query = $builder->get(); 
+
+        if(!empty($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r)
+             $data  = $r;
+           return $data; 
+        }  
+   }  
+    
+   function addPropertyType($data) 
+   { 
+       $builder = $this->db->table($this->property_ty_tb); 
+       $builder->insert($data);
+       return true;     
+   }    
+
+   function updatePropertyType($id,$data)
+   { 
+       $builder = $this->db->table($this->property_ty_tb);  
+       $builder->where(['id' => $id]);   
+       $builder->update($data);
+       return true;    
+   }
+
+   function deletePropertyType($id)
+   { 
+       $builder = $this->db->table($this->property_ty_tb);  
+       $builder->where(['id' => $id]);   
+       $builder->delete();
+       return true;    
+   }  
+
+   
+
+   function getStatusNameFromStatusId($statusId)
+   {
+       $builder = $this->db->table($this->status_tb); 
+       $builder->where(['id' => $statusId]);  
        $query = $builder->get(); 
         if(!empty($query->getResultArray()))
         {
            foreach($query->getResultArray() as $r){ 
-             $data  = $r; 
+              $data  = $r;  
            
            return $data;   
           }
         }  
-   } 
+   }
+
+
+
+   function deleteProperty($pid)
+   {
+       $builder = $this->db->table($this->properties_tb); 
+       $builder->where(['id'=>$pid]);
+       $builder->update(['status'=>5]);
+       return true;       
+   }
 
    
     function saveUserSessLog($data)

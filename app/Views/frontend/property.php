@@ -1,7 +1,5 @@
 <?= $this->extend('common/layout') ?>
-
 <?= $this->section('content') ?>
-
 <?= $this->include('common/header') ?>
 
 <main role="main"> 
@@ -30,9 +28,10 @@
                      <div class="col-8"><h4><?= displayPrice($propertyDetail['rent_per_mon']);?> | <?= $propertyDetail['title'];?></h4></div>
                
            <?php endif ?>  
-                     
+                   
+
+          <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?>          
                    <div class="col-1">
-                      
                       <a href="<?= base_url();?>/property-detail/<?= segment(2);?>/favourite">
                         <?php if($isFavourited == true){ ?> 
                             <img src="<?= base_url();?>/images/star.png" width="25" class="float-right favourite">
@@ -40,7 +39,6 @@
                             <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite">
                         <?php } ?>
                       </a>
-
                     </div>  
                      <div class="col-3">
                        <?php if($isInterested == true){ ?> 
@@ -59,6 +57,9 @@
                           </a>
                         <?php } ?>  
                      </div>   
+          <?php endif ?>  
+
+
        </div>
        <div class="row"> 
           <div id="carouselExampleFade" class="shadow carousel slide carousel-fade" data-ride="carousel">
@@ -188,20 +189,34 @@
                     <div class="media-body"><br>
                       <h5 class="mt-0"><?php echo ucfirst($propertyDetail['contact']['firstname']) . ' ' . ucfirst($propertyDetail['contact']['lastname']);?></h5>
                       <?php if($propertyDetail['contact']['is_verified'] == 1) : ?>
-                      <b class="mt-0">Verified <?php echo ucfirst($propertyDetail['contact']['role']);?> <img src="http://localhost:8080/images/verified-blue.png" class="mr-3" alt="..." width="25"></b>
+                      <b class="mt-0">Verified <?php echo ucfirst($propertyDetail['contact']['role']);?>
+                         <img src="<?= base_url();?>/images/verified-blue.png" class="mr-3" alt="..." width="25">
+                      </b>
                     <?php endif ?>
+                    
+                    <?php if($propertyDetail['contact']['role'] != "customer") : ?>
                       <h5>
-                        Rating <img src="http://localhost:8080/images/star.png" width="20">
-                        <img src="http://localhost:8080/images/star.png" width="20" >
-                        <img src="http://localhost:8080/images/star.png" width="20">
-                        <img src="http://localhost:8080/images/star.png" width="20">
-                        <img src="http://localhost:8080/images/star-empty.png" width="20">
+                        Rating <img src="<?= base_url();?>/images/star.png" width="20">
+                        <img src="<?= base_url();?>/images/star.png" width="20" >
+                        <img src="<?= base_url();?>/images/star.png" width="20">
+                        <img src="<?= base_url();?>/images/star.png" width="20">
+                        <img src="<?= base_url();?>/images/star-empty.png" width="20">
                       </h5>
+                    <?php endif ?>
+                    
+                    <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?>
                       <a href="javascript:void(0)" class="btn btn-danger">
-                         <img src="http://localhost:8080/images/contact-phone2.png" class="mr-3" alt="..." width="25">Contact Agent 
+                         <img src="<?= base_url();?>/images/contact-phone2.png" class="mr-3" alt="..." width="25">
+                         Contact <?php echo ucfirst($propertyDetail['contact']['role']);?> 
                       </a>
+                  
+
+                   <?php endif ?>
+
                       <br>
-                      <b>3 Reviews | 6 Recent Sales</b>
+                      <?php if($propertyDetail['contact']['role'] != "customer") : ?>
+                        <b>3 Reviews | 6 Recent Sales</b>
+                      <?php endif ?>
                     </div>
                   </div>
               </div>

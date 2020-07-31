@@ -221,3 +221,7 @@
   -webkit-animation-name: slideIn;
   animation-name: slideIn;
 }
+
+.list-group .openMenu:hover{
+ background-color: #ddd;  
+}

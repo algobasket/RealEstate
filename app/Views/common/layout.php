@@ -180,5 +180,44 @@ $(document).ready(function() {
 
 
 </script>
+<script>
+  $('document').ready(function(){
+    $('.msg_send_btn').click(function(){
+            var fk_user_id  = $('#fk_user_id').val(); 
+            var property_id = $('#property_id').val();
+            var message = $('.write_msg').val();
+            var obj = { 
+              'fk_user_id'  : fk_user_id,
+              'property_id' : property_id,
+              'message' : message 
+            };
+            $.ajax({ 
+              type : 'POST',  
+              data : obj,
+              url  : '/Message/messagePostAjax', 
+              success : function(res){
+                  //$('.msg_history').append(res);
+                  $('.write_msg').val('');
+              }
+            }); 
+      }); 
+  });
+  setTimeout(function() {
+            var fk_user_id  = $('#fk_user_id').val(); 
+            var property_id = $('#property_id').val();
+            var obj = { 
+              'fk_user_id'  : fk_user_id,
+              'property_id' : property_id
+            };
+           $.ajax({ 
+              type : 'POST',  
+              data : obj,
+              url  : '/Message/getMessagesAjax', 
+              success : function(res){
+                  $('.msg_history').html(res);
+              }
+            }); 
+}, 5000);
+</script>
   </body>
 </html>  

@@ -2,11 +2,6 @@
 
 <?= $this->section('content') ?>
 
-<link href="https://getbootstrap.com/docs/4.5/examples/album/album.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" rel="stylesheet">
-<link href="https://getbootstrap.com/docs/4.5/assets/css/docs.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
  <?= $this->include('common/header') ?>
 
 <main role="main">

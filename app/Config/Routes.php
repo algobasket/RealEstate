@@ -63,6 +63,7 @@ $routes->get('messages/', 'Account::messages');
 $routes->get('notifications/', 'Account::notifications');
 $routes->get('favourites/', 'Account::favourites');
 $routes->get('favourites/(:any)', 'Account::favourites'); 
+$routes->get('messages/(:any)', 'Account::messages'); 
 
 //Property Controller
 $routes->get('add-property/(:any)', 'Property::addProperty');
@@ -89,8 +90,29 @@ $routes->get('safety/', 'Home::safety');
 $routes->get('find-agent/', 'Home::findAgent');  
 
 
-//Dashboard Controller
+//Dashboard Controller 
 $routes->get('dashboard/', 'Dashboard::index');  
+
+
+//Staff Route
+$routes->group('backend', function($routes)   
+{
+        $routes->add('dashboard', 'Backend\Dashboard::list');
+        $routes->add('properties', 'Backend\Properties::list');
+        $routes->add('listing-type', 'Backend\ListingType::list');
+        $routes->add('amenities', 'Backend\Amenities::list');
+        $routes->add('leads', 'Backend\Leads::list'); 
+        $routes->add('agents', 'Backend\Agents::list');
+        $routes->add('developers', 'Backend\Developers::list');
+        $routes->add('members', 'Backend\Members::list');
+        $routes->add('tickets', 'Backend\Tickets::list'); 
+        $routes->add('reviews', 'Backend\Reviews::list'); 
+        $routes->add('locations', 'Backend\Locations::list');
+        $routes->add('country_city_state', 'Backend\Country_city_state::list');
+        $routes->add('templates', 'Backend\Templates::list');
+        $routes->add('statistics', 'Backend\Statistics::list'); 
+        $routes->add('settings', 'Backend\Settings::list'); 
+}); 
 
 
 

@@ -1,69 +1,95 @@
-<?php namespace App\Controllers;
+<?php 
+namespace App\Controllers\Backend;
 
-class Property extends BaseController
+use CodeIgniter\Controller;  
+
+class Properties extends BackendController 
 {
    
   function __construct()
 	{
-        $this->AccountModel   = model('AccountModel');   
-        $this->GeographyModel = model('GeographyModel');   
-        $this->PropertyModel  = model('PropertyModel');  
-	} 
+      $this->AccountModel   = model('AccountModel');   
+      $this->GeographyModel = model('GeographyModel');   
+      $this->PropertyModel  = model('PropertyModel');  
+      $this->CrudModel      = model('CrudModel');  
+	}   
 
 
 
-  public function index()
-	{
-		  $data['title'] = "Property Detail | PropertyRaja.com"; 
-		  $propertyId = segment(2);
-      
-      $data['propertyDetail'] = $this->PropertyModel->getPropertyDetail($propertyId);
-      $data['isInterested']   = $this->PropertyModel->isInterested(cUserId(),$propertyId);
-      $data['isFavourited']   = $this->PropertyModel->isFavourited(cUserId(),$propertyId);
-
-      if(segment(3) == "interested")
-      {
-          $this->PropertyModel->interestedProperty([
-            'user_id'     => cUserId(),
-            'property_id' => $propertyId,
-            'created_at'  => date('Y-m-d h:i:s'),
-            'updated_at'  => date('Y-m-d h:i:s'),
-            'status'      => 1
-          ]); 
-          $this->session->setFlashdata('alert','<div class="alert alert-success">Your contact details forwarded!</div>');
-           return redirect()->to('/property-detail/'.$propertyId);
-
-      }elseif(segment(3) == "favourite"){  
-
-       $this->PropertyModel->upsertFavouriteProperty([
-        'user_id'     => cUserId(), 
-        'property_id' => $propertyId,
-        'created_at'  => date('Y-m-d h:i:s'),
-        'updated_at'  => date('Y-m-d h:i:s'),
-        'status'      => 1
-      ]); 
-       if($data['isFavourited'] == true){
-           $this->session->setFlashdata('alert',warningAlert('Property removed from your favourites!'));
-       }else{
-           $this->session->setFlashdata('alert',successAlert('Property added to your favourites!'));
-       }
-       return redirect()->to('/property-detail/'.$propertyId);
-    }
-	    return view('frontend/property',$data);            
-	}
+  public function index()    
+	{ 
+       $data['title'] = "All Property | PropertyRaja.com";
+       $data['properties'] = $this->PropertyModel->getProperties();
+	     return view('backend/properties',$data);               
+	}  
 
 
 
 
-	public function addProperty() 
+  public function propertyTypes()      
+  {   
+     $data['title'] = "Property Types | PropertyRaja.com";
+     
+     if($this->request->getPost('editPropertyType'))
+     {  
+        $data = [
+          'type_name'  => $this->request->getPost('type_name'),
+          'updated_at' => date('Y-m-d h:i:s'),
+          'status' => $this->request->getPost('status')
+        ];
+          $result = $this->PropertyModel->updatePropertyType(Segment(5),$data);
+          if($result == true)
+          {  
+             $this->session->setFlashdata('alert','<div class="alert alert-success">PropertyType Updated</div>');
+             return redirect()->to('/backend/properties/propertyTypes');
+          }
+     }
+
+     if($this->request->getPost('addPropertyType')) 
+     {    
+          $data = [ 
+                'type_name'  => $this->request->getPost('type_name'),
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s'),
+                'status'     => $this->request->getPost('status')
+              ];
+          $result = $this->PropertyModel->addPropertyType($data); 
+          if($result == true)
+          {  
+             $this->session->setFlashdata('alert','<div class="alert alert-success">PropertyType Added</div>');
+             return redirect()->to('/backend/properties/propertyTypes');
+          }
+     } 
+
+     $data['section'] = segment(4);
+     if($data['section'] == "edit")
+     {  
+         $data['getPropertyTypeFromPropertyId'] = $this->PropertyModel->getPropertyTypeFromPropertyId(segment(5));
+     }
+     if($data['section'] == "delete")
+     {  
+         $this->PropertyModel->deletePropertyType(Segment(5));
+         $this->session->setFlashdata('alert','<div class="alert alert-danger">PropertyType Deleted</div>');
+         return redirect()->to('/backend/properties/propertyTypes');
+     }
+     
+     $data['getPropertyType'] = $this->PropertyModel->getPropertyType();
+     $data['allStatus'] = $this->AccountModel->allStatus();
+     return view('backend/property-types',$data);    
+  }  
+
+
+
+
+	public function addProperty()
 	{   
 	      helper('property');
-    		$data['title'] = "Add Property | PropertyRaja.com";
+    		$data['title']     = "Add Property | PropertyRaja.com";  
     		$data['property_type'] = $this->PropertyModel->getPropertyType();
-    		$data['profile']   = $this->AccountModel->getProfileDetail(cUserId());
+    		$data['profile']   = $this->AccountModel->getProfileDetail(24);
         $data['cities']    = $this->GeographyModel->cities(); 
         $data['amenities'] = $this->PropertyModel->getPropertyAmeneties(); 
-        $data['pt'] = "";
+        $data['pt'] = ""; 
        
         if($this->request->uri->getTotalSegments() >= 3)
         {
@@ -195,7 +221,7 @@ class Property extends BaseController
                 }
     		}  
 	     return view('frontend/add-property',$data);    
-	}
+	 }
 
 
 
@@ -206,7 +232,7 @@ class Property extends BaseController
          $exts = ['jpg','png','JPG','PNG','JPEG'];    
 
          if($this->request->getPost('add-images'))
-          {     
+          {        
 	           if($imagefile = $this->request->getFiles())
 						{  $i = 0;
 						   foreach($imagefile['images'] as $img)
@@ -245,10 +271,9 @@ class Property extends BaseController
 						}
 
 				   if($i > 0)
-				   { 
-                $this->session->setFlashdata('alert','<div class="alert alert-success">Your property image uploaded!</div>');
+				   {
+                      $this->session->setFlashdata('alert','<div class="alert alert-success">Your property image uploaded!</div>');
 				   }   
-	          	   	  
 	          	   if(@$invalid_ext)
 	          	   {
 	          	   	  $this->session->setFlashdata('alert','<div class="alert alert-danger">'.$invalid_ext.'</div>');
@@ -266,19 +291,93 @@ class Property extends BaseController
 
 
 
-	function getPropertyImages($id)
+	public function getPropertyImages($id)
 	{   
 		if(is_array($array = $this->PropertyModel->getPropertyImages($id)))
 		{
-        return $array;
+           return $array;
 		} 
-	}
+	} 
 
 
 
 
-	function watermarkPropertyImages($filename)
-	{
+  public function amenities()
+   {    
+        $data['title'] = "Amenities | PropertyRaja.com";
+        if($this->request->getPost('editAmenities')) 
+        {  
+            $data = [
+              'name'       => $this->request->getPost('name'),
+              'updated_at' => date('Y-m-d h:i:s'),
+              'status'     => $this->request->getPost('status')
+            ];
+            $result = $this->CrudModel->U('_amenities',['id' => Segment(5)],$data);
+            if($result == true)
+            {  
+               $this->session->setFlashdata('alert','<div class="alert alert-success">Amenities Updated</div>');
+               return redirect()->to('/backend/properties/amenities');
+            }
+        } 
+       if($this->request->getPost('addAmenities')) 
+       {    
+            $data = [ 
+                  'name'       => $this->request->getPost('name'),
+                  'created_at' => date('Y-m-d h:i:s'),
+                  'updated_at' => date('Y-m-d h:i:s'),
+                  'status'     => $this->request->getPost('status')
+                ];
+            $result = $this->CrudModel->C('_amenities',$data);   
+            if($result == true)
+            {  
+               $this->session->setFlashdata('alert','<div class="alert alert-success">Amenities Added</div>');
+               return redirect()->to('/backend/properties/amenities');
+            } 
+       } 
+       $data['section']    = segment(4);
+       if($data['section'] == "edit")
+       {  
+           $data['getAmenityFromAmenityId'] = $this->PropertyModel->getAmenityFromAmenityId(segment(5));
+       }
+       if($data['section'] == "delete")
+       {  
+           $this->CrudModel->D('_amenities',['id' => Segment(5)]);
+           $this->session->setFlashdata('alert','<div class="alert alert-danger">Amenities Deleted</div>');
+           return redirect()->to('/backend/properties/amenities');
+       }  
+       $data['getAmenities'] = $this->PropertyModel->getPropertyAmeneties();
+       $data['allStatus'] = $this->AccountModel->allStatus();
+       return view('backend/amenities',$data);   
+   }
+
+
+
+
+  public function edit()
+  { 
+       $data['title'] = "Edit Property | PropertyRaja.com";
+       $data['property-detail'] = $this->PropertyModel->getPropertyDetail(segment(4));
+       $data['property_type'] = $this->PropertyModel->getPropertyType();
+       $data['cities']    = $this->GeographyModel->cities(); 
+       $data['amenities'] = $this->PropertyModel->getPropertyAmeneties();
+       $data['profile']   = $this->AccountModel->getProfileDetail(cUserId());
+
+       $data['section']="editProperty"; 
+       return view('backend/properties',$data);  
+  } 
+
+
+
+  public function delete()
+  {
+     $pid = segment(4);   
+     $this->PropertyModel->deleteProperty($pid); 
+     return redirect()->to('/backend/properties/index'); 
+  }    
+
+
+	 public function watermarkPropertyImages($filename)
+	  {
        \Config\Services::image('imagick')
         ->withFile(WRITEPATH.'uploads/'.$filename)
         ->text('Copyright 2020 - PropertyRaja.com', [
@@ -291,13 +390,17 @@ class Property extends BaseController
         ]) 
         ->save(WRITEPATH.'uploads/watermarked/'.$filename);
         return true;
-	} 
+	   }
 
 
-	function test() 
-  { 
+
+
+	    function test()  
+     { 
      
-		 print_r($this->PropertyModel->getAmenetiesByPropertyId(20));  
-	}
+		   print_r($this->PropertyModel->getAmenetiesByPropertyId(20));  
+	   }
 
-}
+ 
+
+} 

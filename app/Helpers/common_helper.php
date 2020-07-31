@@ -241,7 +241,9 @@ if(!function_exists('isTabActive'))
     }   
 
 
- if(!function_exists('warningAlert')){
+
+ if(!function_exists('warningAlert')) 
+ {
       function warningAlert($text)
       {
       	return '<div class="alert alert-warning alert-dismissible fade show">
@@ -252,7 +254,9 @@ if(!function_exists('isTabActive'))
       }
  }
 
-  if(!function_exists('successAlert')){
+
+  if(!function_exists('successAlert'))
+  {
       function successAlert($text)
       {
       	return '<div class="alert alert-success alert-dismissible fade show">
@@ -262,3 +266,43 @@ if(!function_exists('isTabActive'))
                </div>';
       }
  }
+
+
+ if(!function_exists('isTabActive')){ 
+
+      function isTabActive($name,$name2)
+      {
+      	 if((segment(2) == '$name') && (segment(3) == '$name2'))
+      	 {
+           return "active";
+         }
+      }
+ }
+
+if(!function_exists('modalPopup'))
+{
+  function modalPopup($title,$body) 
+  {
+     return '<div class="modal showModalPopup" tabindex="-1" role="dialog">
+			  <div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title">'.$title.'</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			         <h4>'.$body.'</h4>
+			      </div>
+			      <div class="modal-footer">
+			        <center>
+			           <a href="#" class="btn btn-dark confirmedUrl">Yes</a>  
+			           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			        </center>
+			      </div>
+			    </div>
+			  </div>
+			</div>';
+  }
+}
