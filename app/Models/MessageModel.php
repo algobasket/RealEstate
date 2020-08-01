@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
+use Twilio\Rest\Client;
 
 class MessageModel extends Model
 {
@@ -85,6 +86,25 @@ class MessageModel extends Model
         'updated_at '  => date('Y-m-d h:i:s'),
         'status '      => 1 
       ]);
+    }
+
+
+    function twilioSms()
+    {
+            require __DIR__ . '/vendor/autoload.php'; 
+           
+
+            $sid = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+            $token = 'your_auth_token';
+            $client = new Client($sid, $token);
+
+            $client->messages->create(
+               '+15558675309',
+               [
+                  'from' => '+15017250604',
+                  'body' => 
+               ]
+            );
     }
     
 
