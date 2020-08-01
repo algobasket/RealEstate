@@ -23,7 +23,13 @@ class Properties extends BackendController
 	     return view('backend/properties',$data);               
 	}  
 
-
+  public function view()  
+  {
+       $data['title'] = "View Property | PropertyRaja.com"; 
+       $data['section'] = "viewProperty";
+       $data['propertyDetail'] = $this->PropertyModel->getPropertyDetail(segment(4));
+       return view('backend/properties',$data);     
+  }
 
 
   public function propertyTypes()      
@@ -223,7 +229,7 @@ class Properties extends BackendController
 	     return view('frontend/add-property',$data);    
 	 }
 
-
+  
 
 
 	public function addPropertyImages()
@@ -289,12 +295,9 @@ class Properties extends BackendController
 		 return view('frontend/add-property-images',$data); 
 	}
 
-
-
 	public function getPropertyImages($id)
 	{   
-		if(is_array($array = $this->PropertyModel->getPropertyImages($id)))
-		{
+		if(is_array($array = $this->PropertyModel->getPropertyImages($id))){
            return $array;
 		} 
 	} 
@@ -350,8 +353,8 @@ class Properties extends BackendController
        return view('backend/amenities',$data);   
    }
 
-
-
+   
+  
 
   public function edit()
   { 

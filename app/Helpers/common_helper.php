@@ -306,3 +306,25 @@ if(!function_exists('modalPopup'))
 			</div>';
   }
 }
+
+if(!function_exists('statusLabel'))
+{
+    function statusLabel($status)
+    {
+       return model('AccountModel')->getStatusFromStatusId($status); 
+    }
+}
+
+if(!function_exists('statusList'))
+{
+    function statusList()
+    {
+       return model('AccountModel')->allStatus(); 
+    }
+}
+
+if(!function_exists('removeSpace')){ 
+	function removeSpace($json){
+      return str_replace(" ","",trim($json));
+	}
+} 

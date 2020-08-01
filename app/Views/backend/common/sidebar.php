@@ -6,7 +6,7 @@
           <a href="<?= base_url();?>/backend/dashboard/index" class="stretched-link"></a> 
          </li>
      
-         <li class="list-group-item openMenu <?php echo (segment(2) == "properties" && segment(3) == "index") ? "active" : "" ;?>"> 
+         <li class="list-group-item openMenu <?php echo ((segment(2) == "properties" && segment(3) == "index") || segment(3) == "view") ? "active" : "" ;?>"> 
           Browse All Properties<br><small><span class="badge badge-info">3+</span> Property added recently</small>
           <span class="badge badge-info float-right">3</span>
           <a href="<?= base_url();?>/backend/properties/index" class="stretched-link"></a> 
@@ -92,7 +92,7 @@
       <a href="<?= base_url();?>/backend/analytics/statistics" class="stretched-link"></a>
     </li>
     
-    <li class="list-group-item openMenu <?php echo (segment(2) == "settings" && segment(3) == "index") ? "active" : "" ;?>" >
+    <li class="list-group-item openMenu <?php echo (segment(2) == "settings") ? "active" : "" ;?>" > 
       Settings<br>
       <small> All settings</small>
        <a href="<?= base_url();?>/backend/settings/index" class="stretched-link"></a> 

@@ -33,7 +33,7 @@ class AccountModel extends Model
         $builder->insert($data); 
     }
     
-    function allStatus()  
+    function allStatus()   
     {
          $builder = $this->db->table($this->status_tb);
          $builder->select('*');
@@ -43,6 +43,18 @@ class AccountModel extends Model
 
            return $data;     
     }
+
+    function getStatusFromStatusId($status)
+    {
+        $builder = $this->db->table($this->status_tb);
+        $builder->select('*');
+        $builder->where('id',$status);
+        $query = $builder->get();
+          foreach($query->getResultArray() as $r)
+              $data = $r;
+
+           return $data; 
+    } 
 
     function saveUserSessLog($data)
     {

@@ -15,11 +15,11 @@ class CrudModel extends Model
 
     function C($table,$data)
     {
-        $builder = $this->db->table($table); 
+        $builder = $this->db->table($table);
         $builder->insert($data);
-        return true;   
+        return true;    
     } 
-     
+      
 
 
 

@@ -6,6 +6,8 @@ use CodeIgniter\Controller;
 class User extends BackendController   
 {   
   
+
+  
   function __construct()
   {
       $this->AccountModel   = model('AccountModel');   
@@ -19,6 +21,8 @@ class User extends BackendController
     $data['title'] = "User";
     return view('backend/user',$data);
   }
+
+
 
   function leads() 
   {
@@ -45,9 +49,9 @@ class User extends BackendController
                   'created_at' => date('Y-m-d h:i:s'),
                   'updated_at' => date('Y-m-d h:i:s'),
                   'status'     => $this->request->getPost('status')
-                ];
+                ]; 
             $result = $this->CrudModel->C('_amenities',$data);   
-            if($result == true)
+            if($result == true) 
             {  
                $this->session->setFlashdata('alert','<div class="alert alert-success">Amenities Added</div>');
                return redirect()->to('/backend/properties/amenities');
@@ -56,7 +60,7 @@ class User extends BackendController
        $data['section']    = segment(4);
        if($data['section'] == "edit")
        {  
-           $data['getAmenityFromAmenityId'] = $this->PropertyModel->getAmenityFromAmenityId(segment(5));
+           $data['lead'] = $this->UserModel->getLeads(null,segment(5));  
        }
        if($data['section'] == "delete")
        {  
@@ -64,11 +68,13 @@ class User extends BackendController
            $this->session->setFlashdata('alert','<div class="alert alert-danger">Amenities Deleted</div>');
            return redirect()->to('/backend/properties/amenities');
        }  
-       $data['getLeads'] = $this->PropertyModel->getLeads();
+       $data['getLeads'] = $this->UserModel->getLeads(null,null); 
        $data['allStatus'] = $this->AccountModel->allStatus();
 
        return view('backend/user',$data);
   }
+
+
 
   function agents()  
   {
@@ -76,11 +82,15 @@ class User extends BackendController
     return view('backend/agents',$data);
   }
 
+
+
   function developers()   
   {
     $data['title'] = "Developer";
     return view('backend/developers',$data); 
   }
+
+
 
   function staff()   
   {
@@ -88,11 +98,15 @@ class User extends BackendController
     return view('backend/staff-members',$data);  
   }
 
+
+
   function tickets()   
    {
     $data['title'] = "Tickets"; 
     return view('backend/tickets',$data);  
    }
+
+
 
    function reviews()   
    {
@@ -100,9 +114,15 @@ class User extends BackendController
      return view('backend/reviews',$data);  
    }
    
+
+
+
    function test()
    {
      print_r($this->UserModel->getLeads(1));
    }
+
+
+
 
 }

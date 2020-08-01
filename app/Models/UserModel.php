@@ -14,6 +14,8 @@ class UserModel extends Model
        protected $property_interested_tb = '_interested'; 
        protected $properties_tb      = '_properties'; 
        protected $property_ty_tb     = '_property_type';  
+       protected $status_tb = '_status';  
+       protected $lead_source_tb = '_lead_source';  
 
     
     function getUserCountry($userId = NULL)
@@ -32,11 +34,11 @@ class UserModel extends Model
 
 
 
-    function getLeads($status = NULL)
-    {
+    function getLeads($status = NULL,$id = NULL)        
+    {    //echo $id;exit;
          $PropertyModel = model('PropertyModel');    
          $builder = $this->db->table($this->property_interested_tb.' as A');   
-         $builder->select('A.*,B.title');
+         $builder->select('A.*,B.title,D.firstname,D.lastname,E.status_name,E.status_badge,F.source_name');
          $builder->join(
           $this->properties_tb.' as B',
           'B.id = A.property_id'
@@ -51,16 +53,39 @@ class UserModel extends Model
           $this->user_detail_tb.' as D',
           'D.user_id = A.user_id'
         );
-         //$builder->where($this->property_interested_tb.'.status',$status);
+
+         $builder->join(
+          $this->status_tb.' as E',
+          'E.id = A.status'
+        );
+
+         $builder->join(
+          $this->lead_source_tb.' as F',
+          'F.id = A.lead_source_id'
+        );
+        
+        if(isset($status))
+         {
+             $builder->where('A.status', $status);
+         }
+
+         if(isset($id))
+         {
+             $builder->where('A.id',$id); 
+         }
+
          $query = $builder->get();
 
-          foreach($query->getResultArray() as $r)
-          {
-             $r['images'] = $PropertyModel->getPropertyImages($r['property_id']);
-             $data[] = $r;
-          }
-          return $data;     
-    } 
+        foreach($query->getResultArray() as $r)
+        {
+           $r['images'] = $PropertyModel->getPropertyImages($r['property_id']);
+           $data[] = $r;
+        }  
+          return $data;       
+    }
+
+
+
 
 
 
