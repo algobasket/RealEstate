@@ -79,11 +79,11 @@
       <a href="<?= base_url();?>/backend/analytics/country_city_state" class="stretched-link"></a>
     </li>
 
-    <li class="list-group-item openMenu <?php echo (segment(2) == "templates" && segment(3) == "index") ? "active" : "" ;?>">
+    <li class="list-group-item openMenu <?php echo (segment(2) == "templates") ? "active" : "" ;?>">
       Templates<br>
       <small>Page templates</small>
       <span class="badge badge-info float-right">0</span> 
-      <a href="<?= base_url();?>/backend/templates/index" class="stretched-link"></a>
+      <a href="<?= base_url();?>/backend/templates/" class="stretched-link"></a>
     </li>
     
     <li class="list-group-item openMenu <?php echo (segment(2) == "analytics" && segment(3) == "statistics") ? "active" : "" ;?>">

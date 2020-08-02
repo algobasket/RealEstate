@@ -109,11 +109,15 @@ $routes->group('backend', function($routes)
         $routes->add('reviews', 'Backend\Reviews::list'); 
         $routes->add('locations', 'Backend\Locations::list');
         $routes->add('country_city_state', 'Backend\Country_city_state::list');
-        $routes->add('templates', 'Backend\Templates::list');
+        
+        $routes->add('templates', 'Backend\Templates::index');
+        $routes->add('templates/(:any)', 'Backend\Templates::index');
+        
         $routes->add('statistics', 'Backend\Statistics::list');
 
         $routes->add('settings', 'Backend\Settings::index');    
-        $routes->add('settings/index', 'Backend\Settings::index');    
+        $routes->add('settings/index', 'Backend\Settings::index');
+            
 }); 
 
 

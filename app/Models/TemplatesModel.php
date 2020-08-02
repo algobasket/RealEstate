@@ -4,21 +4,7 @@ use CodeIgniter\Model;
 
 class TemplatesModel extends Model
 {
-      
-    function addTemplate()
-    {
-        
-    }
-    
-    function updateTemplate()
-    {
-
-    }
-
-    function deleteTemplate()
-    {
-
-    }
+    protected $template_tb = '_templates';
 
     function templateCategory()
     {
