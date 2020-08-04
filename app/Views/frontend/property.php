@@ -31,32 +31,47 @@
                    
 
           <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?>          
-                   <div class="col-1">
-                      <a href="<?= base_url();?>/property-detail/<?= segment(2);?>/favourite">
+                   
+                    <div class="col-1">
+                      
+                      <?php if(cUserId()){ ?> 
+                       <a href="<?= base_url();?>/property-detail/<?= segment(2);?>/favourite">
                         <?php if($isFavourited == true){ ?> 
                             <img src="<?= base_url();?>/images/star.png" width="25" class="float-right favourite">
                         <?php }else{ ?>
                             <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite">
                         <?php } ?>
-                      </a>
+                      </a>   
+                      <?php }else{ ?>  
+                       <a href="<?= base_url();?>/login/?redirect=property-detail/<?= segment(2);?>">
+                           <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite">
+                       </a>  
+                      <?php } ?>
+                      
                     </div>  
+                     
                      <div class="col-3">
-                       <?php if($isInterested == true){ ?> 
-                       
-                       <button class="btn btn-danger btn-sm">
-                              <img src="<?= base_url();?>/images/contact-phone.png" width="15"/>
-
-                              <b><?php echo $propertyDetail['contact']['mobile'];?></b>
-                            </button>
-                            <button class="btn btn-outline-danger btn-sm">
-                              <b><img src="<?= base_url();?>/images/correct-1.png" width="20"/> Contacted</b>
-                            </button>
-                        <?php }else{ ?>
-                           <a href="<?= base_url();?>/property-detail/<?= segment(2);?>/interested" class="btn btn-outline-danger btn-sm">
+                        <?php if(cUserId()){ ?> 
+                            <?php if($isInterested == true){ ?>   
+                                <button class="btn btn-danger btn-sm"> 
+                                  <img src="<?= base_url();?>/images/contact-phone.png" width="15"/>
+                                   <b><?php echo $propertyDetail['contact']['mobile'];?></b>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm">
+                                   <b><img src="<?= base_url();?>/images/correct-1.png" width="20"/> Contacted</b>
+                                </button>
+                            <?php }else{ ?>
+                                <a href="<?= base_url();?>/property-detail/<?= segment(2);?>/interested" class="btn btn-outline-danger btn-sm">
+                                   I'm Interested
+                                </a>
+                           <?php } ?>  
+                      <?php }else{ ?>
+                         <a href="<?= base_url();?>/login/?redirect=/property-detail/<?= segment(2);?>" class="btn btn-outline-danger btn-sm">
                             I'm Interested
-                          </a>
-                        <?php } ?>  
-                     </div>   
+                        </a>  
+                      <?php } ?>
+                     </div> 
+
           <?php endif ?>  
 
 

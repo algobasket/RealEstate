@@ -7,67 +7,68 @@ class Auth extends BaseController
 	
 	function __construct()
 	{
-        $this->AuthModel = model('AuthModel');
-        $this->MessageModel = model('MessageModel');
+        $this->AuthModel    = model('AuthModel');   
+        $this->MessageModel = model('MessageModel'); 
+        $this->CrudModel    = model('CrudModel');  
         helper('cookie');     
 	} 
 
 
+	 public function index() 
+	 { 
+		  $data['title'] = "Welcome to PropertyRaja";
+		  return view('landing',$data);        
+	 } 
 
-
-	public function index()
-	{
-		$data['title'] = "Welcome to PropertyRaja";
-		return view('landing',$data);        
-	} 
     
+	 public function login()   
+	 {  
+		  $data['title'] = "Login to PropertyRaja";
+		  $data['role']  = "customer";          
 
-
-
-	public function login()  
-	{ 
-		$data['title'] = "Login to PropertyRaja";
-		$data['role']  = "customer";        
-		
-		//$authModel = new AuthModel();  
-
-		if($this->request->getPost('sign-in')){
+		   if($this->request->getPost('sign-in'))
+       {
            if(! $this->validate([
               'mobile-number' => 'required|min_length[10]|max_length[12]|numeric',  
               'password'      => 'required|min_length[6]|max_length[20]',
            ])){
                
            }else{
-                
-
-                  $status = $this->AuthModel->login(
-                	$this->request->getPost('mobile-number'),
-                	$this->request->getPost('password'),$data['role']);   
-                  $user = [ 
-                           'userId'  => $status['id'],
-                           'display' => $status['display_name'],
-                           'role'    => $status['role'],
-                           'email'   => $status['email']   
-                        ];
-                        
+                  $isLoggedIn = $this->AuthModel->login(
+                	    $this->request->getPost('mobile-number'),
+                	    $this->request->getPost('password'),$data['role']);   
+                  $user = [  
+                           'userId'  => $isLoggedIn['id'],
+                           'display' => $isLoggedIn['display_name'],
+                           'role'    => $isLoggedIn['role'],
+                           'email'   => $isLoggedIn['email'] 
+                          ];       
+                       
                 $remember = $this->request->getPost('remember_me'); 
                 
-                if($status)
-                {
-                    $this->session->set($user);
-
-                    if($remember == 1)  
-                    { 
-                       return redirect()->to('/Auth/saveUserCookie');           
-                    }  
-                    return redirect()->to('/browse'); 
+                if($isLoggedIn)
+                {      
+                      if($this->sendMessage($isLoggedIn['mobile']) == TRUE)
+                      {
+                         $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
+                      }
+                      if($remember == 1)
+                      {
+                         $user['remember'] = 1; 
+                      }
+                      if($this->request->getGet('redirect'))
+                      {
+                         $user['redirect'] = $this->request->getGet('redirect'); 
+                      }
+                      $this->session->set('sessTemp',$user);   
+                      return redirect()->to('/Auth/verify');            
                 }else{
                  $this->session->setFlashdata('alert','<div class="alert alert-danger">User Not Found</div>');
                  return redirect()->back()->withInput();
                } 
            }
-		}     
-		return view('frontend/login-auth',$data);      
+		   }          
+		  return view('frontend/login-auth',$data);      
 	}
 
 
@@ -186,9 +187,9 @@ class Auth extends BaseController
 
 
 
-	public function register()   
+	public function register()    
 	{ 
-		$data['title'] = "Register to PropertyRaja";  
+		   $data['title'] = "Register to PropertyRaja";  
 
         if($this->request->getPost('sign-up')){  
 
@@ -231,53 +232,93 @@ class Auth extends BaseController
                   'user_id'    => $uid,
                   'ip'         => $this->request->getIPAddress(),
                   'user_agent' => $agent->getAgentString(), 
-                  'operation'  =>   "register",
+                  'operation'  =>   "register", 
                   'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
-			      'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
+			           'updated_at'    => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
 		       ]); 
 		       $this->session->setFlashdata('alert','<div class="alert alert-success">Signup Successful</div>');
 		       return redirect()->to('/register');
            }
-		}   
-		return view('frontend/register',$data);         
-	} 
+		    }     
+		     return view('frontend/register',$data);         
+	 }  
 
-    
 
 
     public function logout() 
     { 
-      
         delete_cookie('userCookie');   
-
     	  $array_items = ['userId', 'email','display','role'];
         $this->session->remove($array_items);
         $this->session->setFlashdata('alert','<div class="alert alert-success">Logged out from all devices</div>'); 
         echo "<script>window.location.href='".base_url()."/login'</script>";   
-    }
+    } 
 
 
-    public function saveUserCookie() 
-    { 
-        $userCookie = json_encode(array( 
-           'userId'  => $this->session->get('userId'),
-           'display' => $this->session->get('display'),
-           'role'    => $this->session->get('role'),
-           'email'   => $this->session->get('email')
-         ),true);
-        $userCookie = (string)$userCookie;     
-        set_cookie('userCookie',$userCookie,'3600');
-        echo "<script>window.location.href='".base_url()."/browse'</script>";  
-    }
+    public function verify() 
+    {   
+        $data['title'] = "Enter OTP | PropertyRaja";
+        $sessTemp = $this->session->get('sessTemp');
+        if(session('userId'))
+        {
+           throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound(); 
+        } 
+        if($this->request->getPost('submitOtp'))
+        {   
+            $inputOtp = trim($this->request->getPost('inputOtp'));  
+            if($this->MessageModel->isOtpValid($sessTemp['userId'],$inputOtp) ==TRUE)
+            {     
+                   $array = array( 
+                           'userId'  => $sessTemp['userId'],
+                           'display' => $sessTemp['display'],
+                           'role'    => $sessTemp['role'],
+                           'email'   => $sessTemp['email']
+                        );
+                    $this->session->set($array);
+                    
+                   if($sessTemp['remember'] == 1)
+                    {   
+                        $userCookie = json_encode($array,true);   
+                        $userCookie = (string)$userCookie;        
+                        set_cookie('userCookie',$userCookie,'3600');
+                        unset($sessTemp);
+                        $redirect = $sessTemp['redirect'] ? $sessTemp['redirect'] : "";
+                        if($sessTemp['role'] == "customer")       
+                        { 
+                           $link =  $redirect ? $redirect : base_url().'/browse';
+                        }elseif($sessTemp['role'] == "agent"){ 
+                           $link =  $redirect ? $redirect : base_url().'/dashboard';
+                        }elseif($sessTemp['role'] == "developer"){
+                           $link =  $redirect ? $redirect : base_url().'/dashboard';
+                        }      
+                        echo '<script>window.location.href="'.$link.'"</script>';     
+                    }else{ 
+                        unset($sessTemp);  
+                        return redirect()->to('/browse');
+                    }    
+            }else{
+                $this->session->setFlashdata('alert','<div class="alert alert-danger">Invalid OTP pin!</div>');
+                return redirect()->back()->withInput();
+            } 
+        } 
+      return view('frontend/otp-verify',$data); 
+    } 
 
 
-    public function sendMessage() 
-    {  
-       $to  = '8800580884';    
-       $msg = 'hello test'; 
-       $sendMessage = $this->MessageModel->sendMessage($to,$msg);
-       print_r($sendMessage); 
-    }   
+    public function sendMessage($to)    
+    {    
+       $to  = trim($to);   
+       $otpNumber = time();    
+       $msg    = 'Welcome to PropertyRaja your otp is '.$otpNumber;    
+       $status = $this->MessageModel->localTextApi($to,$msg);
+       if($status == "success")
+       {
+          $this->CrudModel->U('_users',['mobile' => $to],['otp' => $otpNumber]);
+          return true;  
+       }    
+    }  
+
+
 
 
 

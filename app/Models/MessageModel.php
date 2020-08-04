@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
-use Twilio\Rest\Client;
 
 class MessageModel extends Model
 {
@@ -107,10 +106,10 @@ class MessageModel extends Model
     } 
 
 
-    function sendMessage($to,$msg)     
+    public function localTextApi($to,$msg)       
     {
-        $getlocalTextApi = $this->getlocalTextApi();
-        print_r($getlocalTextApi);
+        $getlocalTextApi = $this->getlocalTextApi(); 
+        //print_r($getlocalTextApi); 
         $apiKey = urlencode($getlocalTextApi['apikey']);
         // Message details
         $numbers = array($to); 
@@ -125,9 +124,28 @@ class MessageModel extends Model
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         curl_close($ch);
-        echo $response;  
-    }  
+        $array = json_decode($response,true); 
+        return $array['status'];  
+    }
 
-    
+
+
+    public function isOtpValid($userId,$otp)
+    {
+        $builder = $this->db->table($this->users_tb);               
+        $builder->select('otp');   
+        $builder->where('id',$userId);   
+        $query = $builder->get();      
+        if(!empty($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r)
+              $otp_s = $r['otp'];      
+           if($otp_s == $otp)
+           {
+              return true;   
+           }    
+        }  
+    }     
+
 
 }
