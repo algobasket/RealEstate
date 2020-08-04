@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
 
-    <title><?= $title ? $title : "Site" ?></title>
+    <title><?= $title ? $title : "Site" ?></title> 
   </head>
   <body> 
 
@@ -27,9 +27,17 @@
             <a href="https:/" class="navbar-brand d-flex align-items-center">
               <strong><img src="http://localhost:8080/images/propertyraja.png" width="200"></strong>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+
+            <button class="navbar-toggler dropdown-toggle small" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Welcome <?php echo ucfirst(\Config\Services::session()->get('display'));?> <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="dropdown-menu dropdown-menu-right animate slideIn">
+                <span class="dropdown-menu-arrow"></span> 
+
+                <?php if(\Config\Services::session()->get('role') == "admin"){ ?>
+                <a class="dropdown-item" href="<?= base_url();?>/backend/dashboard/index">Go To Dashboard</a>
+                <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
+                <?php } ?> 
         </div>
       </div>
   </header>   
@@ -38,7 +46,6 @@
   <?= $this->renderSection('content') ?>  
 
         
-
 <footer class="text-muted">
   <div class="container">
     <p class="float-right">
@@ -100,8 +107,33 @@
           var link = $(this).attr('data-confirmedUrl'); 
           $('.confirmedUrl').attr('href',link);   
           $('.showModalPopup').modal('show'); 
-      });          
+      });
+      $('#searchUser').keyup(function(){
+         var txt = $(this).val();
+         var data = {
+           txt : txt
+         }
+         $('.listUser').html('');
+         if(txt)
+         {
+             $.ajax({
+                type : 'POST',
+                data : data,
+                url : '/backend/user/userDropdownList',
+                success:function(html){  
+                  $('.listUser').html(html); 
+                 }
+              });
+         } 
+      });
+
+
   });
-</script>
+  function searchedUser(i){
+    $('#searchedInputid').val(i);
+    $('.listUser').hide();
+  }
+</script> 
+
 </body>
 </html>

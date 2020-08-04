@@ -2,7 +2,7 @@
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class AuthModel extends Model
 {
        protected $users_tb = '_users';
        protected $user_detail_tb = '_user_details';
@@ -19,19 +19,19 @@ class UserModel extends Model
                return $data[] = $r;
             }  
         }   
-    }  
+    }   
 
 
-    function backendLogin($username,$password,$role,$access_code)         
-    {
-          $query = $this->db->query("SELECT * FROM $this->users_tb WHERE mobile = ? AND password= ? AND access_code = ?",[$mobile,$password,$role,$access_code]);
+    function backendLogin($username,$password,$access_code,$role)         
+    {     
+          $builder = $this->db->table($this->users_tb);
+          $builder->select('*');
+          $builder->where(['username' => $username,'password' => $password,'access_code'=>$access_code,'role'=>$role]);
+          $query = $builder->get();
           foreach($query->getResultArray() as $r)
           {
-            if($r)   
-            {
-               return $data[] = $r;
-            }  
-        }   
+            return $data[] = $r;
+          }    
     }       
 
 

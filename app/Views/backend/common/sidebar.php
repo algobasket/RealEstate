@@ -55,7 +55,7 @@
       Tickets<br>
       <small> All support tickets</small>
       <span class="badge badge-info float-right">0</span>
-      <a href="<?= base_url();?>/backend/user/tickets" class="stretched-link"></a>
+      <a href="<?= base_url();?>/backend/tickets/index" class="stretched-link"></a>
     </li>
     
     <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "reviews") ? "active" : "" ;?>" >

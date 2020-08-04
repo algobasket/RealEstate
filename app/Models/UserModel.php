@@ -82,9 +82,41 @@ class UserModel extends Model
            $data[] = $r;
         }  
           return $data;       
+    } 
+
+
+
+    function getUserDetail($userId)  
+    {
+        $builder = $this->db->table($this->users_tb); 
+        $builder->select([$this->users_tb.'.*',$this->user_detail_tb.'.firstname',$this->user_detail_tb.'.lastname']); 
+        $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->users_tb.'.id'); 
+        $builder->where($this->users_tb.'.id',$userId);  
+        $builder->get();  
+        foreach($query->getResultArray() as $r)
+        {
+           return $r;
+        }   
     }
 
-
+    function searchUser($txt)
+    {
+        $builder = $this->db->table($this->users_tb);  
+        $builder->select([$this->users_tb.'.id',$this->user_detail_tb.'.firstname',$this->user_detail_tb.'.lastname',$this->users_tb.'.mobile',$this->users_tb.'.email']); 
+        $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->users_tb.'.id'); 
+        $builder->like($this->users_tb.'.email', $txt, 'both'); 
+        $builder->orLike($this->users_tb.'.mobile', $txt, 'both'); 
+        $builder->orLike($this->users_tb.'.username', $txt, 'both');
+        $builder->orLike($this->user_detail_tb.'.firstname', $txt, 'both');
+        $builder->orLike($this->user_detail_tb.'.lastname', $txt, 'both');
+        //echo $builder->getCompiledSelect();  
+        $query = $builder->get();  
+        foreach($query->getResultArray() as $r)
+        {
+           $data[] = $r;
+        }
+        return $data;   
+    }
 
 
 

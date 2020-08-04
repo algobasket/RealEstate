@@ -19,41 +19,40 @@
     <?= $this->include('backend/common/sidebar');?> 
     <div class="col-md-9">
         <h3 class="display-4">Dashboard</h3>
-        <div class="table-responsive">
-          <table class="table">
-              <caption>List of users</caption>
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Photo</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
-          </table>
-        </div>
+         <hr>
+         
+         <div class="card-deck">
+                <div class="card border-dark mb-3" style="max-width: 18rem;">
+                  <div class="card-header">Total Properties</div>
+                  <div class="card-body">
+                    <h5 class="card-title display-4 text-center">3800</h5>
+                    <p></p>
+                  </div>
+                </div>
+                 <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                  <div class="card-header">Total Agents</div>
+                  <div class="card-body">
+                    <h5 class="card-title display-4 text-center">45</h5>
+                     <p class="text-center">Active - 56 | Blocked - 6</p>
+                  </div>
+                </div>
+                 <div class="card border-dark mb-3" style="max-width: 18rem;">
+                  <div class="card-header">Total Developers</div>
+                  <div class="card-body">
+                    <h5 class="card-title display-4 text-center">567</h5>
+                     <p class="text-center">Active - 56 | Blocked - 6</p>
+                  </div>
+                </div>
+                 <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                  <div class="card-header">Total Staff</div>
+                  <div class="card-body">
+                    <h5 class="card-title display-4 text-center">45</h5>
+                    <p class="text-center">Admin - 3 | Sub Admin - 6</p>
+                  </div>
+                </div>        
+         </div>
+    
+
     </div>
   </div>
 

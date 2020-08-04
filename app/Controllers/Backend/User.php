@@ -117,10 +117,29 @@ class User extends BackendController
 
 
 
-   function test()
-   {
-     print_r($this->UserModel->getLeads(1));
+   function userDropdownList()
+   {  
+      $txt = $this->request->getPost('txt');
+      $result = $this->UserModel->searchUser($txt); 
+      
+          echo '<ul class="list-unstyled">';
+          foreach($result as $r)
+         {
+          echo '<li class="media hover" onClick="searchedUser('.$r['id'].')">
+                  <img src="'.base_url().'/images/user.png" class="mr-3" alt="...">
+                  <div class="media-body">
+                    <h5 class="mt-0 mb-1">'.$r['firstname'].'</h5>
+                    '.$r['mobile'].'
+                  </div>
+                </li>'; 
+          }          
+          echo '</ul>';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+      
    }
+
+
+
+
 
 
 

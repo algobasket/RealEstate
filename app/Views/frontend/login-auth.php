@@ -53,15 +53,15 @@
   <?= csrf_field() ?>
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" name="mobile-number" class="form-control" id="inputAddress2" placeholder="Mobile Number">
+    <input type="text" name="mobile-number" class="form-control" id="mobile-number" placeholder="Mobile Number" value="<?= old('mobile-number');?>" />
   </div>
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
-    <input type="password" name="password" class="form-control" id="inputCity" placeholder="Password">
+    <input type="password" name="password" class="form-control" id="password" placeholder="Password" value="<?= old('password');?>"/>
   </div>
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <input class="form-check-input" type="checkbox" id="gridCheck" name="remember_me" value="1"/>  
       <label class="form-check-label" for="gridCheck">
         Remember me
       </label> 
@@ -164,16 +164,25 @@
   <?= form_open('login-staff') ?>
   <?= csrf_field() ?> 
   <div class="form-group">
-    <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Username" name="username" /> 
+    <label for="inputAddress2">Username</label>
+    <input type="text" class="form-control" id="username" placeholder="Username" name="username" value="<?= old('username');?>" /> 
   </div>
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password" name="password" /> 
+    <input type="password" class="form-control" id="password" placeholder="Password" name="password" /> 
+  </div>
+  <div class="form-group">
+    <label for="inputCity">Staff Role</label>
+    <select name="role" class="form-control"> 
+      <option value="admin">Admin</option>
+      <option value="sub_admin">Sub Admin</option>
+      <option value="content_writer">Content Writer</option>
+      <option value="marketing_manager">Marketing Manager</option>
+    </select>
   </div>
   <div class="form-group">
     <label for="inputCity">Staff Access Code</label>
-    <input type="text" class="form-control" id="inputCity" placeholder="Access Code" name="access_code" />
+    <input type="text" class="form-control" id="access_code" placeholder="Access Code" name="access_code" />
   </div>
   <div class="form-group">
     <div class="form-check">

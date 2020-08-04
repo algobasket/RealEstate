@@ -49,13 +49,13 @@
   
   <?= \Config\Services::session()->getFlashdata('alert');?> 
 
-  <?= form_open('register') ?>
+  <?= form_open('register','onsubmit="return validateForm(this)"') ?>
   <?= csrf_field() ?> 
   <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        I accept terms and condtions to use services of propertyraja.com
+    <div class="form-check"> 
+      <input type="checkbox" name="agree" id="agree" class="form-check-input" value="yes" />
+      <label class="form-check-label" for="agree">  
+        &nbsp;I accept terms and condtions to use services of propertyraja.com &nbsp;
       </label>
     </div>
   </div>
@@ -89,27 +89,27 @@
  
   <div class="form-group">
     <label for="inputAddress">Display Name</label>
-    <input type="text" class="form-control" id="display-name" name="display-name" placeholder="Display Name">
+    <input type="text" class="form-control" id="display-name" name="display-name" placeholder="Display Name" value="<?= old('display-name');?>" autocomplete="false"/>
   </div>
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="mobile-number" name="mobile-number" placeholder="Mobile Number">
+    <input type="text" class="form-control" id="mobile-number" name="mobile-number" placeholder="Mobile Number" value="<?= old('mobile-number');?>">
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputCity">Choose Password</label>
-      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+      <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="<?= old('password');?>" autocomplete="false"/>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6"> 
       <label for="inputState">Email</label>
-      <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+      <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="<?= old('email');?>">
     </div>
   </div>
-  <button type="submit" class="btn btn-light">Cancel</button> 
+  <button type="submit" class="btn btn-light">Cancel</button>  
   <input type="submit" class="btn btn-primary" name="sign-up" value="Sign up"/>  
   <hr>
    <div class="form-group">
-    <label for="inputAddress">
+    <label for="inputAddress"> 
     	Already a member ? 
     	<a href="<?= base_url();?>/Auth/login">SignIn</a>
     </label>
@@ -176,6 +176,23 @@
      $('#collapseExample').collapse('show');
      $('#purpose').val('sell');
    }
+   
+   function validateForm(form) 
+   {
+      console.log("checkbox checked is ", form.agree.checked);
+      if(!form.agree.checked)
+      {
+          $('.form-check-label').addClass('badge-danger');
+          return false;
+      }
+      else
+      {
+          $('.form-check-label').removeClass('badge-danger'); 
+          return true;
+      }
+   } 
+  
+
  </script>
 
 <?= $this->endSection() ?>

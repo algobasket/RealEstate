@@ -83,14 +83,8 @@
                 <a class="dropdown-item" href="<?= base_url();?>/notifications">Notifications</a>
                 <div class="dropdown-divider"></div> 
                 <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
-                <?php }elseif(\Config\Services::session()->get('role') == "staff"){ ?>
-                <a class="dropdown-item" href="<?= base_url();?>/profile">Dashboard</a>
-                <a class="dropdown-item" href="<?= base_url();?>/add-property">Add Property</a>
-                <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
-                <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
-                <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
-                <a class="dropdown-item" href="<?= base_url();?>/notifications">Notifications</a> 
-                <div class="dropdown-divider"></div> 
+                <?php }elseif(\Config\Services::session()->get('role') == "admin"){ ?>
+                <a class="dropdown-item" href="<?= base_url();?>/backend/dashboard/index">Go To Dashboard</a>
                 <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
                 <?php } ?>
 

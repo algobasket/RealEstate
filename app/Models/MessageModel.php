@@ -19,6 +19,7 @@ class MessageModel extends Model
        protected $property_fav_tb    = '_favourites'; 
        protected $property_interested_tb = '_interested';    
        protected $messages_tb            = '_messages';    
+       protected $settings_tb            = '_settings';       
         
 
     
@@ -89,23 +90,44 @@ class MessageModel extends Model
     }
 
 
-    function twilioSms()
+
+    function getlocalTextApi()    
+    { 
+        $builder = $this->db->table($this->settings_tb);               
+        $builder->where('setting_name','TextLocal');   
+        $query = $builder->get();      
+        if(!empty($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r)
+           { 
+              $data = json_decode($r['setting_json'],true);      
+           }  
+           return $data;   
+        }  
+    } 
+
+
+    function sendMessage($to,$msg)     
     {
-            require __DIR__ . '/vendor/autoload.php'; 
-           
+        $getlocalTextApi = $this->getlocalTextApi();
+        print_r($getlocalTextApi);
+        $apiKey = urlencode($getlocalTextApi['apikey']);
+        // Message details
+        $numbers = array($to); 
+        $sender = urlencode($getlocalTextApi['sender']);     
+        $message = rawurlencode($msg);
+        $numbers = implode(',', $numbers);
+        $data = array('apikey' => $apiKey, 'numbers' => $numbers, 'sender' => $sender, 'message' => $message);
+        // Send the POST request with cURL 
+        $ch = curl_init('https://api.textlocal.in/send/');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        echo $response;  
+    }  
 
-            $sid = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-            $token = 'your_auth_token';
-            $client = new Client($sid, $token);
-
-            $client->messages->create(
-               '+15558675309',
-               [
-                  'from' => '+15017250604',
-                  'body' => 
-               ]
-            );
-    }
     
 
 }

@@ -6,7 +6,7 @@ class Home extends BaseController
 	{
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
-        $this->PropertyModel  = model('PropertyModel');  
+        $this->PropertyModel  = model('PropertyModel'); 
 	}
 
 	public function index()
@@ -24,7 +24,7 @@ class Home extends BaseController
 	   return view('landing',$data); 
 	}
 
-	public function sell()
+	public function sell() 
 	{
 		$data['title'] = "Sell Properties";
 	    return view('frontend/sell',$data);
@@ -39,6 +39,7 @@ class Home extends BaseController
 	public function browse() 
 	{
 		$data['title'] = "Browse Properties";
+		
 	    return view('frontend/browse',$data); 
 	}
     
