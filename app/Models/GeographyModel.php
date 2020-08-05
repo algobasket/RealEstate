@@ -47,7 +47,17 @@ class GeographyModel extends Model
           foreach($query->getResultArray() as $r)
                $data[] = $r;
           return $data;  
-    } 
+    }
+
+    function cityFromCityId($cityId)   
+    {
+        $builder = $this->db->table($this->cities);
+         $builder->where($this->cities.'.id',$cityId);
+         $query = $builder->get();
+          foreach($query->getResultArray() as $r)
+               $data = $r;
+          return $data;    
+    }  
 
     function countryCities($countryId)      
     {

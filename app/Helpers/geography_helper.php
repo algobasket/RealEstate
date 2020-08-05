@@ -43,3 +43,10 @@ function currentLocation()
       'city'    => $city
 	];
 }
+
+if(!function_exists('cityFromCityId')){ 
+    function cityFromCityId($cityId){
+      $GeographyModel = model('GeographyModel');
+      return $GeographyModel->cityFromCityId($cityId); 
+    }
+}

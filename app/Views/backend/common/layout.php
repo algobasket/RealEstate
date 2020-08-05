@@ -84,6 +84,7 @@
     <script src="<?= base_url();?>/assets/js/script.js"></script>
 <script type="text/javascript">
   $('document').ready(function(){
+       
       $('.openMenu').click(function(){
           window.location.href=  $(this).attr('data-href'); 
       });
@@ -126,8 +127,8 @@
               });
          } 
       });
-
-
+    
+       
   });
   function searchedUser(i){
     $('#searchedInputid').val(i);

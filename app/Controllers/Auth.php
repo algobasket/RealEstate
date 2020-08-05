@@ -51,6 +51,9 @@ class Auth extends BaseController
                       if($this->sendMessage($isLoggedIn['mobile']) == TRUE)
                       {
                          $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
+                      }else{
+                        $this->session->setFlashdata('alert','<div class="alert alert-danger">Invalid Phone Number!</div>');
+                        return redirect()->back()->withInput();
                       }
                       if($remember == 1)
                       {

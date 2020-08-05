@@ -233,7 +233,38 @@ class PropertyModel extends Model
              }
              return $data;  
           } 
-   }     
+   } 
+
+
+    function searchPropertyAjax($array,$role)
+   {     
+         $builder = $this->db->table($this->properties_tb);
+         $builder->select([$this->properties_tb.'.*',$this->user_detail_tb.'.firstname',$this->user_detail_tb.'.lastname',$this->users_tb.'.role']);
+         $builder->join($this->users_tb,$this->users_tb.'.id='.$this->properties_tb.'.user_id','left');
+         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id = '.$this->users_tb.'.id');  
+         if($role)
+          {
+             $builder->whereIn($this->users_tb.'.role',$role);
+          }  
+         $builder->where($array); 
+         //print_r($array);
+         //print_r($role);  
+         //return $builder->getCompiledSelect();    
+         $query = $builder->get();
+
+         if($query->getResultArray())
+          {   
+             foreach($query->getResultArray() as $r)
+             {
+                $r['isFavourited'] = $this->isFavourited($r['user_id'],$r['id']);   
+                $r['isInterested'] = $this->isInterested($r['user_id'],$r['id']);
+                $r['images'] = $this->getPropertyImages($r['id']);
+                $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']);
+                $data[] = $r;
+             }
+             return $data;   
+          } 
+   }    
 
 
    function getPropertiesByUserId($userId)  

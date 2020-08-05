@@ -44,7 +44,7 @@ class Message extends BaseController
 
 
 
-   function getMessagesAjax()
+   function getMessagesAjax() 
    {
         $arr = $this->MessageModel->getMessages(
     	         $this->request->getPost('property_id'),
@@ -77,6 +77,6 @@ class Message extends BaseController
            }    	
    }           
 
- 
+   
 
 }

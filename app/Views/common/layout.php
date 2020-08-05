@@ -201,23 +201,106 @@ $(document).ready(function() {
               }
             }); 
       }); 
+
+
+
+    $('.searchDrop').change(function(){  
+          var listing_type  = $('.listing_type').val();
+          if(listing_type == "rent")
+          {
+            $('.rental_price').show();
+            $('.total_price').hide();
+          }else{
+            $('.rental_price').hide(); 
+            $('.total_price').show();
+          } 
+          var property_type = $('.property_type').val(); 
+          var price         = (listing_type == "rent") ? $('.rental_price').val() : $('.total_price').val(); 
+          var facing        = $('.facing').val(); 
+          var bhk_type       = $('.bhktype').val();   
+          var availability  = $('.availability').val(); 
+          var houseOwner    = $('#houseOwner:checked').val();  
+          var realEstateDeveloper  = $('#realEstateDeveloper:checked').val(); 
+          var agent  = $('#agent:checked').val(); 
+          var data = {
+             listing_type : listing_type,
+             property_type : property_type,
+             price : price,
+             facing : facing ? facing : 'any',
+             bhk_type : bhk_type,
+             availability : availability ? availability : 'any',
+             houseOwner : houseOwner ? houseOwner : 'any',
+             realEstateDeveloper : realEstateDeveloper ? realEstateDeveloper : 'any',
+             agent : agent ? agent : 'any' 
+          }
+          //alert("ok");  
+             $.ajax({
+                type : 'POST',
+                data : data,
+                url : '/Ajax/searchPropertyAjax', 
+                success:function(html){  
+                   $('.ajaxSearchResult').html(html);
+                   //console.log(html); 
+                 }
+              });
+        });
+         $('.searchDrop').click(function(){  
+          var listing_type  = $('.listing_type').val();
+          if(listing_type == "rent")
+          {
+            $('.rental_price').show();
+            $('.total_price').hide();
+          }else{
+            $('.rental_price').hide(); 
+            $('.total_price').show();
+          } 
+          var property_type = $('.property_type').val(); 
+          var price         = (listing_type == "rent") ? $('.rental_price').val() : $('.total_price').val(); 
+          var facing        = $('.facing').val(); 
+          var bhk_type       = $('.bhktype').val();   
+          var availability  = $('.availability').val(); 
+          var houseOwner    = $('#houseOwner:checked').val();  
+          var realEstateDeveloper  = $('#realEstateDeveloper:checked').val(); 
+          var agent  = $('#agent:checked').val(); 
+          var data = {
+             listing_type : listing_type,
+             property_type : property_type,
+             price : price,
+             facing : facing ? facing : 'any',
+             bhk_type : bhk_type,
+             availability : availability ? availability : 'any',
+             houseOwner : houseOwner ? houseOwner : 'any',
+             realEstateDeveloper : realEstateDeveloper ? realEstateDeveloper : 'any',
+             agent : agent ? agent : 'any' 
+          }
+          //alert("ok");  
+             $.ajax({
+                type : 'POST',
+                data : data,
+                url : '/Ajax/searchPropertyAjax', 
+                success:function(html){  
+                   $('.ajaxSearchResult').html(html);
+                   //console.log(html); 
+                 }
+              });
+        });  
   });
-  setTimeout(function() {
-            var fk_user_id  = $('#fk_user_id').val(); 
-            var property_id = $('#property_id').val();
-            var obj = { 
-              'fk_user_id'  : fk_user_id,
-              'property_id' : property_id
-            };
-           $.ajax({ 
-              type : 'POST',  
-              data : obj,
-              url  : '/Message/getMessagesAjax', 
-              success : function(res){
-                  $('.msg_history').html(res);
-              }
-            }); 
-}, 5000);
+//   setTimeout(function() {
+//             var fk_user_id  = $('#fk_user_id').val(); 
+//             var property_id = $('#property_id').val();
+//             var obj = { 
+//               'fk_user_id'  : fk_user_id,
+//               'property_id' : property_id
+//             };
+//            $.ajax({ 
+//               type : 'POST',  
+//               data : obj,
+//               url  : '/Message/getMessagesAjax', 
+//               success : function(res){
+//                   $('.msg_history').html(res);
+//               }
+//             }); 
+// }, 5000);
 </script>
 
   </body>

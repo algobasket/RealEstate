@@ -6,7 +6,8 @@ class Home extends BaseController
 	{
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
-        $this->PropertyModel  = model('PropertyModel'); 
+        $this->PropertyModel  = model('PropertyModel');
+        helper('geography'); 
 	}
 
 	public function index()
@@ -38,9 +39,39 @@ class Home extends BaseController
 
 	public function browse() 
 	{
-		$data['title'] = "Browse Properties";
-		
-	    return view('frontend/browse',$data); 
+		  $data['title'] = "Browse Properties";
+          $data['listing_type']  = $this->request->getGet('listing_type') ? $this->request->getGet('listing_type') : NULL;
+          $data['city']          = $this->request->getGet('city') ? $this->request->getGet('city') : NULL;
+	      
+	      $array = NULL;
+          $role  = NULL; 
+
+	      if($this->request->getGet('listing_type'))
+	      {
+	         $array['_properties.listing_type'] = $this->request->getGet('listing_type');   
+	      }
+	      if($this->request->getGet('property_type'))
+	      {
+	         $array['_properties.property_type'] = $this->request->getGet('property_type');
+	      }
+	      if($this->request->getGet('searchByPriceType'))
+	      {
+	            if($array['_properties.listing_type'] == "rent"){ 
+	                $price = explode('-',$this->request->getGet('searchByPriceType'));
+	                $array['_properties.rent_per_mon >='] = intval($price[0]);
+	                $array['_properties.rent_per_mon <='] = intval($price[1]);   
+	            }else{
+	                $array['_properties.total_price <='] = $this->request->getGet('searchByPriceType');  
+	            }
+	      }
+	      if($this->request->getGet('city'))
+	      {
+	         $array['_properties.city'] = $this->request->getGet('city');    
+	      }
+         
+		  $data['result']    = $this->PropertyModel->searchPropertyAjax($array,NULL);
+		  $data['property_type'] = $this->PropertyModel->getPropertyType(); 
+	      return view('frontend/browse',$data);   
 	}
     
     public function contact()
