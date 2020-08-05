@@ -78,7 +78,22 @@ class User extends BackendController
 
   function agents()  
   {
-    $data['title'] = "Agent";
+     $data['title'] = "Agent"; 
+     $data['section'] = segment(4);
+
+    if($data['section'] == "profile"){ 
+     
+      $data['profile'] = $this->UserModel->getUserDetail(segment(5));
+      print_r($data['profile']);exit;
+    }elseif($data['section'] == "edit"){
+
+       
+
+    }else{
+
+      $data['agents'] = $this->UserModel->getAllUsersByRole('agent'); 
+
+    }
     return view('backend/agents',$data);
   }
 
@@ -133,8 +148,7 @@ class User extends BackendController
                   </div>
                 </li>'; 
           }          
-          echo '</ul>';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-      
+          echo '</ul>';                                                                       
    }
 
 
