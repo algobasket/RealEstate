@@ -5,13 +5,13 @@ use CodeIgniter\I18n\Time;
 class Auth extends BaseController
 {   
 	
-	function __construct()
-	{
+	 function __construct()
+	 {
         $this->AuthModel    = model('AuthModel');   
         $this->MessageModel = model('MessageModel'); 
         $this->CrudModel    = model('CrudModel');  
         helper('cookie');     
-	} 
+	 }      
 
 
 	 public function index() 
@@ -47,13 +47,13 @@ class Auth extends BaseController
                 $remember = $this->request->getPost('remember_me'); 
                 
                 if($isLoggedIn)
-                {      
+                {       
                       if($this->sendMessage($isLoggedIn['mobile']) == TRUE)
                       {
                          $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
                       }else{
-                        $this->session->setFlashdata('alert','<div class="alert alert-danger">Invalid Phone Number!</div>');
-                        return redirect()->back()->withInput();
+                        $this->session->setFlashdata('alert',redAlert('OTP sending failed but you can check on your registered email!'));
+                        //return redirect()->back()->withInput(); 
                       }
                       if($remember == 1)
                       {
@@ -109,8 +109,6 @@ class Auth extends BaseController
 		}     
 		return view('frontend/login-auth',$data);      
 	}
-
-
 
 
 
@@ -212,39 +210,39 @@ class Auth extends BaseController
 	              	 $access_code = 0;    
 	                }   
                $uid = $this->AuthModel->register([
-			      'display_name' => $this->request->getPost('display-name'),
-            'username'     => $this->request->getPost('display-name').'.'.time(), 
-			      'email'        => $this->request->getPost('email'),  
-			      'mobile'       => $this->request->getPost('mobile-number'),  
-			      'password'     => $this->request->getPost('password'),
-			      'ip'           => $this->request->getIPAddress(),
-			      'access_code'  => $access_code,
-			      'role'         => $this->request->getPost('rolename'),
-			      'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
-			      'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
-		       ],[
-                  'firstname' => "",
-                  'lastname'  => "",
-                  'email'     => $this->request->getPost('email'),
-                  'activity'  => $this->request->getPost('purpose'),
-                  'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
-			      'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
-		       ]);
-		       $agent = $this->request->getUserAgent(); 
-		       $this->AuthModel->saveUserSessLog([
-                  'user_id'    => $uid,
-                  'ip'         => $this->request->getIPAddress(),
-                  'user_agent' => $agent->getAgentString(), 
-                  'operation'  =>   "register", 
-                  'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
-			           'updated_at'    => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
-		       ]); 
-		       $this->session->setFlashdata('alert','<div class="alert alert-success">Signup Successful</div>');
-		       return redirect()->to('/register');
+          			      'display_name' => $this->request->getPost('display-name'),
+                      'username'     => $this->request->getPost('display-name').'.'.time(), 
+          			      'email'        => $this->request->getPost('email'),  
+          			      'mobile'       => $this->request->getPost('mobile-number'),  
+          			      'password'     => $this->request->getPost('password'),
+          			      'ip'           => $this->request->getIPAddress(),
+          			      'access_code'  => $access_code,
+          			      'role'         => $this->request->getPost('rolename'),
+          			      'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
+          			      'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
+		                ],[
+                      'firstname' => "",
+                      'lastname'  => "",
+                      'email'     => $this->request->getPost('email'),
+                      'activity'  => $this->request->getPost('purpose'),
+                      'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
+    			            'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
+		             ]);
+      		       $agent = $this->request->getUserAgent(); 
+      		       $this->AuthModel->saveUserSessLog([
+                        'user_id'    => $uid,
+                        'ip'         => $this->request->getIPAddress(),
+                        'user_agent' => $agent->getAgentString(), 
+                        'operation'  =>   "register", 
+                        'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
+      			           'updated_at'    => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
+      		       ]); 
+		             $this->session->setFlashdata('alert','<div class="alert alert-success">Signup Successful</div>');
+		             return redirect()->to('/register');
            }
 		    }     
 		     return view('frontend/register',$data);         
-	 }  
+	 }   
 
 
 
@@ -262,10 +260,10 @@ class Auth extends BaseController
     {   
         $data['title'] = "Enter OTP | PropertyRaja";
         $sessTemp = $this->session->get('sessTemp');
-        if(session('userId'))
-        {
-           throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound(); 
-        } 
+        // if(session('userId'))
+        // {
+        //    throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound(); 
+        // } 
         if($this->request->getPost('submitOtp'))
         {   
             $inputOtp = trim($this->request->getPost('inputOtp'));  
@@ -277,6 +275,7 @@ class Auth extends BaseController
                            'role'    => $sessTemp['role'],
                            'email'   => $sessTemp['email']
                         );
+
                     $this->session->set($array);
                     
                    if($sessTemp['remember'] == 1)
@@ -284,19 +283,22 @@ class Auth extends BaseController
                         $userCookie = json_encode($array,true);   
                         $userCookie = (string)$userCookie;        
                         set_cookie('userCookie',$userCookie,'3600');
-                        unset($sessTemp);
-                        $redirect = $sessTemp['redirect'] ? $sessTemp['redirect'] : "";
+                        
+                        $redirect = isset($sessTemp['redirect']) ? $sessTemp['redirect'] : "";
                         if($sessTemp['role'] == "customer")       
                         { 
-                           $link =  $redirect ? $redirect : base_url().'/browse';
+                           $link =  isset($redirect) ? $redirect : base_url().'/browse';
+                           print_r($link);exit;    
                         }elseif($sessTemp['role'] == "agent"){ 
-                           $link =  $redirect ? $redirect : base_url().'/dashboard';
+                           $link =  isset($redirect) ? $redirect : base_url().'/dashboard';
                         }elseif($sessTemp['role'] == "developer"){
-                           $link =  $redirect ? $redirect : base_url().'/dashboard';
-                        }      
+                           $link =  isset($redirect) ? $redirect : base_url().'/dashboard';
+                        }
+                        //unset($sessTemp); 
+
                         echo '<script>window.location.href="'.$link.'"</script>';     
                     }else{ 
-                        unset($sessTemp);  
+                        //unset($sessTemp);  
                         return redirect()->to('/browse');
                     }    
             }else{
@@ -320,9 +322,21 @@ class Auth extends BaseController
           return true;  
        }    
     }  
+    
 
+    public function emailTemplate()  
+    {   
+       $data['title'] = "PropertyRaja";
+       return view('email-template/login',$data); 
+    } 
 
-
+    // public function test_otp()
+    // {  
+    //    $to = '8800580884';
+    //    $msg = 'Hi';
+    //    $status = $this->MessageModel->localTextApi($to,$msg);
+    //    print_r($status); 
+    // }
 
 
 }	

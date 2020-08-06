@@ -125,7 +125,8 @@ class MessageModel extends Model
         $response = curl_exec($ch);
         curl_close($ch);
         $array = json_decode($response,true); 
-        return $array['status'];  
+        //return $array['status'];  
+        return $response;    
     }
 
 

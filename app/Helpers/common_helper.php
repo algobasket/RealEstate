@@ -265,6 +265,18 @@ if(!function_exists('isTabActive'))
       }
  }
 
+ if(!function_exists('redAlert')) 
+ {
+      function redAlert($text) 
+      {
+      	return '<div class="alert alert-danger alert-dismissible fade show">
+      	    '.$text.'<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      	          <span aria-hidden="true">&times;</span>
+                 </button>
+               </div>';
+      }
+ }
+
 
   if(!function_exists('successAlert'))
   {
