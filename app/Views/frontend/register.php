@@ -29,7 +29,7 @@
   <div class="navbar navbar-light bg-light shadow-sm">
     <div class="container d-flex justify-content-between">
       <a href="<?= base_url();?>" class="navbar-brand d-flex align-items-center">
-        <img src="<?= base_url();?>/images/propertyraja.png" width="200"/>
+        <img src="<?= publicFolder();?>/images/propertyraja.png" width="200"/>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -127,7 +127,7 @@
 <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
       <div class="col-12 col-md">
-        <img class="mb-2" src="<?= base_url();?>/images/propertyraja.png" alt="" width="150">
+        <img class="mb-2" src="<?= publicFolder();?>/images/propertyraja.png" alt="" width="150">
         <small class="d-block mb-3 text-muted">&copy; 2017-2020 | Developed by Algobasket</small>
       <div class="col-6 col-md">
         <h5>Quick links</h5>

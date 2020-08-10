@@ -216,13 +216,13 @@
                   <td><label class="<?= $agent['status_badge'];?>"><?= $agent['status_name'];?></label></td>
                   <td>
                      <a href="<?= base_url();?>/backend/user/agents/profile/<?= $agent['id'];?>">
-                      <img src="<?= base_url();?>/images/view.png"  width="20"/>
+                      <img src="<?= publicFolder();?>/images/view.png"  width="20"/>
                      </a>  |
                      <a href="<?= base_url();?>/backend/user/agents/edit/<?= $agent['id'];?>">
-                      <img src="<?= base_url();?>/images/edit.png"  width="20"/> 
+                      <img src="<?= publicFolder();?>/images/edit.png"  width="20"/> 
                     </a>  |   
                     <a href="javascript:void(0)" data-confirmedUrl="<?= base_url();?>/backend/user/agents/delete/<?= $agent['id'];?>" class="deletePop" />  
-                      <img src="<?= base_url();?>/images/delete.png" width="20"/>
+                      <img src="<?= publicFolder();?>/images/delete.png" width="20"/>
                     </a> 
                   </td>
                 </tr>

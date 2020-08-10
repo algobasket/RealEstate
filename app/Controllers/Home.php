@@ -40,12 +40,13 @@ class Home extends BaseController
 	public function browse() 
 	{
 		  $data['title'] = "Browse Properties";
+          
           $data['listing_type']  = $this->request->getGet('listing_type') ? $this->request->getGet('listing_type') : NULL;
           $data['city']          = $this->request->getGet('city') ? $this->request->getGet('city') : NULL;
 	      
 	      $array = NULL;
           $role  = NULL; 
-
+          
 	      if($this->request->getGet('listing_type'))
 	      {
 	         $array['_properties.listing_type'] = $this->request->getGet('listing_type');   
@@ -68,11 +69,21 @@ class Home extends BaseController
 	      {
 	         $array['_properties.city'] = $this->request->getGet('city');    
 	      }
-         
-		  $data['result']    = $this->PropertyModel->searchPropertyAjax($array,NULL);
+
+          if(is_array($array)) 
+          {
+             $data['result']    = $this->PropertyModel->searchPropertyAjax($array,NULL);
+          }else{ 
+          	 $data['result']    = $this->PropertyModel->getPropertiesByLocation();  
+          	
+          } 
+		   //print_r($this->PropertyModel->getPropertiesByLocation());exit;  
 		  $data['property_type'] = $this->PropertyModel->getPropertyType(); 
 	      return view('frontend/browse',$data);   
 	}
+
+
+
     
     public function contact()
     {

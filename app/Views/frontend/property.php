@@ -8,7 +8,7 @@
    
     <div class="container">
         <h3 class="display-4" style="font-size: 30px"> 
-          <a href="<?= base_url().'/';?>"><img src="<?= base_url();?>/images/back.png" width="50"/></a> 
+          <a href="<?= base_url().'/';?>"><img src="<?= publicFolder();?>/images/back.png" width="50"/></a> 
           Back | Details of Property
         </h3>
        <hr>  
@@ -37,14 +37,14 @@
                       <?php if(cUserId()){ ?> 
                        <a href="<?= base_url();?>/property-detail/<?= segment(2);?>/favourite">
                         <?php if($isFavourited == true){ ?> 
-                            <img src="<?= base_url();?>/images/star.png" width="25" class="float-right favourite">
+                            <img src="<?= publicFolder();?>/images/star.png" width="25" class="float-right favourite">
                         <?php }else{ ?>
-                            <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite">
+                            <img src="<?= publicFolder();?>/images/star-empty.png" width="25" class="float-right favourite">
                         <?php } ?>
                       </a>   
                       <?php }else{ ?>  
                        <a href="<?= base_url();?>/login/?redirect=property-detail/<?= segment(2);?>">
-                           <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite">
+                           <img src="<?= publicFolder();?>/images/star-empty.png" width="25" class="float-right favourite">
                        </a>  
                       <?php } ?>
                       
@@ -54,11 +54,11 @@
                         <?php if(cUserId()){ ?> 
                             <?php if($isInterested == true){ ?>   
                                 <button class="btn btn-danger btn-sm"> 
-                                  <img src="<?= base_url();?>/images/contact-phone.png" width="15"/>
+                                  <img src="<?= publicFolder();?>/images/contact-phone.png" width="15"/>
                                    <b><?php echo $propertyDetail['contact']['mobile'];?></b>
                                 </button>
                                 <button class="btn btn-outline-danger btn-sm">
-                                   <b><img src="<?= base_url();?>/images/correct-1.png" width="20"/> Contacted</b>
+                                   <b><img src="<?= publicFolder();?>/images/correct-1.png" width="20"/> Contacted</b>
                                 </button>
                             <?php }else{ ?>
                                 <a href="<?= base_url();?>/property-detail/<?= segment(2);?>/interested" class="btn btn-outline-danger btn-sm">
@@ -80,10 +80,10 @@
           <div id="carouselExampleFade" class="shadow carousel slide carousel-fade" data-ride="carousel">
           <div class="carousel-inner">
             
-              <?php foreach($propertyDetail['images'] as $key => $img) : ?>
+              <?php foreach($propertyDetail['images'] as $key => $img) : ?> 
                 <?php $active = ($key == 1) ? "active": "" ;?> 
                 <div class="carousel-item <?= $active;?>"> 
-                    <img src="<?= base_url().'/property-images/'.$img['image_name'];?>" class="d-block w-100 img-lg" /> 
+                    <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 img-lg" /> 
                 </div>
                 <?php endforeach ?>
            
@@ -200,28 +200,28 @@
             <div class="col-md-12">
                 <h3>Contact</h3>
                   <div class="shadow media position-relative">
-                    <img src="http://localhost:8080/user-images/agent-1.jpeg" class="mr-3" alt="..." width="200">
+                    <img src="<?= publicFolder();?>/user-images/agent-1.jpeg" class="mr-3" alt="..." width="200">
                     <div class="media-body"><br>
                       <h5 class="mt-0"><?php echo ucfirst($propertyDetail['contact']['firstname']) . ' ' . ucfirst($propertyDetail['contact']['lastname']);?></h5>
                       <?php if($propertyDetail['contact']['is_verified'] == 1) : ?>
                       <b class="mt-0">Verified <?php echo ucfirst($propertyDetail['contact']['role']);?>
-                         <img src="<?= base_url();?>/images/verified-blue.png" class="mr-3" alt="..." width="25">
+                         <img src="<?= publicFolder();?>/images/verified-blue.png" class="mr-3" alt="..." width="25">
                       </b>
                     <?php endif ?>
                     
-                    <?php if($propertyDetail['contact']['role'] != "customer") : ?>
+                    <?php if($propertyDetail['contact']['role'] != "customer") : ?> 
                       <h5>
-                        Rating <img src="<?= base_url();?>/images/star.png" width="20">
-                        <img src="<?= base_url();?>/images/star.png" width="20" >
-                        <img src="<?= base_url();?>/images/star.png" width="20">
-                        <img src="<?= base_url();?>/images/star.png" width="20">
-                        <img src="<?= base_url();?>/images/star-empty.png" width="20">
+                        Rating <img src="<?= publicFolder();?>/images/star.png" width="20">
+                        <img src="<?= publicFolder();?>/images/star.png" width="20" >
+                        <img src="<?= publicFolder();?>/images/star.png" width="20">
+                        <img src="<?= publicFolder();?>/images/star.png" width="20">
+                        <img src="<?= publicFolder();?>/images/star-empty.png" width="20">
                       </h5>
                     <?php endif ?>
                     
                     <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?>
                       <a href="javascript:void(0)" class="btn btn-danger">
-                         <img src="<?= base_url();?>/images/contact-phone2.png" class="mr-3" alt="..." width="25">
+                         <img src="<?= publicFolder();?>/images/contact-phone2.png" class="mr-3" alt="..." width="25">
                          Contact <?php echo ucfirst($propertyDetail['contact']['role']);?> 
                       </a>
                   

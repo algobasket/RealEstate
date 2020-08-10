@@ -91,10 +91,10 @@
                           <td>
                             <p>45 till now . 5 hot</p>
                             <a href="">
-                            <img src="<?= base_url();?>/images/default.jpg" alt="..." class="rounded-circle " width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
-                            <img src="<?= base_url();?>/images/default.jpg" alt="..." class="rounded-circle " width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
-                            <img src="<?= base_url();?>/images/default.jpg" alt="..." class="rounded-circle" width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
-                            <img src="<?= base_url();?>/images/default.jpg" alt="..." class="rounded-circle" width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
+                            <img src="<?= publicFolder();?>/images/default.jpg" alt="..." class="rounded-circle " width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
+                            <img src="<?= publicFolder();?>/images/default.jpg" alt="..." class="rounded-circle " width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
+                            <img src="<?= publicFolder();?>/images/default.jpg" alt="..." class="rounded-circle" width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
+                            <img src="<?= publicFolder();?>/images/default.jpg" alt="..." class="rounded-circle" width="53" height="53" style="margin-left: -25px;border:3px solid #fff">
                             <svg style="margin-left: -25px;border:3px solid #fff" class="bd-placeholder-img rounded-circle text-sm" width="53" height="53" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Completely round image: 75x75"><title>Completely round image</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">56+</text></svg>
                             </a>
                           </td>
@@ -105,8 +105,8 @@
                             <?= $property['posession_date'] ? "Till " . $property['posession_date'] : "";?>
                           </td>
                           <td>
-                            <img src="<?= base_url();?>/images/edit.png" data-toggle="tooltip" data-placement="bottom" title="Edit this property"><br> <br>
-                            <img src="<?= base_url();?>/images/delete.png" data-toggle="tooltip" data-placement="bottom" title="Delete this property" width="28px">
+                            <img src="<?= publicFolder();?>/images/edit.png" data-toggle="tooltip" data-placement="bottom" title="Edit this property"><br> <br>
+                            <img src="<?= publicFolder();?>/images/delete.png" data-toggle="tooltip" data-placement="bottom" title="Delete this property" width="28px">
                           </td>
                         </tr>
                         <?php endforeach ?> 

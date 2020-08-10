@@ -41,8 +41,23 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		$this->session = \Config\Services::session();
-		$this->validation = \Config\Services::validation();   
-		  
+		$this->validation = \Config\Services::validation(); 
+		//$this->hasSession();      
+	}
+
+	public function hasSession()   
+	{   
+		//  $role = $this->session->get('role');
+		// if($role)  
+		// {  
+  //           if(in_array($role,['agent','customer','developer']))
+		// 	{
+	 //          return true;
+		// 	}else{
+		// 		throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+		// 	}
+		// }
+		
 	}
 
 }

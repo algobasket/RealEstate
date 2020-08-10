@@ -146,6 +146,37 @@ class MessageModel extends Model
               return true;   
            }    
         }  
+    } 
+
+    public function sendEmail($from,$to,$cc,$bcc,$subject,$msg)
+    {
+        $email = \Config\Services::email(); 
+        
+        $smtpSettings = json_decode(getSettings('EmailSmtpSettings')[0]['setting_json'],true);
+        
+        $config['protocol'] = $smtpSettings['protocol'];
+        $config['SMTPHost'] = $smtpSettings['smtpHost']; 
+        $config['SMTPUser'] = $smtpSettings['smtpUser'];
+        $config['SMTPPass'] = $smtpSettings['smtpPass']; 
+        $config['SMTPPort'] = $smtpSettings['smtpPort'];
+        $config['mailType'] = $smtpSettings['mailType'];             
+    
+        $email->initialize($config);    
+
+        $email->setFrom($smtpSettings['smtpUser'],$from['name']); 
+        $email->setTo($to);  
+        if(isset($cc)){ 
+          $email->setCC($cc);   
+        }
+        if(isset($bcc)){
+          $email->setBCC($bcc); 
+        }
+        $email->setSubject($subject);
+        $email->setMessage($msg); 
+        if($email->send())
+        {
+          return true;  
+        }
     }     
 
 

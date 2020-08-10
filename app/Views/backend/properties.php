@@ -92,7 +92,7 @@
 
           <div class="container">
         <h3 class="display-4" style="font-size: 30px"> 
-          <a href="<?= base_url().'/';?>"><img src="<?= base_url();?>/images/back.png" width="50"/></a> 
+          <a href="<?= base_url().'/';?>"><img src="<?= publicFolder();?>/images/back.png" width="50"/></a> 
           Back | Details of Property
         </h3>
        <hr>  
@@ -245,23 +245,23 @@
                       <h5 class="mt-0"><?php echo ucfirst($propertyDetail['contact']['firstname']) . ' ' . ucfirst($propertyDetail['contact']['lastname']);?></h5>
                       <?php if($propertyDetail['contact']['is_verified'] == 1) : ?>
                       <b class="mt-0">Verified <?php echo ucfirst($propertyDetail['contact']['role']);?>
-                         <img src="<?= base_url();?>/images/verified-blue.png" class="mr-3" alt="..." width="25">
+                         <img src="<?= publicFolder();?>/images/verified-blue.png" class="mr-3" alt="..." width="25">
                       </b>
                     <?php endif ?>
                     
                     <?php if($propertyDetail['contact']['role'] != "customer") : ?>
                       <h5>
-                        Rating <img src="<?= base_url();?>/images/star.png" width="20">
-                        <img src="<?= base_url();?>/images/star.png" width="20" >
-                        <img src="<?= base_url();?>/images/star.png" width="20">
-                        <img src="<?= base_url();?>/images/star.png" width="20">
-                        <img src="<?= base_url();?>/images/star-empty.png" width="20">
+                        Rating <img src="<?= publicFolder();?>/images/star.png" width="20">
+                        <img src="<?= publicFolder();?>/images/star.png" width="20" >
+                        <img src="<?= publicFolder();?>/images/star.png" width="20">
+                        <img src="<?= publicFolder();?>/images/star.png" width="20">
+                        <img src="<?= publicFolder();?>/images/star-empty.png" width="20">
                       </h5>
                     <?php endif ?>
                     
                     <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?>
                       <a href="javascript:void(0)" class="btn btn-danger">
-                         <img src="<?= base_url();?>/images/contact-phone2.png" class="mr-3" alt="..." width="25">
+                         <img src="<?= publicFolder();?>/images/contact-phone2.png" class="mr-3" alt="..." width="25">
                          Contact <?php echo ucfirst($propertyDetail['contact']['role']);?> 
                       </a>
                   
@@ -344,9 +344,9 @@
                       </label> 
                   </td>  
                   <td>
-                    <a href="<?= base_url();?>/backend/properties/edit/<?= $r['id'];?>"><img src="<?= base_url();?>/images/edit.png"  width="20"/></a> |  
+                    <a href="<?= base_url();?>/backend/properties/edit/<?= $r['id'];?>"><img src="<?= publicFolder();?>/images/edit.png"  width="20"/></a> |  
                     <a href="javascript:void(0)" data-confirmedUrl="<?= base_url();?>/backend/properties/delete/<?= $r['id'];?>" class="deletePop">
-                      <img src="<?= base_url();?>/images/delete.png" width="20"/> 
+                      <img src="<?= publicFolder();?>/images/delete.png" width="20"/> 
                     </a> 
                   </td> 
                 </tr>

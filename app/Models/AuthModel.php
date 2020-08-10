@@ -19,7 +19,16 @@ class AuthModel extends Model
                return $data[] = $r;
             }  
         }   
-    }   
+    } 
+
+    function isLoggedIn()   
+    {
+       $role = session('role');
+       if($role)
+       {
+         return true; 
+       }
+    }  
 
 
     function backendLogin($username,$password,$access_code,$role)         

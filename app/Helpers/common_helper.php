@@ -358,3 +358,23 @@ if(!function_exists('userDetail')){
        return $userModel->getUserDetail($userId); 
 	}
 }
+
+if(!function_exists('getSettings')){
+	function getSettings($name) 
+	{
+       $CrudModel = model('CrudModel');   
+       return $CrudModel->R('_settings',['setting_name' => $name]);
+	}
+}
+
+if(!function_exists('publicFolder')){    
+   function publicFolder()  
+   {
+   	  if($_SERVER['HTTP_HOST'] != "localhost:8080") 
+   	  {
+         return base_url().'/public';    
+   	  }else{
+   	  	return base_url(); 
+   	  }  
+   }
+}

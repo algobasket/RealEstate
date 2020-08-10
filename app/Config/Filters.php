@@ -10,6 +10,7 @@ class Filters extends BaseConfig
 		'csrf'     => \CodeIgniter\Filters\CSRF::class,
 		'toolbar'  => \CodeIgniter\Filters\DebugToolbar::class,
 		'honeypot' => \CodeIgniter\Filters\Honeypot::class,
+		'authFilter' => \App\Filters\AuthFilter::class,
 	];
 
 	// Always applied before every request
@@ -17,12 +18,14 @@ class Filters extends BaseConfig
 		'before' => [
 			//'honeypot'
 			// 'csrf',
+			'authFilter' => ['except' =>['login','login-staff','login-agent','login-developer','register','auth/*','/','ajax/*','browse','browse/*','property-detail/*']]       
 		],
 		'after'  => [
-			'toolbar',
-			//'honeypot'
-		],
-	];
+			'toolbar',    
+			//'honeypot' 
+			//'authFilter' => ['except' =>['Account/*','Ajax/*','BaseController/*','Dashboard/*','Message/*','Property/*','SellProperty/*','browse/*']] 
+		], 
+	]; 
 
 	// Works on all of a particular HTTP method
 	// (GET, POST, etc) as BEFORE filters only

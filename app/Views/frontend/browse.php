@@ -119,7 +119,7 @@
                                             {   
                                                 if($key == 0)
                                                 {
-                                                    echo '<img src="'.base_url().'/property-images/'.$image['image_name'].'" class="card-img" width="150">';
+                                                    echo '<img src="'.publicFolder().'/property-images/'.$image['image_name'].'" class="card-img" width="150">';
                                                 }
                                             }
                                     echo '<label class="badge badge-dark" style="position: absolute;margin: 5px -70px;">'.count($row['images']).' Photo</label>';        
@@ -128,7 +128,7 @@
                                             <div class="card-body">
                                               <h3 class="card-title">
                                                   <span>'.($row['total_price'] ? $row['total_price'].' INR' : 'Rs '.displayPrice($row['rent_per_mon']).'/mon').'</span>    
-                                                   <img src="'.base_url().'/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/>
+                                                   <img src="'.publicFolder().'/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/>
                                               </h3>
                                               <p class="card-text">'.$row['title'].'</p>
                                               <p class="card-text">'.word_limiter($row['description'],25).'..</p>

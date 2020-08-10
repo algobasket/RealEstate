@@ -39,17 +39,17 @@
   <div class="navbar navbar-light bg-light shadow-sm">
     <div class="container d-flex justify-content-between">
       <a href="<?= base_url();?>" class="navbar-brand d-flex align-items-center">
-        <img src="<?= base_url();?>/images/propertyraja.png" width="200"/>
+        <img src="<?= publicFolder();?>/images/propertyraja.png" width="200"/>
       </a>
       
       <div class="btn-group">
             <?php if(\Config\Services::session()->get('userId')){ ?> 
                 <button type="button" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="All messages sent to owners">
-              <img src="<?= base_url();?>/images/messages.png" width="22"/> <span class="badge badge-danger">7</span>
+              <img src="<?= publicFolder();?>/images/messages.png" width="22"/> <span class="badge badge-danger">7</span>
               <span class="sr-only">unread messages</span>
             </button>
             <button type="button" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="shortlisted properties">
-              <img src="<?= base_url();?>/images/star-empty.png" width="22"/> <span class="badge badge-danger">9</span>
+              <img src="<?= publicFolder();?>/images/star-empty.png" width="22"/> <span class="badge badge-danger">9</span>
               <span class="sr-only">unread messages</span>
             </button>
             <button class="btn btn-outline-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

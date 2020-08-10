@@ -105,10 +105,10 @@
                             <td><label class="<?= $lead['status_badge'];?>"><?= $lead['status_name'];?></label></td>
                             <td>
                                 <a href="<?= base_url();?>/backend/user/leads/edit/<?= $lead['id'];?>">
-                                   <img src="<?= base_url();?>/images/edit.png"  width="20"/>
+                                   <img src="<?= publicFolder();?>/images/edit.png"  width="20"/>
                                 </a> |  
                                 <a href="javascript:void(0)" data-confirmedUrl="<?= base_url();?>/backend/user/leads/delete/<?= $lead['id'];?>" class="deletePop" />  
-                                  <img src="<?= base_url();?>/images/delete.png" width="20"/> 
+                                  <img src="<?= publicFolder();?>/images/delete.png" width="20"/> 
                                 </a>
                             </td>
                           </tr>

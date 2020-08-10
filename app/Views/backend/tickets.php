@@ -49,9 +49,9 @@
                   <td><?= $ticket['updated_at'];?></td>
                   <td><label class="<?= statusLabel($ticket['status'])['status_badge'];?>"><?= statusLabel($ticket['status'])['status_name'];?></label></td>
                   <td>
-                     <a href="<?= base_url();?>/backend/tickets/edit/<?= $ticket['id'];?>"><img src="<?= base_url();?>/images/edit.png" width="20"></a> | 
+                     <a href="<?= base_url();?>/backend/tickets/edit/<?= $ticket['id'];?>"><img src="<?= publicFolder();?>/images/edit.png" width="20"></a> | 
                      <a href="javascript:void(0)" data-confirmedurl="<?= base_url();?>/backend/tickets/delete/<?= $ticket['id'];?>" class="deletePop">
-                      <img src="<?= base_url();?>/images/delete.png" width="20">
+                      <img src="<?= publicFolder();?>/images/delete.png" width="20">
                     </a>   
                   </td>
                 </tr> 

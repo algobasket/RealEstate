@@ -2,7 +2,7 @@
   <footer class="pt-4 my-md-5 pt-md-5 border-top">
       <div class="row">
         <div class="col-12 col-md">
-          <img class="mb-2" src="<?= base_url();?>/images/propertyraja.png" alt="" width="150">
+          <img class="mb-2" src="<?= publicFolder();?>/images/propertyraja.png" alt="" width="150">
           <small class="d-block mb-3 text-muted">&copy; 2017-2020 | Developed by Algobasket</small>
         </div>
         <div class="col-6 col-md">

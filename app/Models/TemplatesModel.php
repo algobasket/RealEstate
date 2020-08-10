@@ -17,5 +17,24 @@ class TemplatesModel extends Model
         return $query->getRowArray()['template_count'];
     }
 
+    function getTemplate($where)
+    {
+        $builder = $this->db->table($this->template_tb);
+        $builder->select('*');      
+        $builder->where($where); 
+        $builder->groupBy('template_type');
+        $query = $builder->get();
+        return $query->getRowArray(); 
+    }
+
+    function getEmailTemplate($name)    
+    {
+        $builder = $this->db->table($this->template_tb);
+        $builder->select('html_txt');       
+        $builder->where(['template_type' => 'email_templates','title' => $name]);
+        $query = $builder->get(); 
+        return $query->getRowArray()['html_txt'];
+    }
+
 
 } 

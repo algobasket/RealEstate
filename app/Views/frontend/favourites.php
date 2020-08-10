@@ -51,13 +51,13 @@
               <h4 class="card-title">
                    <span><?= word_limiter($property['title'],10);?></span> 
 
-                   <!-- <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/> -->
+                   <!-- <img src="<?= publicFolder();?>/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/> -->
 
                    <a href="<?= base_url();?>/favourites/<?= $property['id'];?>/favourite">
                         <?php if($property['isFavourited'] == true){ ?> 
-                            <img src="<?= base_url();?>/images/star.png" width="25" class="float-right favourite">
+                            <img src="<?= publicFolder();?>/images/star.png" width="25" class="float-right favourite">
                         <?php }else{ ?>
-                            <img src="<?= base_url();?>/images/star-empty.png" width="25" class="float-right favourite">
+                            <img src="<?= publicFolder();?>/images/star-empty.png" width="25" class="float-right favourite">
                         <?php } ?>  
                     </a>
 
@@ -101,10 +101,10 @@
                        
                             <div class="btn-group float-right"> 
                             <button class="btn btn-outline-danger btn-sm">
-                              <b><img src="<?= base_url();?>/images/correct-1.png" width="20"/> Contacted</b>
+                              <b><img src="<?= publicFolder();?>/images/correct-1.png" width="20"/> Contacted</b>
                             </button>
                             <button class="btn btn-danger btn-sm">
-                              <img src="<?= base_url();?>/images/contact-phone.png" width="15"/>
+                              <img src="<?= publicFolder();?>/images/contact-phone.png" width="15"/>
 
                               <b><?php echo $property['contact']['mobile'];?></b> 
                             </button>

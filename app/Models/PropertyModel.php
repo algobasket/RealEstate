@@ -222,6 +222,7 @@ class PropertyModel extends Model
          $data = array();
          $builder = $this->db->table($this->properties_tb); 
          $builder->where($array);   
+         $builder->where($this->properties_tb.'.status',1);     
          $query = $builder->get();
 
          if( null !== $query->getResultArray())
@@ -249,6 +250,32 @@ class PropertyModel extends Model
          $builder->where($array); 
          //print_r($array);
          //print_r($role);  
+         //return $builder->getCompiledSelect();    
+         $query = $builder->get();
+
+         if($query->getResultArray())
+          {   
+             foreach($query->getResultArray() as $r)
+             {
+                $r['isFavourited'] = $this->isFavourited($r['user_id'],$r['id']);   
+                $r['isInterested'] = $this->isInterested($r['user_id'],$r['id']);
+                $r['images'] = $this->getPropertyImages($r['id']);
+                $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']);
+                $data[] = $r;
+             }
+             return $data;   
+          } 
+   }
+
+
+   function getPropertiesByLocation()   
+   {  
+         $builder = $this->db->table($this->properties_tb);
+         $builder->select([$this->properties_tb.'.*',$this->user_detail_tb.'.firstname',$this->user_detail_tb.'.lastname',$this->users_tb.'.role']);
+         $builder->join($this->users_tb,$this->users_tb.'.id='.$this->properties_tb.'.user_id','left');
+         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id = '.$this->properties_tb.'.user_id');    
+         $builder->where($this->properties_tb.'.status',1);     
+      
          //return $builder->getCompiledSelect();    
          $query = $builder->get();
 

@@ -44,9 +44,9 @@ class Ajax extends BaseController
         $queryString = http_build_query($array);
         if(count($result) > 0 )
         {
-           echo '<a href="'.base_url().'/browse/?'.$queryString.'" class="btn btn-success btn-block" style="margin-top:10px">'.count($result).' matching properties <img src="'.base_url().'/images/smiley.png" /></a>'; 
+           echo '<a href="'.base_url().'/browse/?'.$queryString.'" class="btn btn-success btn-block" style="margin-top:10px">'.count($result).' matching properties <img src="'.publicFolder().'/images/smiley.png" /></a>';  
         }else{
-           echo '<a href="#" class="btn btn-success btn-block disabled" style="margin-top:10px">No matching properties found <img src="'.base_url().'/images/smiley-1.png" /></a>'; 
+           echo '<a href="#" class="btn btn-success btn-block disabled" style="margin-top:10px">No matching properties found <img src="'.publicFolder().'/images/smiley-1.png" /></a>'; 
         }   
    } 
     
@@ -113,7 +113,7 @@ class Ajax extends BaseController
                                             {   
                                                 if($key == 0)
                                                 {
-                                                    echo '<img src="'.base_url().'/property-images/'.$image['image_name'].'" class="card-img" width="150">';
+                                                    echo '<img src="'.publicFolder().'/property-images/'.$image['image_name'].'" class="card-img" width="150">';
                                                 }
                                             }
                                     echo '<label class="badge badge-dark" style="position: absolute;margin: 5px -70px;">'.count($row['images']).' Photo</label>';        
@@ -122,7 +122,7 @@ class Ajax extends BaseController
                                             <div class="card-body">
                                               <h3 class="card-title">
                                                   <span>'.($row['total_price'] ? $row['total_price'].' INR' : 'Rs '.displayPrice($row['rent_per_mon']).'/mon').'</span>    
-                                                   <img src="'.base_url().'/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/>
+                                                   <img src="'.publicFolder().'/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/>
                                               </h3>
                                               <p class="card-text">'.$row['title'].'</p>
                                               <p class="card-text">'.word_limiter($row['description'],25).'..</p>
@@ -142,7 +142,7 @@ class Ajax extends BaseController
                     }  
                   
                   
-        echo '</div>';
+        echo '</div>'; 
 
     }
 

@@ -29,7 +29,7 @@
   <div class="navbar navbar-light bg-light shadow-sm">
     <div class="container d-flex justify-content-between">
       <a href="<?= base_url();?>" class="navbar-brand d-flex align-items-center">
-        <img src="<?= base_url();?>/images/propertyraja.png" width="200"/>
+        <img src="<?= publicFolder();?>/images/propertyraja.png" width="200"/>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

@@ -17,33 +17,33 @@
     <?= $this->include('backend/common/sidebar');?> 
     <div class="col-md-9">
         <h3 class="display-4">
-          <img src="<?= base_url();?>/images/template.png" /> Templates</h3> 
+          <img src="<?= publicFolder();?>/images/template.png" /> Templates</h3> 
         <hr>
         
         
         <?php if($section == "") : ?>
         <div class="card-deck">
           <div class="card border-dark mb-3" style="max-width: 18rem;">
-            <div class="card-header"><img src="<?= base_url();?>/images/content.png" width="30"/> Page Content</div>
+            <div class="card-header"><img src="<?= publicFolder();?>/images/content.png" width="30"/> Page Content</div>
             <div class="card-body text-dark">
               <h5 class="card-title">Frontend Content</h5>
-              <p class="card-text"><h3 class="float-left display-4"><img src="<?= base_url();?>/images/content.png" />| <?= $frontCount;?></h3></p>
+              <p class="card-text"><h3 class="float-left display-4"><img src="<?= publicFolder();?>/images/content.png" />| <?= $frontCount;?></h3></p>
               <a href="<?= base_url();?>/backend/templates/frontend_content" class="stretched-link"></a>
             </div>
           </div> 
           <div class="card border-dark mb-3" style="max-width: 18rem;">
-            <div class="card-header"><img src="<?= base_url();?>/images/email.png" width="30"/> Email Templates</div> 
+            <div class="card-header"><img src="<?= publicFolder();?>/images/email.png" width="30"/> Email Templates</div> 
             <div class="card-body text-dark">
               <h5 class="card-title">Email Templates</h5>
-              <p class="card-text"><h3 class="float-left display-4"><img src="<?= base_url();?>/images/email.png" width="100"/>| <?= $emailCount;?></h3></p>
+              <p class="card-text"><h3 class="float-left display-4"><img src="<?= publicFolder();?>/images/email.png" width="100"/>| <?= $emailCount;?></h3></p>
               <a href="<?= base_url();?>/backend/templates/email_templates" class="stretched-link"></a>
             </div>
           </div>
           <div class="card border-dark mb-3" style="max-width: 18rem;">
-            <div class="card-header"><img src="<?= base_url();?>/images/sms.png" width="30"/> SMS Templates</div>
+            <div class="card-header"><img src="<?= publicFolder();?>/images/sms.png" width="30"/> SMS Templates</div>
             <div class="card-body text-dark">
               <h5 class="card-title">SMS Templates</h5>
-              <p class="card-text"><h3 class="float-left display-4"><img src="<?= base_url();?>/images/sms.png" width="100"/>| <?= $smsCount;?></h3></p>
+              <p class="card-text"><h3 class="float-left display-4"><img src="<?= publicFolder();?>/images/sms.png" width="100"/>| <?= $smsCount;?></h3></p>
               <a href="<?= base_url();?>/backend/templates/sms_templates" class="stretched-link"></a>
             </div>
           </div>  
@@ -155,9 +155,9 @@
               <td><?= $r['updated_at'];?></td>
               <td><label class="<?= statusLabel($r['status'])['status_badge'];?>"><?= statusLabel($r['status'])['status_name'];?></label></td>
               <td>
-                <a href="<?= base_url();?>/backend/templates/frontend_content/edit/<?= $r['id'];?>"><img src="<?= base_url();?>/images/edit.png"  width="20"/></a> |  
+                <a href="<?= base_url();?>/backend/templates/frontend_content/edit/<?= $r['id'];?>"><img src="<?= publicFolder();?>/images/edit.png"  width="20"/></a> |  
                 <a href="javascript:void(0)" data-confirmedUrl="<?= base_url();?>/backend/templates/frontend_content/delete/<?= $r['id'];?>" class="deletePop" />  
-                  <img src="<?= base_url();?>/images/delete.png" width="20"/>
+                  <img src="<?= publicFolder();?>/images/delete.png" width="20"/>
                 </a>
               </td>
             </tr>
@@ -277,9 +277,9 @@
               <td><?= $r['updated_at'];?></td>
               <td><label class="<?= statusLabel($r['status'])['status_badge'];?>"><?= statusLabel($r['status'])['status_name'];?></label></td>
               <td>
-                <a href="<?= base_url();?>/backend/templates/email_templates/edit/<?= $r['id'];?>"><img src="<?= base_url();?>/images/edit.png"  width="20"/></a> |  
+                <a href="<?= base_url();?>/backend/templates/email_templates/edit/<?= $r['id'];?>"><img src="<?= publicFolder();?>/images/edit.png"  width="20"/></a> |  
                 <a href="javascript:void(0)" data-confirmedUrl="<?= base_url();?>/backend/templates/email_templates/delete/<?= $r['id'];?>" class="deletePop" />  
-                  <img src="<?= base_url();?>/images/delete.png" width="20"/>
+                  <img src="<?= publicFolder();?>/images/delete.png" width="20"/>
                 </a>
               </td>
             </tr>
@@ -399,9 +399,9 @@
               <td><?= $r['updated_at'];?></td>
               <td><label class="<?= statusLabel($r['status'])['status_badge'];?>"><?= statusLabel($r['status'])['status_name'];?></label></td>
               <td>
-                <a href="<?= base_url();?>/backend/templates/sms_templates/edit/<?= $r['id'];?>"><img src="<?= base_url();?>/images/edit.png"  width="20"/></a> |  
+                <a href="<?= base_url();?>/backend/templates/sms_templates/edit/<?= $r['id'];?>"><img src="<?= publicFolder();?>/images/edit.png"  width="20"/></a> |  
                 <a href="javascript:void(0)" data-confirmedUrl="<?= base_url();?>/backend/templates/sms_templates/delete/<?= $r['id'];?>" class="deletePop" />  
-                  <img src="<?= base_url();?>/images/delete.png" width="20"/>
+                  <img src="<?= publicFolder();?>/images/delete.png" width="20"/>
                 </a>
               </td>
             </tr>

@@ -15,7 +15,7 @@
     <div class="container">
       <center>
        <a href="<?= base_url();?>"> 
-        <img src="<?= base_url();?>/images/propertyraja.png" width="300"/> 
+        <img src="<?= publicFolder();?>/images/propertyraja.png" width="300"/> 
        </a>
       </center>
       <h1>Welcome back, continue your home search</h1>
@@ -46,7 +46,7 @@
 	             <option value="20000000">2 Crore</option>
 	             <option value="50000000">5 Crore</option> 
             </select>
-            <div class="input-group-append">
+            <div class="input-group-append"> 
               <span class="input-group-text">in</span>
             </div>
 			     <select class="form-control form-control-lg col-7 searchByCity" style="width: 90px">
@@ -86,7 +86,7 @@
                 <?php foreach($fp['images'] as $key => $img) : ?>
                 <?php $active = ($key == 1) ? "active": "" ;?> 
                 <div class="carousel-item <?= $active;?>"> 
-                    <img src="<?= base_url().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
+                    <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
                 </div>
                 <?php endforeach ?>
               </div>
@@ -141,7 +141,7 @@
 <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
       <div class="col-12 col-md">
-        <img class="mb-2" src="<?= base_url();?>/images/propertyraja.png" alt="" width="150">
+        <img class="mb-2" src="<?= publicFolder();?>/images/propertyraja.png" alt="" width="150">
         <small class="d-block mb-3 text-muted">&copy; 2017-2020 | Developed by Algobasket</small>
       </div>
       <div class="col-6 col-md">
