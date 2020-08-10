@@ -12,7 +12,9 @@ class Auth extends BaseController
         $this->CrudModel    = model('CrudModel');  
         $this->UserModel    = model('UserModel');   
         helper('cookie');     
-        helper('geography');     
+        helper('geography');
+        helper('common');
+               
 	 }      
 
 
@@ -25,10 +27,15 @@ class Auth extends BaseController
     
 	 public function login()   
 	 {  
+      if(session('role'))
+      {
+         return isLoggedIn();
+      }
+             
       $user = array();
 		  $data['title'] = "Login to PropertyRaja";
 		  $data['role']  = "customer";            
-
+       
       if($this->request->getGet('redirect')) 
       {
          $this->session->set('sessRedirect',$this->request->getGet('redirect')); 
@@ -224,7 +231,7 @@ class Auth extends BaseController
                  return redirect()->back()->withInput();
                } 
            }
-       }          
+       }           
 		return view('frontend/login-auth',$data);       
 	}  
 
@@ -363,30 +370,24 @@ class Auth extends BaseController
                     
                    if(array_key_exists('remember', $sessTemp))
                     {   
-
                         $userCookie = json_encode($array,true);   
                         $userCookie = (string)$userCookie;        
-                        set_cookie('userCookie',$userCookie,'3600');
-                       
-                        $redirect = array_key_exists('redirect', $sessTemp) ? $sessTemp['redirect'] : NULL;   
-                        
-                        if($sessTemp['role'] == "customer")       
-                        { 
-                           $link =  ($redirect != NULL) ? base_url() . $redirect : base_url().'/browse';
-                             
-                        }elseif($sessTemp['role'] == "agent"){ 
-                           $link =  ($redirect != NULL) ? base_url() . $redirect : base_url().'/dashboard';
-                        }elseif($sessTemp['role'] == "developer"){ 
-                           $link =  ($redirect != NULL) ? base_url() . $redirect : base_url().'/dashboard';
-                        } 
-                        
-                         $this->session->remove('sessTemp'); 
+                        set_cookie('userCookie',$userCookie,'3600');        
+                    } 
+                     
+                    $redirect = array_key_exists('redirect', $sessTemp) ? $sessTemp['redirect'] : NULL;   
+                    
+                    if($sessTemp['role'] == "customer"){ 
+                       $link =  ($redirect != NULL) ? base_url() . $redirect : base_url().'/browse';   
+                    }elseif($sessTemp['role'] == "agent"){ 
+                       $link =  ($redirect != NULL) ? base_url() . $redirect : base_url().'/dashboard';
+                    }elseif($sessTemp['role'] == "developer"){ 
+                       $link =  ($redirect != NULL) ? base_url() . $redirect : base_url().'/dashboard';
+                    } 
+                    
+                    $this->session->remove('sessTemp'); 
+                    echo '<script>window.location.href="'.$link.'"</script>';    
 
-                        echo '<script>window.location.href="'.$link.'"</script>';     
-                    }else{ 
-                        $this->session->remove('sessTemp');   
-                        return redirect()->to('/browse');
-                    }    
             }else{
                 $this->session->setFlashdata('alert','<div class="alert alert-danger">Invalid OTP pin!</div>');
                 return redirect()->back()->withInput();
@@ -444,36 +445,7 @@ class Auth extends BaseController
 
     public function test()
     {
-        // $email = \Config\Services::email(); 
-        
-        // $smtpSettings = json_decode(getSettings('EmailSmtpSettings')[0]['setting_json'],true);
-        
-        // $config['protocol'] = $smtpSettings['protocol'];
-        // $config['SMTPHost'] = $smtpSettings['smtpHost']; 
-        // $config['SMTPUser'] = $smtpSettings['smtpUser'];
-        // $config['SMTPPass'] = $smtpSettings['smtpPass']; 
-        // $config['SMTPPort'] = $smtpSettings['smtpPort'];
-        // $config['mailType'] = $smtpSettings['mailType'];             
-    
-        // $email->initialize($config);    
-        
-        // $from = json_decode(getSettings('NoReplyEmail')[0]['setting_json'],true);
-
-        // $email->setFrom($smtpSettings['smtpUser'],$from['name']); 
-        // $email->setTo('algobasket@gmail.com');  
-        // if(isset($cc)){ 
-        //   $email->setCC($cc); 
-        // }
-        // if(isset($bcc)){
-        //   $email->setBCC($bcc); 
-        // }
-        // $email->setSubject('Test');
-        // $email->setMessage('Test');
-        // if($email->send())
-        // {
-        //   return true;  
-        // }
-       echo publicFolder(); 
+       
     } 
 
 

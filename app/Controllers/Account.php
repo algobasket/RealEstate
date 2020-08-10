@@ -8,6 +8,7 @@ class Account extends BaseController
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel');     
         $this->MessageModel   = model('MessageModel');      
+        $this->CrudModel      = model('CrudModel');       
 	}
 
    public function index()
@@ -21,7 +22,7 @@ class Account extends BaseController
 	{
 		$data['title'] = "Profile | PropertyRaja.com"; 
 
-        $data['profile']   = $this->AccountModel->getProfileDetail(24);
+        $data['profile']   = $this->AccountModel->getProfileDetail(cUserId('id'));
         $data['countries'] = $this->GeographyModel->countries();
         $data['states']    = $this->GeographyModel->states();
         $data['cities']    = $this->GeographyModel->cities(); 
@@ -33,14 +34,34 @@ class Account extends BaseController
               'display_name' => 'required|min_length[2]|max_length[20]|alpha',
               'username'    => 'min_length[0]|max_length[15]|alpha_numeric',
               'mobile'      => 'min_length[10]|max_length[15]|numeric',
-              'email'       => 'min_length[5]|max_length[20]|is_email',
-              'address1'    => 'min_length[10]|max_length[30]',
-              'address2'    => 'min_length[10]|max_length[30]'
+              'email'       => 'min_length[5]|max_length[40]|valid_email', 
+              'address1'    => 'min_length[5]|max_length[100]',
+              'address2'    => 'min_length[0]|max_length[100]'  
            ])){
                  $this->session->setFlashdata('alert','<div class="alert alert-danger">'.\Config\Services::validation()->listErrors().'</div>');
         
-           }else{  
-            echo "ok";
+           }else{
+             $toUpdate = [ 
+	                'display_name' => $this->request->getPost('display_name'),
+	                'username'     => $this->request->getPost('username'),
+	                'mobile'       => $this->request->getPost('mobile'),
+	                'email'        => $this->request->getPost('email') 
+             ];
+             $toUpdate2 = [
+	               'firstname' => $this->request->getPost('firstname'),
+	               'lastname'  => $this->request->getPost('lastname'),
+	               'email'     => $this->request->getPost('email'),
+	               'address1'  => $this->request->getPost('address1'),
+	               'address2'  => $this->request->getPost('address2'),
+	               'country'   => $this->request->getPost('country'),
+	               'state'     => $this->request->getPost('state'), 
+	               'city'      => $this->request->getPost('city'),   
+	               'activity'  => $this->request->getPost('myActivity')   
+             ];  
+             $this->CrudModel->U('_users',['id' => cUserId()],$toUpdate); 
+             $this->CrudModel->U('_user_details',['user_id' => cUserId()],$toUpdate2);
+             $this->session->setFlashdata('alert',successAlert('Your profile updated!'));
+		     return redirect()->to('/profile'); 
            }
         }
 	    return view('frontend/profile',$data);    
@@ -90,7 +111,12 @@ class Account extends BaseController
 		       
 		       return redirect()->to('/favourites/');
 		    }
-		$data['properties'] = $this->PropertyModel->getPropertiesByUserFavourite(cUserId());
+
+
+		     if($this->PropertyModel->getPropertiesByUserFavourite(cUserId())) 
+		     { 
+               $data['properties'] = $this->PropertyModel->getPropertiesByUserFavourite(cUserId());
+		     }  
 	    return view('frontend/favourites',$data);   
 	}  
 

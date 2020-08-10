@@ -22,7 +22,32 @@ if(!function_exists('getGet')){
 
    }
 
+if(!function_exists('isLoggedIn')){
+	
+	function isLoggedIn()  
+	{
+            $role = session('role');
+            
+            if($role)     
+            {  
+                if(in_array($role,['agent','customer','developer']))
+                {  
+                   if((segment(1) == "login") || (segment(2) == "login"))  
+                   {
+                      return redirect()->to('/');   
+                   }
+                }
+                if(in_array($role,['admin','sub_admin','content_writer','marketing_manager']))
+                {  
+                   if((segment(1) == "login-staff") || (segment(2) == "login-staff"))   
+                   {
+                      return redirect()->to('/backend/dashboard/index');   
+                   }
+                }
+            }
+	}
 
+}
 
 if(!function_exists('cUserId')){  
 

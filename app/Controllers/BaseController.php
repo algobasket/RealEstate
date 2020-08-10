@@ -26,7 +26,7 @@ class BaseController extends Controller
 	 *
 	 * @var array
 	 */
-	protected $helpers = ['form','url','common','text','cookie'];  
+	protected $helpers = ['form','url','common','text','cookie','common'];  
 
 	/**
 	 * Constructor.
@@ -41,23 +41,7 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		$this->session = \Config\Services::session();
-		$this->validation = \Config\Services::validation(); 
-		//$this->hasSession();      
-	}
-
-	public function hasSession()   
-	{   
-		//  $role = $this->session->get('role');
-		// if($role)  
-		// {  
-  //           if(in_array($role,['agent','customer','developer']))
-		// 	{
-	 //          return true;
-		// 	}else{
-		// 		throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-		// 	}
-		// }
-		
-	}
+		$this->validation = \Config\Services::validation();         
+	} 
 
 }

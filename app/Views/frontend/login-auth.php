@@ -91,15 +91,15 @@
   <?= csrf_field() ?> 
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number" name="mobile-number" >
+   <input type="text" name="mobile-number" class="form-control" id="mobile-number" placeholder="Mobile Number" value="<?= old('mobile-number');?>" />
   </div>
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password" name="password">
+    <input type="password" name="password" class="form-control" id="password" placeholder="Password" value="<?= old('password');?>"/>
   </div>
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <input class="form-check-input" type="checkbox" id="gridCheck" name="remember_me" value="1"/>
       <label class="form-check-label" for="gridCheck">
         Remember me
       </label> 
@@ -128,15 +128,15 @@
   <?= csrf_field() ?> 
   <div class="form-group">
     <label for="inputAddress2">Mobile Number</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Mobile Number" name="mobile-number">
+    <input type="text" name="mobile-number" class="form-control" id="mobile-number" placeholder="Mobile Number" value="<?= old('mobile-number');?>" />
   </div>
   <div class="form-group">
     <label for="inputCity">Choose Password</label>
-    <input type="password" class="form-control" id="inputCity" placeholder="Password" name="password">
+     <input type="password" name="password" class="form-control" id="password" placeholder="Password" value="<?= old('password');?>"/>
   </div>
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <input class="form-check-input" type="checkbox" id="gridCheck" name="remember_me" value="1"/>
       <label class="form-check-label" for="gridCheck">
         Remember me
       </label>
@@ -167,7 +167,7 @@
     <label for="inputAddress2">Username</label>
     <input type="text" class="form-control" id="username" placeholder="Username" name="username" value="<?= old('username');?>" /> 
   </div>
-  <div class="form-group">
+  <div class="form-group"> 
     <label for="inputCity">Choose Password</label>
     <input type="password" class="form-control" id="password" placeholder="Password" name="password" /> 
   </div>

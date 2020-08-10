@@ -160,10 +160,10 @@ class PropertyModel extends Model
    }
 
 
-   function getPropertyDetail($propertyId)
+   function getPropertyDetail($propertyId) 
    {
          $builder = $this->db->table($this->properties_tb); 
-         $builder->where(['id' => $propertyId,'status' => 1]);  
+         $builder->where(['id' => $propertyId]);   
          $query = $builder->get();
           if(!empty($query->getResultArray()))
           {
@@ -182,7 +182,7 @@ class PropertyModel extends Model
 
 
 
-    function getProperties()  
+    function getProperties()   
     {
          $builder = $this->db->table($this->properties_tb); 
          $query = $builder->get();
@@ -308,23 +308,25 @@ class PropertyModel extends Model
            } 
            return $data;   
         } 
-   }
+   } 
 
 
-   function getPropertiesByUserFavourite($userId)  
+   function getPropertiesByUserFavourite($userId) 
    {  
        $builder = $this->db->table($this->property_fav_tb); 
-       $builder->where(['user_id' => $userId,'status' => 1]);  
-       $query = $builder->get(); 
-        if(!empty($query->getResultArray()))
+       $builder->select('property_id');  
+       $builder->where(['user_id' => $userId]);  
+       $query = $builder->get();  
+       //print_r($query->getResultArray());exit; 
+        if(is_array($query->getResultArray()))   
         {
-           foreach($query->getResultArray() as $r){
+           foreach($query->getResultArray() as $r){ 
             
-             $data[] = $this->getPropertyDetail($r['property_id']);   
-           }
-           return $data;   
-        } 
-   }     
+             $data[] = $this->getPropertyDetail($r['property_id']);    
+           } 
+           return $data;          
+        }  
+   }      
 
 
    function interestedProperty($data) 

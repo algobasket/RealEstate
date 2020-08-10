@@ -47,7 +47,7 @@
                 <label for="username">Username <span class="text-muted">(Optional)</span></label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">@</span>
+                    <span class="input-group-text"><?= base_url();?>/@</span>
                   </div>
                   <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="<?= $profile['username'] ? $profile['username'] : "" ;?>" >
                   <div class="input-group-append">
@@ -96,7 +96,7 @@
                   <select class="custom-select d-block w-100" name="country" id="country" required="">
                       <option value="">Choose...</option>
                     <?php foreach($countries as $c) : ?>
-                      <option value="<?= $c['country_name'];?>" <?= ($c['id']==$profile['country']) ? "selected" : "" ;?> ><?= $c['country_name'];?></option>
+                      <option value="<?= $c['id'];?>" <?= ($c['id']==$profile['country']) ? "selected" : "" ;?> ><?= $c['country_name'];?></option>
                     <?php endforeach ?>  
                   </select>
                   <div class="invalid-feedback">
@@ -111,7 +111,7 @@
                       <option value="<?= $s['id'];?>" <?= ($s['id']==$profile['state']) ? "selected" : "" ;?>><?= $s['state_name'];?></option>
                     <?php endforeach ?> 
                   </select>
-                  <div class="invalid-feedback">
+                  <div class="invalid-feedback"> 
                     Country name required.
                   </div>
                 </div>
@@ -135,21 +135,21 @@
 
               <div class="d-block my-3">
                 <div class="custom-control custom-radio">
-                  <input id="credit" name="myActivity" type="radio" class="custom-control-input" checked required="" value="buy_rent">
+                  <input id="credit" name="myActivity" type="radio" class="custom-control-input" <?= ($profile['activity']=="buy_rent") ? "checked" : "";?> required value="buy_rent" />
                   <label class="custom-control-label" for="credit">Searching for Home</label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input id="debit" name="myActivity" type="radio" class="custom-control-input" required="" value="sell">
+                  <input id="debit" name="myActivity" type="radio" class="custom-control-input" <?= ($profile['activity']=="sell") ? "checked" : "";?> required value="sell">
                   <label class="custom-control-label" for="debit">Selling Property</label>
                 </div>
               </div>
               
               <hr class="mb-4">
-              <input class="btn btn-outline-primary btn-lg btn-block" type="submit" name="update_profile" value="Update Profile"/> 
+                <input class="btn btn-outline-primary btn-lg btn-block" type="submit" name="update_profile" value="Update Profile"/> 
             <?= form_close();?>
       </div>
       <div class="col-md-4 order-md-2">
-        <h3 class="text-left">Sponsored Ads</h3>
+        <h3 class="text-left">Sponsored Ads</h3>  
           <div class="card" style="width: 18rem;">
             <img src="https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg" class="card-img-top" alt="...">
             <div class="card-body">

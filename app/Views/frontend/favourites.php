@@ -26,7 +26,7 @@
        <hr>
       <div class="row">  
         
-       <?php if(is_array($properties)) : ?>
+       <?php if(is_array($properties) && isset($properties)) : ?>
        <?php foreach($properties as $property) : ?>
 
        <div class="shadow card mb-3" style="width:100%;" >
@@ -36,12 +36,15 @@
              
              <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner"> 
+                <?php if(is_array($property['images'])) : ?>
                 <?php foreach($property['images'] as $key => $img) : ?> 
                 <?php $active = ($key == 1) ? "active": "" ;?> 
                 <div class="carousel-item <?= $active;?>"> 
                     <img src="<?= base_url().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp">
                 </div>
                 <?php endforeach ?>
+                <?php endif ?>
+                
                </div>
              </div>
 
@@ -49,7 +52,7 @@
           <div class="col-md-8">
             <div class="card-body">
               <h4 class="card-title">
-                   <span><?= word_limiter($property['title'],10);?></span> 
+                   <span><?= @word_limiter($property['title'],10);?></span> 
 
                    <!-- <img src="<?= publicFolder();?>/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/> -->
 
