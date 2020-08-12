@@ -17,6 +17,7 @@ class PropertyModel extends Model
        protected $property_imgs_tb   = '_property_images'; 
        protected $property_fav_tb    = '_favourites'; 
        protected $property_interested_tb = '_interested';  
+       protected $property_sales_tb = '_sales';   
        protected $status_tb = '_status';   
         
 
@@ -471,6 +472,21 @@ class PropertyModel extends Model
            return $data;   
           }
         }  
+   }
+
+   function totalPropertiesSoldByUser($userId) 
+   {
+        $builder = $this->db->table($this->property_sales_tb);
+        $builder->where(['seller_id' => $userId]);    
+        $query = $builder->get(); 
+        if(!empty($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r){ 
+              $data[]  = $this->getPropertyDetail($r['property_id']);   
+           
+           return $data;    
+          }
+        }       
    }
 
 

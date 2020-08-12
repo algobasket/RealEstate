@@ -13,6 +13,7 @@ class User extends BackendController
       $this->AccountModel   = model('AccountModel');   
       $this->UserModel      = model('UserModel');   
       $this->CrudModel      = model('CrudModel');    
+      $this->PropertyModel  = model('PropertyModel');     
   }   
 
 
@@ -83,15 +84,17 @@ class User extends BackendController
 
     if($data['section'] == "profile"){ 
      
-      $data['profile'] = $this->UserModel->getUserDetail(segment(5));
-      print_r($data['profile']);exit;
+      $data['profile'] = $this->UserModel->getUserDetail(segment(5)); 
+      $total_sold = $this->PropertyModel->totalPropertiesSoldByUser(segment(5));
+      $data['total_sold'] = $total_sold ? $total_sold : 0;
+
     }elseif($data['section'] == "edit"){
 
        
 
     }else{
 
-      $data['agents'] = $this->UserModel->getAllUsersByRole('agent'); 
+      $data['agents'] = $this->UserModel->getAllUsersByRole('agent');  
 
     }
     return view('backend/agents',$data);

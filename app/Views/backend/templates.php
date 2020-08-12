@@ -14,7 +14,7 @@
 
     
     <div class="row">
-    <?= $this->include('backend/common/sidebar');?> 
+    <?= $this->include('backend/common/sidebar');?>  
     <div class="col-md-9">
         <h3 class="display-4">
           <img src="<?= publicFolder();?>/images/template.png" /> Templates</h3> 
@@ -122,7 +122,7 @@
                       </tr>
                       <tr>
                          <th></th>
-                         <td><input type="submit" name="update" class="btn btn-danger btn-sm" value="Create Template"></textarea></td> 
+                         <td><input type="submit" name="update" class="btn btn-danger btn-sm" value="Update Template"></textarea></td> 
                       </tr>
                     
                    </tbody>
@@ -146,11 +146,14 @@
           </thead>
           <tbody>
             <?php if(is_array($content)) : ?>
-            <?php foreach($content as $r) : ?>
+            <?php $i=1;foreach($content as $r) : ?>
             <tr>
-              <th scope="row">1</th>
+              <th scope="row"><?= $i;?></th>
               <td><?= $r['title'];?></td>
-              <td><?= $r['html_txt'];?></td>
+              <td>
+                <button class="btn btn-danger btn-sm" onclick="$('.fcCode<?= $i;?>').toggle()">Preview Code</button>
+                <small class="fcCode<?= $i;?>" style="display: none"><br><pre><?= trim(htmlentities($r['html_txt']));?></pre></small>
+              </td>
               <td><?= $r['created_at'];?></td>
               <td><?= $r['updated_at'];?></td>
               <td><label class="<?= statusLabel($r['status'])['status_badge'];?>"><?= statusLabel($r['status'])['status_name'];?></label></td>
@@ -161,7 +164,7 @@
                 </a>
               </td>
             </tr>
-            <?php endforeach ?>
+            <?php $i++;endforeach ?>
             <?php endif ?>
           </tbody>
       </table>
@@ -244,7 +247,7 @@
                       </tr>
                       <tr>
                          <th></th>
-                         <td><input type="submit" name="update" class="btn btn-danger btn-sm" value="Create Template"></textarea></td> 
+                         <td><input type="submit" name="update" class="btn btn-danger btn-sm" value="Update Template"></textarea></td> 
                       </tr>
                     
                    </tbody>
@@ -268,11 +271,14 @@
           </thead>
           <tbody>
             <?php if(is_array($content)) : ?>
-            <?php foreach($content as $r) : ?>
+            <?php $i=1;foreach($content as $r) : ?>
             <tr>
-              <th scope="row">1</th>
-              <td><?= $r['title'];?></td>
-              <td><?= $r['html_txt'];?></td>
+              <th scope="row"><?= $i;?></th> 
+              <td><?= $r['title'];?></td> 
+              <td> 
+                <button class="btn btn-danger btn-sm" onclick="$('.eTempCode<?= $i;?>').toggle()">Preview Code</button>
+                <small class="eTempCode<?= $i;?>" style="display: none"><br><pre><?= trim(htmlentities($r['html_txt']));?></pre></small>
+              </td>
               <td><?= $r['created_at'];?></td>
               <td><?= $r['updated_at'];?></td>
               <td><label class="<?= statusLabel($r['status'])['status_badge'];?>"><?= statusLabel($r['status'])['status_name'];?></label></td>
@@ -283,7 +289,7 @@
                 </a>
               </td>
             </tr>
-            <?php endforeach ?>
+            <?php $i++;endforeach ?>
             <?php endif ?>
           </tbody>
       </table>
@@ -366,7 +372,7 @@
                       </tr>
                       <tr>
                          <th></th>
-                         <td><input type="submit" name="update" class="btn btn-danger btn-sm" value="Create Template"></textarea></td> 
+                         <td><input type="submit" name="update" class="btn btn-danger btn-sm" value="Update Template"></textarea></td> 
                       </tr>
                     
                    </tbody>
@@ -390,11 +396,14 @@
           </thead>
           <tbody>
             <?php if(is_array($content)) : ?>
-            <?php foreach($content as $r) : ?>
+            <?php $i=1;foreach($content as $r) : ?>
             <tr>
               <th scope="row">1</th>
               <td><?= $r['title'];?></td>
-              <td><?= $r['html_txt'];?></td>
+              <td>
+                <button class="btn btn-danger btn-sm" onclick="$('.stCode<?= $i;?>').toggle()">Preview Code</button>
+                <small class="stCode<?= $i;?>" style="display: none"><br><pre><?= trim(htmlentities($r['html_txt']));?></pre></small>
+              </td>
               <td><?= $r['created_at'];?></td>
               <td><?= $r['updated_at'];?></td>
               <td><label class="<?= statusLabel($r['status'])['status_badge'];?>"><?= statusLabel($r['status'])['status_name'];?></label></td>
@@ -405,7 +414,7 @@
                 </a>
               </td>
             </tr>
-            <?php endforeach ?>
+            <?php $i++;endforeach ?>
             <?php endif ?>
           </tbody>
       </table>

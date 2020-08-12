@@ -240,13 +240,13 @@
     text-align: center;
 }
 .profile-img img{
-    width: 70%;
+    width: 40%;
     height: 100%;
 }
 .profile-img .file {
     position: relative;
     overflow: hidden;
-    margin-top: -20%;
+    margin-top: -15%;
     width: 70%;
     border: none;
     border-radius: 0;
@@ -263,7 +263,7 @@
     color: #333;
 }
 .profile-head h6{
-    color: #0062cc;
+    color: #456f9c; 
 }
 .profile-edit-btn{
     border: none;
@@ -319,5 +319,5 @@
 }
 .profile-tab p{
     font-weight: 600;
-    color: #0062cc;
+    color: #6589b1; 
 }

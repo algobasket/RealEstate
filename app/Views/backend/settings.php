@@ -97,7 +97,7 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Setting Name</th> 
-                  <th scope="col">Json</th>
+                  <th scope="col">Parameters</th>
                   <th scope="col">Created</th>
                   <th scope="col">Updated</th>
                   <th scope="col">Status</th>
@@ -107,11 +107,19 @@
 
               <tbody>
                 <?php if($settings) : ?>
-                <?php foreach($settings as $s) : ?>
+                <?php $i=1;foreach($settings as $s) : ?>
                 <tr> 
-                  <th scope="row">1</th>
+                  <th scope="row"><?= $i;?></th>
                   <td><?= $s['setting_name'];?></td>
-                  <td><?= removeSpace($s['setting_json']);?></td>
+                  <td>
+                    <?php if(count(json_decode(trim($s['setting_json']),true)) > 0 ){ ?> 
+                    <?php foreach(json_decode(trim($s['setting_json']),true) as $key => $val) : ?>
+                      <?= strtoupper($key);?> - <?= $val;?> <br>
+                    <?php endforeach ?>   
+                    <?php }else{  ?>
+                      No Data
+                    <?php } ?>   
+                  </td>
                   <td><?= $s['created_at'];?></td>
                   <td><?= $s['updated_at'];?></td>
                   <td>
@@ -128,7 +136,7 @@
                     </a>
                   </td>
                 </tr>
-               <?php endforeach ?>
+               <?php $i++;endforeach ?>
                <?php endif ?>
               </tbody>
           </table>

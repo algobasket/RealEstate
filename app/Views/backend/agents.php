@@ -19,29 +19,34 @@
     <div class="col-md-9">
        
        <?php if($section =="profile"){ ?>
-         <?php print_r($profile);?> 
-        <h3 class="display-4">Agent Profile</h3>
-        <div class="container emp-profile">
+         <?php //print_r($profile);?> 
+        <h3 class="display-4" style="margin-left:100px">Agent Profile</h3>
+        <div class="container-fluid emp-profile">
             <form method="post">
                 <div class="row">
                     <div class="col-md-4"> 
                         <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
-                            <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file"/>
-                            </div>
+                            <img src="<?= publicFolder();?>/user-images/agent-1.jpeg" class="rounded-circle"/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
-                                    <h5>
-                                        Kshiti Ghelani
+                                    <h5 class="display-4">
+                                        <?= ucfirst($profile['firstname']);?> <?= ucfirst($profile['lastname']);?>
                                     </h5>
                                     <h6>
-                                        Web Developer and Designer
+                                        PropertyRaja Premier Agent
                                     </h6>
-                                    <p class="proile-rating">RANKINGS : <span>8/10</span></p>
+                                    <h6>
+                                      Ratings :
+                                      <img src="http://localhost:8080/images/star.png" width="20">
+                                      <img src="http://localhost:8080/images/star.png" width="20">
+                                      <img src="http://localhost:8080/images/star.png" width="20">
+                                      <img src="http://localhost:8080/images/star.png" width="20">
+                                      <img src="http://localhost:8080/images/star-empty.png" width="20"> 
+                                      <span>4/5</span>
+                                    </h6>
+                                    <h6>Reviews : <span>0</span></h6>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
@@ -53,22 +58,30 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a href="<?= base_url();?>backend/user/agents/edit/10" class="profile-edit-btn" name="btnAddMore">Edit Profile</a>
+                        <a href="<?= base_url();?>/backend/user/agents/edit/10" class="profile-edit-btn" name="btnAddMore">Edit Profile</a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-work">
-                            <p>WORK LINK</p>
-                            <a href="">Website Link</a><br/>
-                            <a href="">Bootsnipp Profile</a><br/>
-                            <a href="">Bootply Profile</a>
-                            <p>SKILLS</p>
-                            <a href="">Web Designer</a><br/>
-                            <a href="">Web Developer</a><br/>
-                            <a href="">WordPress</a><br/>
-                            <a href="">WooCommerce</a><br/>
-                            <a href="">PHP, .Net</a><br/>
+                            <p>SERVICE AREA</p>
+                            <?php foreach(json_decode($profile['service_area']) as $r) : ?>
+                              <a href="<?= base_url();?>/browse?q=<?= $r;?>" target="__self"><?= $r;?></a><br/>
+                            <?php endforeach ?>
+                            <p>WEBSITE</p> 
+                            <a href="<?= $profile['website'];?>" target="__self">
+                              <?php 
+                              $explode = explode('//',$profile['website']);
+                              echo $explode[1];
+                              ?>
+                              </a>
+                              <br/>
+          
+                            <p>SOCIAL MEDIA</p>                           
+                            <a href="<?= $profile['facebook'];?>" target="__self">Facebook</a><br/>
+                            <a href="<?= $profile['linkedin'];?>" target="__self">LinkedIn</a><br/>
+                            <a href="<?= $profile['twitter'];?>" target="__self">Twitter</a><br/> 
+                            
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -76,10 +89,10 @@
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>User Id</label>
+                                                <label>UserID</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>Kshiti123</p>
+                                                <p><?= $profile['username'];?></p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -87,7 +100,7 @@
                                                 <label>Name</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>Kshiti Ghelani</p>
+                                                <p><?= ucfirst($profile['firstname']);?> <?= ucfirst($profile['lastname']);?></p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -95,7 +108,7 @@
                                                 <label>Email</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>kshitighelani@gmail.com</p>
+                                                <p><?= $profile['email'];?></p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -103,15 +116,15 @@
                                                 <label>Phone</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>123 456 7890</p>
+                                                <p><?= $profile['mobile'];?></p>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>Profession</label>
+                                                <label>Specialities</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>Web Developer and Designer</p>
+                                                <p><?= $profile['specialities'];?></p>  
                                             </div>
                                         </div>
                             </div>
@@ -121,23 +134,35 @@
                                                 <label>Experience</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>Expert</p>
+                                                <p><?= $profile['experience'];?></p>
                                             </div>
                                         </div>
+                                        <?php if($profile['hourly_rate']) : ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label>Hourly Rate</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>10$/hr</p>
+                                                <p><?= $profile['hourly_rate'];?> INR/hr</p> 
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <?php endif ?>
+                                        <?php if($profile['fixed_rate']) : ?>
+                                        <div class="row"> 
                                             <div class="col-md-6">
-                                                <label>Total Projects</label>
+                                                <label>Fixed Rate</label> 
                                             </div>
                                             <div class="col-md-6">
-                                                <p>230</p>
+                                                <p><?= $profile['fixed_rate'];?>INR</p>
+                                            </div>
+                                        </div>
+                                        <?php endif ?>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Total Sales</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><?= $total_sold;?></p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -145,21 +170,21 @@
                                                 <label>English Level</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>Expert</p>
+                                                <p><?= $profile['english_level'];?></p>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>Availability</label>
+                                                <label>RE License No</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>6 months</p>
+                                                <p><?= $profile['re_license_no'];?></p>
                                             </div>
                                         </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label>Your Bio</label><br/>
-                                        <p>Your detail description</p>
+                                        <p><small><?= $profile['description'];?></small></p>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +240,7 @@
                   <td><?= date('D, d M Y', strtotime($agent['updated_at']));?></td>
                   <td><label class="<?= $agent['status_badge'];?>"><?= $agent['status_name'];?></label></td>
                   <td>
-                     <a href="<?= base_url();?>/backend/user/agents/profile/<?= $agent['id'];?>">
+                     <a href="<?= base_url();?>/backend/user/agents/profile/<?= $agent['user_id'];?>">
                       <img src="<?= publicFolder();?>/images/view.png"  width="20"/>
                      </a>  |
                      <a href="<?= base_url();?>/backend/user/agents/edit/<?= $agent['id'];?>">

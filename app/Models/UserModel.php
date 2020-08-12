@@ -87,10 +87,10 @@ class UserModel extends Model
 
     function getAllUsersByRole($role)
     {
-         $builder = $this->db->table($this->users_tb); 
+         $builder = $this->db->table($this->users_tb);  
          $builder->select([$this->users_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
-         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id ='.$this->users_tb.'.id');
-         $builder->join($this->status_tb,$this->status_tb.'.id ='.$this->users_tb.'.status'); 
+         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id ='.$this->users_tb.'.id','left');
+         $builder->join($this->status_tb,$this->status_tb.'.id ='.$this->users_tb.'.status','left'); 
          $builder->where($this->users_tb.'.role',$role); 
          //$builder->getCompiledSelect();exit;
          $query = $builder->get();
@@ -106,12 +106,12 @@ class UserModel extends Model
     function getUserDetail($userId)  
     {
         $builder = $this->db->table($this->users_tb);  
-        $builder->select([$this->users_tb.'.*',$this->user_detail_tb.'.user_id',$this->user_detail_tb.'.firstname',$this->user_detail_tb.'.lastname',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->select([$this->users_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->users_tb.'.id'); 
         $builder->join($this->status_tb,$this->status_tb.'.id='.$this->users_tb.'.status'); 
         $builder->where($this->users_tb.'.id',$userId);  
         $query = $builder->get();  
-        foreach($query->getResultArray() as $r)
+        foreach($query->getResultArray() as $r) 
         {
            return $r;
         }   
@@ -136,6 +136,7 @@ class UserModel extends Model
         return $data;   
     }
 
+    
 
 
 

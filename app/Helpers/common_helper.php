@@ -24,22 +24,22 @@ if(!function_exists('getGet')){
 
 if(!function_exists('isLoggedIn')){
 	
-	function isLoggedIn()  
+	function isLoggedIn()   
 	{
             $role = session('role');
-            
+            $arr  = explode('/',current_url());
             if($role)     
             {  
                 if(in_array($role,['agent','customer','developer']))
                 {  
-                   if((segment(1) == "login") || (segment(2) == "login"))  
+                   if(in_array('login',$arr) || in_array('login-agent',$arr) || in_array('login-developer',$arr))  
                    {
-                      return redirect()->to('/');   
+                      return redirect()->to('/');       
                    }
-                }
+                }  
                 if(in_array($role,['admin','sub_admin','content_writer','marketing_manager']))
                 {  
-                   if((segment(1) == "login-staff") || (segment(2) == "login-staff"))   
+                   if(in_array('login-staff',$arr))    
                    {
                       return redirect()->to('/backend/dashboard/index');   
                    }

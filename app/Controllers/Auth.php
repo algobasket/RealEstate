@@ -27,11 +27,11 @@ class Auth extends BaseController
     
 	 public function login()   
 	 {  
-      if(session('role'))
+      if(session('role')) 
       {
          return isLoggedIn();
-      }
-             
+      } 
+
       $user = array();
 		  $data['title'] = "Login to PropertyRaja";
 		  $data['role']  = "customer";            
@@ -103,6 +103,10 @@ class Auth extends BaseController
 
 	public function login_agent()   
 	{
+    if(session('role')) 
+    {
+         return isLoggedIn();
+    } 
 		$data['title'] = "Agent Login to PropertyRaja";
 		$data['role']  = "agent";
 		if($this->request->getGet('redirect')) 
@@ -171,6 +175,10 @@ class Auth extends BaseController
 
 	public function login_developer()       
 	{
+    if(session('role')) 
+    {
+      return isLoggedIn();
+    } 
 		$data['title'] = "Developer Login to PropertyRaja";
 		$data['role']  = "developer";
 	  if($this->request->getGet('redirect')) 
@@ -240,6 +248,10 @@ class Auth extends BaseController
 
 	public function login_staff()
 	{ 
+    if(session('role')) 
+    {
+         return isLoggedIn();
+    }  
 		$data['title'] = "Staff Login to PropertyRaja";
 		$data['role']  = "staff"; 
 		if($this->request->getPost('sign-in')){
