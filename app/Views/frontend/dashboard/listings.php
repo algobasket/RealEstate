@@ -7,7 +7,7 @@
 <main role="main"> 
   <div class="album py-5 bg-light">
     <div class="container-fluid"> 
-           <h1 class="display-4">Welcome Agent</h1>
+           <h1 class="display-4" style="font-size: 30px">Welcome Agent</h1>
 
             <div class="card"> 
                 <div class="card-header">
@@ -79,11 +79,11 @@
                               </h6>       
                                          
                               <?php if($property['listing_type'] =="sell") : ?> 
-                                <?= displayPrice($property['total_price']);?>
+                                <?= number_to_currency($property['total_price'], 'INR');?>
                               <?php endif ?>  
 
                               <?php if($property['listing_type'] =="rent") : ?>
-                                   <h3><?= displayPrice($property['rent_per_mon']);?></h3>
+                                   <h3><?= number_to_currency($property['rent_per_mon'], 'INR') .' <small>per month</small>';?></h3>
                               <?php endif ?> 
                                
                               <label class="badge badge-success">Available for <?= ucfirst($property['listing_type']);?></label> 

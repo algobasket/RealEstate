@@ -7,7 +7,7 @@
 <main role="main"> 
   <div class="album py-5 bg-light">
     <div class="container-fluid"> 
-           <h1 class="display-4">Welcome Agent</h1>
+           <h1 class="display-4" style="font-size: 30px">Welcome Agent</h1>
 
             <div class="card"> 
               <div class="card-header"><?= $this->include('frontend/dashboard/tabs') ?></div>

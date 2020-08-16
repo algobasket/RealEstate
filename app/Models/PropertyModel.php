@@ -505,17 +505,39 @@ class PropertyModel extends Model
         $builder = $this->db->table($this->property_sales_tb);
         $builder->where(['seller_id' => $userId]);    
         $query = $builder->get(); 
-        if(!empty($query->getResultArray()))
-        {
-           foreach($query->getResultArray() as $r){ 
-              $data[]  = $this->getPropertyDetail($r['property_id']);   
-           
-           return $data;    
-          }
+        $data = array();
+        if(is_array($query->getResultArray()))
+        { 
+           foreach($query->getResultArray() as $r)
+           { 
+              $data[]  = $this->getPropertyDetail($r['property_id']);     
+           }
+           return $data;   
         }       
    }
 
-
+   function totalSalesAmountByUser($userId) 
+   {
+      $sales = $this->totalPropertiesSoldByUser($userId);
+      $total = 0; 
+      if(count($sales) > 0) 
+      {    
+          foreach($sales as $s)
+           { 
+              if($s['listing_type'] == "sell")
+              {
+                 $amount = $s['total_price'];
+              }
+              if($s['listing_type'] == "rent")
+              {
+                 $amount = $s['rent_per_mon'];
+              }
+              $data[] = $amount;     
+           }
+        $total =  array_sum($data);
+      }
+      return $total;
+   } 
 
    function deleteProperty($pid)
    {

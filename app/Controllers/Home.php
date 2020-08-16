@@ -148,9 +148,10 @@ class Home extends BaseController
 
     public function test() 
     {   
-    	$MessageModel = model('MessageModel');
-    	$r = $MessageModel->getAllUserContacts(21);
-    	print_r($r);
+    	 $StatisticModel = model('StatisticModel');
+    	// $r = $MessageModel->getAllUserContacts(21);
+    	$r = $StatisticModel->totalTargetAmountByUser(24); 
+    	print_r($r);  
     }                  
     
 }

@@ -31,14 +31,18 @@ class MessageModel extends Model
          $builder->join($this->properties_tb,$this->properties_tb.'.id = '.$this->messages_tb.'.property_id'); 
          $builder->where($this->messages_tb.'.to_user_id',$userId);  
          $query = $builder->get();
+         $data = array();
+         if(is_array($query->getResultArray()))
+         { 
           foreach($query->getResultArray() as $r)
           {
              $data[] = $r;  
           }
-           return $data;   
+           return $data;
+        }      
     }
 
-    function getChatUsers($userId)   
+    function getChatUsers($userId)    
     {     
          $userPropertiesIds = $this->userPropertiesIds($userId);   
          $builder = $this->db->table($this->property_interested_tb);
@@ -147,13 +151,13 @@ class MessageModel extends Model
            $builder->where(['to_user_id' => $userId]); 
        } 
          
-       $query = $builder->get(); 
-        if(!empty($query->getResultArray()))
+        $query = $builder->get(); 
+        $count = 0;
+        if(is_array($query->getResultArray()))
         {
-           return count($query->getResultArray());  
-        }else{
-           return 0;
-        }  
+           $count =  count($query->getResultArray());  
+        }
+        return $count;
     }
     
      

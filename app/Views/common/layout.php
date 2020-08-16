@@ -78,14 +78,15 @@
                 success:function(response){
                   $('#dynamicPageLoad').html(response);
                    //alert(response);
-                } 
+                }  
             });
         });
 
         $('#builtup_area_dm,#dynamicPageLoad').on('change', function() {
         //$('#builtup_area_dm').change(function(){
             var type = $('#builtup_area_dm').val(); 
-            $('#unit_price_dm').html(type); 
+            $('#unit_price_dm').html(type);
+            $('#project_total_area_dm').val(type); 
         }); 
 
         $('input[name="listing_type"]').click(function() {    

@@ -408,7 +408,7 @@ if(!function_exists('allNotificationsReceived')){
 }
 
 if(!function_exists('tabNotificationCount')){
-   function tabNotificationCount()
+   function tabNotificationCount()    
    {
    	 if(session('userId'))
    	 {  
@@ -419,13 +419,25 @@ if(!function_exists('tabNotificationCount')){
 
         $listings     = $PropertyModel->getPropertiesByUserId(cUserId());
         $properties   = $PropertyModel->getProperties();
-        $appointments = $PropertyModel->getUserAppointments(cUserId());
-        $leads        = $UserModel->getLeads();
+        $appointments = $UserModel->getAllUserAppointment('seller',cUserId(),NULL);
+        $leads        = $MessageModel->getChatUsers(cUserId());    
         $sales        = $PropertyModel->totalPropertiesSoldByUser(cUserId());
-        $profit       = $StatisticModel->userProfitByEachProperty(cUserId());
+        $profit       = $StatisticModel->profitByEachPropertyByUser(cUserId());
         $contacts     = $MessageModel->getAllUserContacts(cUserId());
-        $messages     = $MessageModel->allMessagesReceived(cUserId(),$status = NULL); 
+        $messages     = $MessageModel->allMessagesReceived(cUserId(),$status = NULL);  
         $reviews      = $UserModel->getAllReviews('seller',cUserId(),$status = NULL);
+        
+        return [
+         'listings' => count($listings),
+         'properties' => count($properties),
+         'appointments' => count($appointments),
+         'leads' => count($leads), 
+         'sales' => count($sales),
+         'profit' => count($profit),
+         'contacts' => count($contacts),
+         'messages' => $messages,
+         'reviews' => count($reviews)  
+        ];
    	 }  
    }
 }

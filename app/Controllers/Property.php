@@ -8,6 +8,7 @@ class Property extends BaseController
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel'); 
+        $this->UserModel      = model('UserModel');  
         helper('inflector'); 
 	} 
 
@@ -63,8 +64,9 @@ class Property extends BaseController
     		$data['property_type'] = $this->PropertyModel->getPropertyType();
     		$data['profile']   = $this->AccountModel->getProfileDetail(cUserId());
         $data['cities']    = $this->GeographyModel->cities(); 
-        $data['amenities'] = $this->PropertyModel->getPropertyAmeneties(); 
-        $data['pt'] = "";
+        $data['amenities'] = $this->PropertyModel->getPropertyAmeneties();
+        $data['activity']  = $this->UserModel->userActivity(cUserId()); 
+        $data['pt'] = "";  
        
         if($this->request->uri->getTotalSegments() >= 3)
         {
@@ -91,13 +93,14 @@ class Property extends BaseController
                               'facing'         => $this->request->getPost('facing'),
                               'amenities'      => json_encode($this->request->getPost('amenities'),true),         
                               'city'           => $this->request->getPost('city'),      
-                              'locality'       => $this->request->getPost('locality'),           
-                              'builtup_area'   => $this->request->getPost('builtup_area'),      
+                              'locality'       => $this->request->getPost('locality'),
+                              'scale'          => $this->request->getPost('builtup_area_dm'),               
+                              'builtup_area'   => $this->request->getPost('builtup_area').' '.$this->request->getPost('builtup_area_dm'),      
                               'project_name'   => $this->request->getPost('project_name'),      
                               'floor'          => $this->request->getPost('floor'),        
                               'unit_price'     => $this->request->getPost('unit_price'),      
                               'total_price'    => $this->request->getPost('total_price'),      
-                              'project_total_area'    => $this->request->getPost('project_total_area'),       
+                              'project_total_area'    => $this->request->getPost('project_total_area').' '.$this->request->getPost('builtup_area_dm'),       
                               'launch_date'    => $this->request->getPost('launch_date'),      
                               'posession_date' => $this->request->getPost('posession_date'),      
                               'rera_id'        => $this->request->getPost('rera_id'),      
@@ -120,7 +123,8 @@ class Property extends BaseController
                               'bhk_type'       => $this->request->getPost('bhk_type'),  
                               'complex_type'   => $this->request->getPost('complex_type'), 
                               'status_type'    => $this->request->getPost('status_type'),
-                              'builtup_area'   => $this->request->getPost('builtup_area'), 
+                              'scale'          => $this->request->getPost('builtup_area_dm'), 
+                              'builtup_area'   => $this->request->getPost('builtup_area').' '.$this->request->getPost('builtup_area_dm'), 
                               'rent_per_mon'   => $this->request->getPost('rent_per_mon'),  
                               'title'          => $this->request->getPost('title'),  
                               'description'    => $this->request->getPost('description'),  

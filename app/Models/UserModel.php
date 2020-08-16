@@ -17,6 +17,7 @@ class UserModel extends Model
        protected $status_tb = '_status';  
        protected $lead_source_tb = '_lead_source';  
        protected $reviews_tb = '_reviews';  
+       protected $appointments_tb = '_appointments';  
 
     
     function getUserCountry($userId = NULL)
@@ -178,32 +179,64 @@ class UserModel extends Model
              $builder->where($this->reviews_tb.'.status', $status);
          }
           
-        $query = $builder->get();  
+        $query = $builder->get();
+        $data = array();  
         foreach($query->getResultArray() as $r)
         {
             $data[] = $r;  
         }  
         return $data;     
-    }
+    } 
 
 
-    function getAllUserAppointment($userId = NULL,$status = NULL)
-    {
-        $builder = $this->db->table($this->reviews_tb);  
-        $builder->select([$this->reviews_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
-        $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->reviews_tb.'.seller_id'); 
-        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->reviews_tb.'.status'); 
+    function getAllUserAppointment($userType = NULL,$userId = NULL,$status = NULL)
+    { 
+        $builder = $this->db->table($this->appointments_tb);  
+        $builder->select([$this->appointments_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->appointments_tb.'.buyer_id'); 
+        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->appointments_tb.'.status'); 
         if(isset($status))
          {
-             $builder->where($this->reviews_tb.'.status', $status);
+             $builder->where($this->appointments_tb.'.status', $status);
+         }
+         if($userType == 'buyer')
+         {
+            $builder->where($this->appointments_tb.'.buyer_id',$userId);
          } 
-        $builder->where($this->reviews_tb.'.seller_id',$userId);  
-        $query = $builder->get();  
-        foreach($query->getResultArray() as $r)
+         if($userType == 'seller')
+         {
+            $builder->where($this->appointments_tb.'.seller_id',$userId);
+         }  
+        //echo $query = $builder->getCompiledSelect(); 
+        //exit;
+        $query = $builder->get();
+        $data = array();
+        if(is_array($query->getResultArray()))  
         {
-            $data[] = $r;  
-        }  
-        return $data;     
+           foreach($query->getResultArray() as $r)
+          {
+              $data[] = $r;  
+          }  
+          return $data; 
+        }
+            
+    }
+
+    function userActivity($userId)  
+    {
+         $builder = $this->db->table($this->user_detail_tb);
+         $builder->select('activity');
+         $builder->where($this->user_detail_tb.'.user_id',$userId); 
+         $query = $builder->get();
+         $count = count($query->getResultArray());
+         if($count > 0)
+         {
+           foreach($query->getResultArray() as $r)
+           {
+              $data = $r['activity'];   
+           }
+           return $data;   
+         }
     }
 
 

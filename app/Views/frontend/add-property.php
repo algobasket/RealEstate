@@ -10,10 +10,13 @@
   <div class="album py-5 bg-light"> 
    
     <div class="container"> 
-       <h3 class="display-4">Add Property <a href="<?= base_url();?>/add-property" class="btn btn-outline-danger float-right"> See Listings</a></h3>
+       <h3 class="display-4">Add Property <a href="<?= base_url();?>/properties" class="btn btn-outline-danger float-right"> See My Listings</a></h3>
        <hr> 
+       <div class="row">
 
-      <div class="row">   
+
+      <?php if($activity == 'sell'){ ?>  
+        
          <div class="col-md-8 order-md-1">  
 
             <!---- Flat Section -----> 
@@ -167,9 +170,18 @@
               <a href="<?= base_url().'/add-property';?>" class="btn btn-outline-dark btn-lg">Cancel</a> 
               <input class="btn btn-outline-danger btn-lg " type="submit" name="add_property" value="Save and add photos"/> 
 
-            <?= form_close();?>
-      </div>
-     
+            <?= form_close();?></div>
+      <?php }else{ ?>
+         <div class="col-md-8 order-md-1 text-center">
+           <!-- <h3 class="display-4" style="font-size: 25px;">To add property change your activity to seller mode</h3> -->
+              <div class="alert alert-danger" role="alert"> 
+                <h4 class="alert-heading">To add property change your activity to seller mode!</h4>
+                <p>Only seller can upload, advertise, features and sponsored properties</p>
+                <hr>
+                <p class="mb-0"><a href="<?= base_url();?>/profile" class="btn btn-danger btn-sm">Click here to update activity</a></p>
+              </div>
+         </div>
+      <?php } ?>  
 
       <div class="col-md-4 order-md-2">
         <h3 class="text-left">Sponsored Ads</h3>

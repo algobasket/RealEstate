@@ -22,7 +22,7 @@
                       <option value="2bhk">2 BHK</option>  
                       <option value="3bhk">3 BHK</option>  
                       <option value="4bhk">4 BHK</option>  
-                      <option value="+5bhk">5+ BHK</option>     
+                      <option value="+5bhk">5+ BHK</option>           
                   </select>
                   <div class="invalid-feedback">
                     Please select BHK type.
@@ -86,8 +86,7 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" name="builtup_area" placeholder="Please input" required >
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="builtup_area_dm" id="builtup_area_dm" required >
-                            <option value="">scale</option> 
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="sq-meteres">sq meteres</option>
                             <option value="acres">acres</option>
@@ -117,7 +116,7 @@
                     <div class="input-group">
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" name="unit_price" placeholder="Please input" required />
                       <div class="input-group-append">
-                         <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sqft</button>  
+                         <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sft</button>   
                       </div>
                        <div class="invalid-feedback">
                          Unit price required.
@@ -153,9 +152,10 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_total_area" required />
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="project_total_area_dm" id="project_total_area_dm" required="">
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="acres">acres</option>
+                            <option value="sq-meteres">sq meteres</option> 
                         </select>
                       </div>
                       <div class="invalid-feedback">
@@ -305,8 +305,7 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" name="builtup_area" placeholder="Please input">
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="builtup_area_dm" id="builtup_area_dm" required="">
-                            <option value="">scale</option> 
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="sq-meteres">sq meteres</option>
                             <option value="acres">acres</option>
@@ -352,7 +351,7 @@
                     <div class="input-group">
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" name="unit_price" placeholder="Please input">
                       <div class="input-group-append">
-                         <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sqft</button>  
+                         <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sft</button>  
                       </div>
                     </div>
                 </div>
@@ -383,9 +382,10 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_total_area">
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="project_total_area_dm" id="project_total_area_dm" required="">
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="acres">acres</option>
+                            <option value="sq-meteres">sq meteres</option>
                         </select>
                       </div>
                     </div>
@@ -522,8 +522,7 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" name="builtup_area" placeholder="Please input">
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="builtup_area_dm" id="builtup_area_dm" required="">
-                            <option value="">scale</option> 
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="sq-meteres">sq meteres</option>
                             <option value="acres">acres</option>
@@ -600,9 +599,10 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_total_area">
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="project_total_area_dm" id="project_total_area_dm" required="">
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="acres">acres</option>
+                             <option value="sq-meteres">sq meteres</option>
                         </select>
                       </div>
                     </div>
@@ -751,7 +751,7 @@
                     <div class="input-group">
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" name="unit_price" placeholder="Please input">
                       <div class="input-group-append">
-                         <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sqft</button>  
+                         <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sft</button>  
                       </div>
                     </div>
                 </div>
@@ -782,9 +782,10 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_total_area">
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="project_total_area_dm" id="project_total_area_dm" required="">
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="acres">acres</option>
+                             <option value="sq-meteres">sq meteres</option>
                         </select>
                       </div>
                     </div>
@@ -931,7 +932,7 @@
                     <div class="input-group">
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" name="unit_price" placeholder="Please input">
                       <div class="input-group-append">
-                         <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sqft</button>  
+                         <button class="btn btn-outline-dark" id="unit_price_dm" type="button">sft</button>  
                       </div>
                     </div>
                 </div>
@@ -958,9 +959,10 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="project_total_area">
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="project_total_area_dm" id="project_total_area_dm" required="">
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="acres">acres</option>
+                             <option value="sq-meteres">sq meteres</option>
                         </select>
                       </div>
                     </div>
@@ -1094,8 +1096,7 @@
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" name="builtup_area" placeholder="Please input">
                       <div class="input-group-append">
                          <select class="custom-select d-block w-100" name="builtup_area_dm" id="builtup_area_dm" required="">
-                            <option value="">scale</option> 
-                            <option value="sft">sft</option>
+                            <option value="sft" selected>sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="sq-meteres">sq meteres</option>
                             <option value="acres">acres</option>
@@ -1156,6 +1157,7 @@
                             <option value="sft">sft</option>
                             <option value="sq-yards">sq yards</option>
                             <option value="acres">acres</option>
+                             <option value="sq-meteres">sq meteres</option>
                         </select>
                       </div>
                     </div>
@@ -1191,7 +1193,7 @@
                     <div class="input-group">
                       <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Please input" name="approving_authority">
                     </div>
-                </div>
+                </div> 
               </div>
                 <?php endif ?>
                 
@@ -1205,4 +1207,4 @@
                 </div>
               </div>
               <?php endif ?>
-       <?php endif ?>                                                          
+       <?php endif ?>                                                           

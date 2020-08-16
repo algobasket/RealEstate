@@ -6,16 +6,21 @@ class Dashboard extends BaseController
 	{
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
-        $this->PropertyModel  = model('PropertyModel');  
+        $this->PropertyModel  = model('PropertyModel');
+        $this->StatisticModel  = model('StatisticModel');
+        helper('number');   
 	}
 
 	public function index()
 	{
-		$data['title']         = "Agent Dashboard | Welcome to PropertyRaja"; 
-		$data['featured']      = $this->PropertyModel->getAllFeaturedProperties();
-		$data['cities']        = $this->GeographyModel->cities();
-		$data['property_type'] = $this->PropertyModel->getPropertyType();
-	    return view('frontend/dashboard/dashboard',$data);       
+		$data['title']            = "Agent Dashboard | Welcome to PropertyRaja"; 
+		$data['featured']         = $this->PropertyModel->getAllFeaturedProperties();
+		$data['cities']           = $this->GeographyModel->cities();  
+		$data['property_type']    = $this->PropertyModel->getPropertyType(); 
+		$data['totalSalesAmount'] = $this->PropertyModel->totalSalesAmountByUser(cUserId());
+		$data['totalActual']      = $this->StatisticModel->totalActualAmountByUser(cUserId()); 
+		$data['totalTarget']      = $this->StatisticModel->totalTargetAmountByUser(cUserId()); 
+	    return view('frontend/dashboard/dashboard',$data);        
 	}
 
 
@@ -23,14 +28,13 @@ class Dashboard extends BaseController
 	{
 	   $data['title'] = "Agent Listings | Welcome to PropertyRaja";
 	   $data['listings'] = $this->PropertyModel->getPropertiesByUserId(cUserId());
-	   return view('frontend/dashboard/listings',$data); 
+	   return view('frontend/dashboard/listings',$data);  
 	}
 
 
 
 	public function properties()
 	{  
-
 	   return view('frontend/dashboard/properties',$data);
 	}
 
@@ -97,7 +101,7 @@ class Dashboard extends BaseController
 
 	public function credits() 
 	{
-		return view('frontend/dashboard/credits',$data);
+		return view('frontend/dashboard/credits',$data); 
 	}
 
 
@@ -105,10 +109,7 @@ class Dashboard extends BaseController
 
 	public function notifications()
 	{
-		return view('frontend/dashboard/notifications',$data);
+		return redirect()->to('/notifications');
 	}  
-
-
-
 
 }	

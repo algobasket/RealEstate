@@ -204,14 +204,16 @@
                   <div class="shadow media position-relative">
                     <img src="<?= publicFolder();?>/user-images/agent-1.jpeg" class="mr-3" alt="..." width="200">
                     <div class="media-body"><br>
-                      <h5 class="mt-0"><?php echo ucfirst($propertyDetail['contact']['firstname']) . ' ' . ucfirst($propertyDetail['contact']['lastname']);?></h5>
+                      <h5 class="mt-0">
+                        <?php echo ucfirst($propertyDetail['contact']['firstname']) . ' ' . ucfirst($propertyDetail['contact']['lastname']);?>
+                      </h5>
                       <?php if($propertyDetail['contact']['is_verified'] == 1) : ?>
                       <b class="mt-0">Verified <?php echo ucfirst($propertyDetail['contact']['role']);?>
                          <img src="<?= publicFolder();?>/images/verified-blue.png" class="mr-3" alt="..." width="25">
                       </b>
-                    <?php endif ?>
+                      <?php endif ?>
                     
-                    <?php if($propertyDetail['contact']['role'] != "customer") : ?> 
+                     <?php if($propertyDetail['contact']['role'] != "customer") : ?> 
                       <h5>
                         Rating <img src="<?= publicFolder();?>/images/star.png" width="20">
                         <img src="<?= publicFolder();?>/images/star.png" width="20" >
@@ -221,10 +223,16 @@
                       </h5>
                     <?php endif ?>
                     
-                    <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?>
+                    <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?> 
                       <a href="javascript:void(0)" class="btn btn-danger">
                          <img src="<?= publicFolder();?>/images/contact-phone2.png" class="mr-3" alt="..." width="25">
-                         Contact <?php echo ucfirst($propertyDetail['contact']['role']);?> 
+                         <?php if($propertyDetail['contact']['role'] =='customer' && $propertyDetail['contact']['activity'] =='sell') : ?>
+                           Contact <?php echo ucfirst("Owner");?>
+                         <?php endif ?> 
+                         <?php if($propertyDetail['contact']['role'] =='customer' && $propertyDetail['contact']['activity'] =='buy_rent') : ?>
+                           Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
+                         <?php endif ?> 
+                          
                       </a>
                   
 
