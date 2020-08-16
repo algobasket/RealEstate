@@ -21,7 +21,23 @@ class MessageModel extends Model
        protected $settings_tb            = '_settings';       
         
 
-    
+    function getAllUserContacts($userId)  
+    {
+         $builder = $this->db->table($this->messages_tb);
+         $builder->distinct(); 
+         $builder->select([$this->users_tb.'.*',$this->user_detail_tb.'.*',$this->properties_tb.'.*']);
+         $builder->join($this->users_tb,$this->users_tb.'.id = '.$this->messages_tb.'.from_user_id');
+         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id = '.$this->messages_tb.'.from_user_id');
+         $builder->join($this->properties_tb,$this->properties_tb.'.id = '.$this->messages_tb.'.property_id'); 
+         $builder->where($this->messages_tb.'.to_user_id',$userId);  
+         $query = $builder->get();
+          foreach($query->getResultArray() as $r)
+          {
+             $data[] = $r;  
+          }
+           return $data;   
+    }
+
     function getChatUsers($userId)   
     {     
          $userPropertiesIds = $this->userPropertiesIds($userId);   
@@ -32,9 +48,12 @@ class MessageModel extends Model
          $builder->join($this->properties_tb,$this->properties_tb.'.id = '.$this->property_interested_tb.'.property_id');
          $builder->whereIn($this->properties_tb.'.id',$userPropertiesIds); 
          $query = $builder->get();
-          foreach($query->getResultArray() as $r)
+         if(count($query->getResultArray()) > 0)
+         {
+            foreach($query->getResultArray() as $r)
                  $data[] = $r;
-          return $data;    
+            return $data;    
+         }    
     } 
 
 
@@ -86,6 +105,66 @@ class MessageModel extends Model
         'updated_at '  => date('Y-m-d h:i:s'),
         'status '      => 1 
       ]);
+    }
+
+
+    function allMessagesSent($userId = NULL,$status = NULL)   
+    {
+       $builder = $this->db->table($this->messages_tb);
+       if($status == 0)
+       {
+         // Get all unread messages
+           $builder->where(['from_user_id' => $userId,'status' => 0]);
+       }elseif($status == 1){
+         // Get all read messages
+           $builder->where(['from_user_id' => $userId,'status' => 1]);
+       }else{
+          // Get all messages
+           $builder->where(['from_user_id' => $userId]);
+       } 
+         
+       $query = $builder->get(); 
+        if(!empty($query->getResultArray()))
+        {
+           return count($query->getResultArray());  
+        }else{
+           return 0;
+        }  
+    }
+
+    function allMessagesReceived($userId = NULL,$status = NULL)    
+    {
+       $builder = $this->db->table($this->messages_tb);
+       if($status == 0)
+       {
+         // Get all my received unread messages
+           $builder->where(['to_user_id' => $userId,'status' => 0]);
+       }elseif($status == 1){
+         // Get all my received read messages
+           $builder->where(['to_user_id' => $userId,'status' => 1]);
+       }else{
+          // Get all my received messages
+           $builder->where(['to_user_id' => $userId]); 
+       } 
+         
+       $query = $builder->get(); 
+        if(!empty($query->getResultArray()))
+        {
+           return count($query->getResultArray());  
+        }else{
+           return 0;
+        }  
+    }
+    
+     
+    //***** Make Current Messages as Read By $UserId, $FUserId and $PropertyId ******  
+
+    function markMessagesAsRead($uid,$fuid,$pid)  
+    {
+        $builder = $this->db->table($this->messages_tb);               
+        $builder->where(['to_user_id' => $uid,'from_user_id' => $fuid,'property_id' => $pid]);   
+        $builder->update(['status' => 1]);   
+        return true;
     }
 
 

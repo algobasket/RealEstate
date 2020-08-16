@@ -36,5 +36,14 @@ class TemplatesModel extends Model
         return $query->getRowArray()['html_txt'];
     }
 
+    function getSmsTemplate($name)    
+    {
+        $builder = $this->db->table($this->template_tb);
+        $builder->select('html_txt');       
+        $builder->where(['template_type' => 'sms_templates','title' => $name]);
+        $query = $builder->get();  
+        return $query->getRowArray()['html_txt'];
+    }
+
 
 } 

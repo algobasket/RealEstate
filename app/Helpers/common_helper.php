@@ -392,6 +392,45 @@ if(!function_exists('getSettings')){
 	}
 }
 
+
+if(!function_exists('allMessagesReceived')){
+	function allMessagesReceived(){ 
+		$MessageModel = model('MessageModel');
+		return $MessageModel->allMessagesReceived(cUserId(),0);
+	}
+}
+
+if(!function_exists('allNotificationsReceived')){
+	function allNotificationsReceived(){ 
+		$AccountModel = model('AccountModel');
+		return $AccountModel->allNotificationsReceived(cUserId(),0);
+	}
+}
+
+if(!function_exists('tabNotificationCount')){
+   function tabNotificationCount()
+   {
+   	 if(session('userId'))
+   	 {  
+   	 	$PropertyModel  = model('PropertyModel');
+   	 	$UserModel      = model('UserModel');
+   	 	$StatisticModel = model('StatisticModel');
+   	 	$MessageModel   = model('MessageModel');  
+
+        $listings     = $PropertyModel->getPropertiesByUserId(cUserId());
+        $properties   = $PropertyModel->getProperties();
+        $appointments = $PropertyModel->getUserAppointments(cUserId());
+        $leads        = $UserModel->getLeads();
+        $sales        = $PropertyModel->totalPropertiesSoldByUser(cUserId());
+        $profit       = $StatisticModel->userProfitByEachProperty(cUserId());
+        $contacts     = $MessageModel->getAllUserContacts(cUserId());
+        $messages     = $MessageModel->allMessagesReceived(cUserId(),$status = NULL); 
+        $reviews      = $UserModel->getAllReviews('seller',cUserId(),$status = NULL);
+   	 }  
+   }
+}
+
+
 if(!function_exists('publicFolder')){    
    function publicFolder()  
    {

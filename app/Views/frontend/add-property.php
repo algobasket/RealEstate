@@ -53,7 +53,7 @@
 
 
 
-            <div id="dynamicPageLoad"></div>
+            <div id="dynamicPageLoad"></div> 
 
 
 
@@ -169,20 +169,65 @@
 
             <?= form_close();?>
       </div>
+     
+
       <div class="col-md-4 order-md-2">
         <h3 class="text-left">Sponsored Ads</h3>
-          <div class="card" style="width: 18rem;">
-            <img src="https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <p class="card-text"><b>Aurabindo Kohinoor</b> <br>luxury 2 and 3 bhk homes in prime location</p>
-            </div>
-          </div>
-          <div class="card" style="width: 18rem;">
-            <img src="https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-               <p class="card-text"><b>Aurabindo Kohinoor</b> <br>luxury 2 and 3 bhk homes in prime location</p>
-            </div>
-          </div>
+          <?php if(is_array($sponsoredPropertiesAds)) : ?>
+          <?php $i = 1;foreach($sponsoredPropertiesAds as $property) : ?>
+              <?php if($i < 3) : ?>
+                <div class="card" style="width: 18rem;"> 
+                  <?php foreach($property['images'] as $r) : ?>
+                    <?php if($r['is_thumbnail'] == 1) : ?> 
+                      <img src="<?= publicFolder().'/property-images/'.$r['image_name'];?>" class="card-img-top" alt="...">
+                    <?php endif ?> 
+                  <?php endforeach ?>
+                 
+                    <?php if($property['listing_type'] == "sell") : ?>
+                       <label class="btn btn-outline-warning btn-sm" style="position: absolute;margin:5px"><?= $property['total_price'];?> INR</label>
+                    <?php endif ?>
+
+                    <?php if($property['listing_type'] == "rent") : ?>
+                       <label class="btn btn-outline-warning btn-sm" style="position: absolute;margin:5px">Rs <?= $property['rent_per_mon'];?> /Month</label>
+                    <?php endif ?>
+                    
+                   <?php if($property['propertyCity']) : ?>
+                       <label class="badge badge-success" style="position: absolute;margin:157px 0  0 199px">
+                         <small><img src="<?= publicFolder();?>/images/location.png" width="15"/> <?= $property['propertyCity']['city_name'];?></small>
+                        </label>
+                    <?php endif ?>
+
+                  <label class="badge badge-warning">For <?= ucfirst($property['listing_type']);?></label> 
+                      <div class="card-body" style="margin-top: -16px"> 
+                        <a href="<?= base_url();?>/property-detail/<?= $property['id'];?>" target="__self" class="stretched-link text-decoration-none text-dark">
+                          <p class="card-text"><b><?= word_limiter($property['title'],5);?></b>
+                          <br>
+                          <?= ucfirst($property['propertyType']['type_name']);?> |
+                          <?php if($property['status_type']) : ?>
+                            <small><?php echo humanize($property['status_type']);?></small>
+                          <?php endif ?>
+                          <?php if($property['bhk_type']) : ?>
+                            | <small><?php echo humanize($property['bhk_type']);?></small>
+                          <?php endif ?>
+                          <?php if($property['condition_type']) : ?>
+                            | <small><?php echo humanize($property['condition_type']);?></small>
+                          <?php endif ?>
+                           <br> 
+                           <small>Posted : <?= date('D, d M Y', strtotime($property['created_at']));?></small> 
+                          </p> 
+
+                        </a>
+                      </div>
+                </div> 
+                <br> 
+                  <?php if($i > 3) : ?>
+                  <div class="card" style="width: 18rem;">   
+                  <a href="<?= base_url();?>/browse/?q=sponsored" target="__self" class="btn btn-outline-danger btn-block btn-sm">See All</a>
+                  </div>
+                  <?php endif ?>  
+            <?php endif ?>  
+          <?php $i++;endforeach ?>
+          <?php endif ?>
       </div>
 
 

@@ -5,7 +5,7 @@
     </li> 
      <li class="nav-item">
         <a class="nav-link <?= isTabActive("listings",2);?>" href="<?= base_url();?>/dashboard/listings">
-         My Listings <span class="badge badge-danger">9</span>
+         My Listings <span class="badge badge-danger">0</span>
           <span class="sr-only">unread messages</span>
       </a>
     </li>

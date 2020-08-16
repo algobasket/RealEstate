@@ -72,66 +72,70 @@
 
   <div class="album py-5 bg-light">
     <div class="container">
-       <h1 class="display-4">FEATURED NEW PROPERTIES</h1>
-       <hr>
-      <div class="row">
+      
+      <!------------START IF-------------> 
+      <?php if(is_array($featured)) : ?>
+          <h1 class="display-4">FEATURED NEW PROPERTIES</h1>
+              <hr>
+              <div class="row">  
+                 <!------------START FOREACH-------------> 
+                <?php foreach($featured as $fp) : ?>
+                
+                <div class="col-md-4">
+                  <div class="card mb-4 shadow-sm">
+                    
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                      <div class="carousel-inner">
+                         <!------------START FOREACH-------------> 
+                        <?php foreach($fp['images'] as $key => $img) : ?>
+                        <?php $active = ($key == 1) ? "active": "" ;?> 
+                        <div class="carousel-item <?= $active;?>"> 
+                            <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
+                        </div>
+                        <?php endforeach ?>
+                         <!------------END FOREACH-------------> 
+                      </div>
+                    </div>
 
-        <?php foreach($featured as $fp) : ?>
-        
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            
-            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner">
-                <?php foreach($fp['images'] as $key => $img) : ?>
-                <?php $active = ($key == 1) ? "active": "" ;?> 
-                <div class="carousel-item <?= $active;?>"> 
-                    <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
+                    <div class="card-body"> 
+                                    <!------------START IF-------------> 
+                                  <?php if($fp['listing_type'] == "sell") : ?>
+                                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none">
+                                    <h5><?= number_to_currency($fp['total_price'], 'INR');?> INR</h5>
+                                  </a>
+                                  <?php endif ?>
+                                   <!------------END IF-------------> 
+                                    <!------------START IF-------------> 
+                                   <?php if($fp['listing_type'] == "rent") : ?>
+                                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none">
+                                    <h5><?= number_to_currency($fp['rent_per_mon'], 'INR');?> per month</h5>
+                                  </a> 
+                                  <?php endif ?>
+                                   <!------------END IF-------------> 
+                      <p class="card-text"><b><?= ucfirst($fp['title']);?></b></p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                                   <!------------START IF-------------> 
+                                  <?php if($fp['listing_type'] == "sell") : ?>
+                                  <button type="button" class="btn btn-sm btn-outline-success">Available for <?= ucfirst($fp['listing_type']);?></button>
+                                  <?php endif ?>
+                                   <!------------END IF-------------> 
+                                   <?php if($fp['listing_type'] == "rent") : ?>
+                                  <button type="button" class="btn btn-sm btn-warning">Available for <?= ucfirst($fp['listing_type']);?></button>
+                                  <?php endif ?> 
+                                    <!------------END IF-------------> 
+                        </div>
+                        <small class="text-muted">Posted : <?= date('D, d M Y', strtotime($fp['created_at']));?></small>
+                      </div>
+                    </div> 
+
+                  </div>
                 </div>
-                <?php endforeach ?>
+              <?php endforeach ?>
+               <!------------END FOREACH-------------> 
               </div>
-            </div>
-
-            <div class="card-body"> 
-
-                  <?php if($fp['listing_type'] == "sell") : ?>
-                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none">
-                    <h5><?= ucfirst(number_format($fp['total_price']));?> INR</h5>
-                  </a>
-                  <?php endif ?>
-                   <?php if($fp['listing_type'] == "rent") : ?>
-                  <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none">
-                    <h5><?= ucfirst(number_format($fp['rent_per_mon']));?> INR per month</h5>
-                  </a> 
-                  <?php endif ?>
-              
-              <p class="card-text"><b><?= ucfirst($fp['title']);?></b></p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-
-                  <?php if($fp['listing_type'] == "sell") : ?>
-                  <button type="button" class="btn btn-sm btn-outline-success">Available for <?= ucfirst($fp['listing_type']);?></button>
-                  <?php endif ?>
-                   <?php if($fp['listing_type'] == "rent") : ?>
-                  <button type="button" class="btn btn-sm btn-warning">Available for <?= ucfirst($fp['listing_type']);?></button>
-                  <?php endif ?> 
-
-                </div>
-                <small class="text-muted">Posted : <?= date('D, d M Y', strtotime($fp['created_at']));?></small>
-              </div>
-            </div> 
-
-          </div>
-        </div>
-
-
-      <?php endforeach ?>
-
-       
-       
-        
-     
-      </div>
+      <?php endif ?>   
+       <!------------END IF-------------> 
     </div>
   </div>
 

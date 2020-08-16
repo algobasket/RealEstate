@@ -7,7 +7,8 @@ class Property extends BaseController
 	{
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
-        $this->PropertyModel  = model('PropertyModel');  
+        $this->PropertyModel  = model('PropertyModel'); 
+        helper('inflector'); 
 	} 
 
 
@@ -193,8 +194,9 @@ class Property extends BaseController
 
                      }
                 }
-    		}  
-	     return view('frontend/add-property',$data);    
+    		}
+       $data['sponsoredPropertiesAds'] = $this->PropertyModel->getAllSponsoredProperties(1);    
+	     return view('frontend/add-property',$data);      
 	}
 
 

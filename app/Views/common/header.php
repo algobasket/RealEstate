@@ -44,22 +44,23 @@
       
       <div class="btn-group">
             <?php if(\Config\Services::session()->get('userId')){ ?> 
-                <button type="button" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="All messages sent to owners">
-              <img src="<?= publicFolder();?>/images/messages.png" width="22"/> <span class="badge badge-danger">7</span>
+            <a href="<?= base_url();?>/messages/?status=1" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="All messages sent to owners">
+              <img src="<?= publicFolder();?>/images/messages.png" width="22"/> <span class="badge badge-danger"><?= allMessagesReceived();?></span>
+              <span class="sr-only">unread messages</span> 
+            </a>
+            <a href="<?= base_url();?>/favourites/?status=1" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="shortlisted properties">
+              <img src="<?= publicFolder();?>/images/star-empty.png" width="22"/> <span class="badge badge-danger"><?= allNotificationsReceived();?></span>
               <span class="sr-only">unread messages</span>
-            </button>
-            <button type="button" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="shortlisted properties">
-              <img src="<?= publicFolder();?>/images/star-empty.png" width="22"/> <span class="badge badge-danger">9</span>
-              <span class="sr-only">unread messages</span>
-            </button>
-            <button class="btn btn-outline-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </a>
+            <a class="btn btn-outline-white btn-sm dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              <?php echo strtoupper(\Config\Services::session()->get('display'));?>
-            </button>
+            </a>
             <div class="dropdown-menu dropdown-menu-right animate slideIn">
                 <span class="dropdown-menu-arrow"></span>
                 <?php if(\Config\Services::session()->get('role') == "customer"){ ?> 
                 <a class="dropdown-item" href="<?= base_url();?>/add-property">Add Property</a>
                 <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
+                <a class="dropdown-item" href="<?= base_url();?>/properties">My Properties</a> 
                 <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>
                 <a class="dropdown-item" href="<?= base_url();?>/messages">Messages</a> 
                 <a class="dropdown-item" href="<?= base_url();?>/notifications">Notifications</a>

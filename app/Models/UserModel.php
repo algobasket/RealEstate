@@ -16,6 +16,7 @@ class UserModel extends Model
        protected $property_ty_tb     = '_property_type';  
        protected $status_tb = '_status';  
        protected $lead_source_tb = '_lead_source';  
+       protected $reviews_tb = '_reviews';  
 
     
     function getUserCountry($userId = NULL)
@@ -30,7 +31,7 @@ class UserModel extends Model
              return $data[] = $r;
            }  
         }  
-    }
+    } 
 
 
 
@@ -136,7 +137,80 @@ class UserModel extends Model
         return $data;   
     }
 
-    
+
+    function isUsernameAvailable($username)
+    {
+         $builder = $this->db->table($this->users_tb);
+         $builder->select('username');
+         $builder->where($this->users_tb.'.username',$username); 
+         $query = $builder->get();
+         $count = count($query->getResultArray());
+         if($count > 0)
+         {
+            return false;
+         }else{
+            return true;
+         } 
+    }
+
+
+    function getAllReviews($userType = NULL,$userId = NULL,$status = NULL)
+    {
+        $builder = $this->db->table($this->reviews_tb);  
+        $builder->select([$this->reviews_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->reviews_tb.'.status'); 
+        
+         if(isset($userType)) 
+         {
+             if($userType == 'seller')
+             {
+                $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->reviews_tb.'.buyer_id'); 
+                $builder->where($this->reviews_tb.'.seller_id',$userId);
+             }
+             if($userType == 'buyer') 
+             {  
+                $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->reviews_tb.'.seller_id'); 
+                $builder->where($this->reviews_tb.'.buyer_id',$userId);
+             }
+         }
+         if(isset($status))
+         {
+             $builder->where($this->reviews_tb.'.status', $status);
+         }
+          
+        $query = $builder->get();  
+        foreach($query->getResultArray() as $r)
+        {
+            $data[] = $r;  
+        }  
+        return $data;     
+    }
+
+
+    function getAllUserAppointment($userId = NULL,$status = NULL)
+    {
+        $builder = $this->db->table($this->reviews_tb);  
+        $builder->select([$this->reviews_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->reviews_tb.'.seller_id'); 
+        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->reviews_tb.'.status'); 
+        if(isset($status))
+         {
+             $builder->where($this->reviews_tb.'.status', $status);
+         } 
+        $builder->where($this->reviews_tb.'.seller_id',$userId);  
+        $query = $builder->get();  
+        foreach($query->getResultArray() as $r)
+        {
+            $data[] = $r;  
+        }  
+        return $data;     
+    }
+
+
+    function userRatings()
+    {
+      
+    }
 
 
 

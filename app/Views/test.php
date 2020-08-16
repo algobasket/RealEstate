@@ -60,12 +60,49 @@
       </tr>
       <tr>
         <td class="innerpadding borderbottom">
-          
+          <table width="115" align="left" border="0" cellpadding="0" cellspacing="0">  
+            <tr>
+              <td height="115" style="padding: 0 20px 20px 0;">
+                <img class="fix" src="{base_url}/images/notifications.png" width="115" height="115" border="0" alt="" />
+              </td> 
+            </tr>
+          </table>
+      
 
-         <?= $template;?>  
+
+
+          <table class="col380" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 380px;">  
+            <tr>
+              <td>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="bodycopy">
+                    <h4>Welcome back,{name}</h4>
+                    We've found new properties that match your profile. You can view all of your properties matches by signing into your account and clicking
+                    this link below.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 20px 0 0 0;">
+                      <table class="buttonwrapper" bgcolor="#e05443" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td class="button" height="45">
+                            <a href="{link}" target="__self">Browse New Properties</a>
+                          </td> 
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+
+
 
         
-        </td> 
+        </td>
       </tr>
       <!-- <tr>
         <td class="innerpadding borderbottom"> 
@@ -114,7 +151,7 @@
           </table>
         </td>
       </tr>
-    </table> 
+    </table>
  
     </td> 
   </tr>

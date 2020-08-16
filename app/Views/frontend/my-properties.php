@@ -15,7 +15,7 @@
     
     <div class="container">
        <div class="row">
-         <div class="col-10"><h3 class="display-4">My Favourite Properties</h3></div>
+         <div class="col-10"><h3 class="display-4">My Added Properties</h3></div> 
          <div class="col-2">
             <!-- <select class="custom-select btn-sm custom-select-lg mb-4" style="width:120px">
               <option selected>Filter</option>
@@ -36,7 +36,7 @@
              
              <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner"> 
-                <?php if(is_array($property['images'])) : ?>
+                <?php if(is_array($property['images'])) : ?> 
                 <?php foreach($property['images'] as $key => $img) : ?> 
                 <?php $active = ($key == 1) ? "active": "" ;?> 
                 <div class="carousel-item <?= $active;?>"> 
@@ -52,18 +52,7 @@
           <div class="col-md-8">
             <div class="card-body">
               <h4 class="card-title">
-                   <span><?= @word_limiter($property['title'],10);?></span> 
-
-                   <!-- <img src="<?= publicFolder();?>/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/> -->
-
-                   <a href="<?= base_url();?>/favourites/<?= $property['id'];?>/favourite">
-                        <?php if($property['isFavourited'] == true){ ?> 
-                            <img src="<?= publicFolder();?>/images/star.png" width="25" class="float-right favourite">
-                        <?php }else{ ?>
-                            <img src="<?= publicFolder();?>/images/star-empty.png" width="25" class="float-right favourite">
-                        <?php } ?>  
-                    </a>
-
+                   <span><?= @word_limiter($property['title'],10);?></span>
               </h4>
               <h3 class="card-title">
                 <?php if($property['listing_type'] == "sell") : ?> 
@@ -99,25 +88,7 @@
               <p class="card-text"><?= word_limiter($property['description'],20);?></p>
               <p class="card-text">
                   <h6>
-                    <?= $property['propertyType']['type_name'];?> For <?= ucfirst($property['listing_type']);?> |  
-                      <?php if($property['isInterested'] == true){ ?> 
-                       
-                            <div class="btn-group float-right"> 
-                            <button class="btn btn-outline-danger btn-sm">
-                              <b><img src="<?= publicFolder();?>/images/correct-1.png" width="20"/> Contacted</b>
-                            </button>
-                            <button class="btn btn-danger btn-sm">
-                              <img src="<?= publicFolder();?>/images/contact-phone.png" width="15"/>
-
-                              <b><?php echo $property['contact']['mobile'];?></b> 
-                            </button>
-                            </div>
-                        <?php }else{ ?>
-                           <a href="<?= base_url();?>/property-detail/<?= $property['id'];?>/interested" class="btn btn-outline-danger btn-sm">
-                            I'm Interested
-                          </a>
-                    <?php } ?>  
-                   
+                    <?= $property['propertyType']['type_name'];?> For <?= ucfirst($property['listing_type']);?>     
                   </h6>   
 
               </p>

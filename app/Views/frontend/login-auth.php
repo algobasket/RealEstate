@@ -69,12 +69,15 @@
   </div>
   <button type="submit" class="btn btn-light">Cancel</button>
   <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" />
+  <a href="<?= base_url();?>/forgot-password" class="float-right">Forgot Login?</a>
   <hr>
    <div class="form-group">
     <label for="inputAddress">
     	Not a member?
     	<a href="<?= base_url();?>/register">Sign-up</a>
-    </label>
+    </label> | 
+     
+  
   </div>
 <?= form_close() ?>
 

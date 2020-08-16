@@ -197,16 +197,18 @@ img{ max-width:100%;}
               <div class="headind_srch" style="margin-top: -30px;">
                 <div class="recent_heading">
                   <h4>
+                    <?php if(isset($_GET['pid'])) : ?> 
                     <a href="<?= base_url();?>/property-detail/<?= $_GET['pid'];?>" target="__blank" class="text-decoration-none text-dark">
                       <?= word_limiter($getPropertyDetail['title'],20);?>
-                      </a> 
+                      </a>
+                    <?php endif ?>
                   </h4>
                 </div>
               </div><br>
               <div class="msg_history">
 
 
-                  <?php if(in_array($getMessages)) : ?> 
+                  <?php if(isset($getMessages)) : ?> 
                   <?php foreach($getMessages as $msg) : ?>
 
                      <?php if($msg['to_user_id'] == cUserId()) : ?>
@@ -235,11 +237,13 @@ img{ max-width:100%;}
 
               </div>
               <div class="type_msg">
-                <div class="input_msg_write"> 
+                <div class="input_msg_write">
+                  <?php if(isset($_GET['pid'])) : ?> 
                   <input type="hidden" id="fk_user_id" value="<?= $_GET['uid'];?>">
                   <input type="hidden" id="property_id" value="<?= $_GET['pid'];?>"> 
                   <input type="text" class="write_msg" placeholder="Type a message" />
                   <a class="msg_send_btn" href="javascript:void(0)"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
+                <?php endif ?>
                 </div>
               </div>
             </div>

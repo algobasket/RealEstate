@@ -51,6 +51,18 @@ class AuthModel extends Model
        $data2['user_id'] = $this->db->insertID();
        $this->saveUserDetail($data2);
        return $data2['user_id']; 
+    }
+
+    function isMobileOrEmailExists($data)  
+    {
+          $builder = $this->db->table($this->users_tb);
+          $builder->where(['email' => $data['email']]);
+          $builder->orWhere(['mobile' => $data['mobile']]);  
+          $query = $builder->get();
+          if(count($query->getResultArray()) > 0) 
+          {
+             return true; 
+          }
     } 
 
 

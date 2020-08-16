@@ -18,7 +18,7 @@ class Filters extends BaseConfig
 		'before' => [
 			//'honeypot'
 			// 'csrf',
-			'authFilter' => ['except' =>['login','login-staff','login-agent','login-developer','register','auth/*','/','ajax/*','browse','browse/*','property-detail/*']]       
+			'authFilter' => ['except' =>['login','login-staff','login-agent','login-developer','register','forgot-password','forgot-password/*','auth/*','/','ajax/*','browse','browse/*','property-detail/*','home/*']]       
 		],
 		'after'  => [
 			'toolbar',    

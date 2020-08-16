@@ -36,7 +36,8 @@ $routes->get('/', 'Home::index');
 $routes->get('buy/', 'Home::buy');
 $routes->get('sell/', 'Home::sell');
 $routes->get('rent/', 'Home::rent');    
-$routes->get('browse/', 'Home::browse'); 
+$routes->get('browse/', 'Home::browse');  
+
 
 //Sell Property Controller
 $routes->get('sellproperty/', 'SellProperty::index');
@@ -51,9 +52,12 @@ $routes->get('login-developer/', 'Auth::login_developer');
 $routes->post('login-developer/', 'Auth::login_developer'); 
 $routes->get('login-staff/', 'Auth::login_staff'); 
 $routes->post('login-staff/', 'Auth::login_staff'); 
-$routes->get('register/', 'Auth::register'); 
+$routes->get('register/', 'Auth::register');  
 $routes->post('register/', 'Auth::register'); 
+$routes->get('forgot-password/', 'Auth::forgot_password'); 
+$routes->post('forgot-password/', 'Auth::forgot_password');   
 $routes->get('logout/', 'Auth::logout');
+
 
 //Account Property Controller
 $routes->get('profile/', 'Account::profile');
@@ -61,9 +65,12 @@ $routes->post('profile/', 'Account::profile');
  
 $routes->get('messages/', 'Account::messages');
 $routes->get('notifications/', 'Account::notifications');
+$routes->get('properties/', 'Account::my_properties'); 
 $routes->get('favourites/', 'Account::favourites');
 $routes->get('favourites/(:any)', 'Account::favourites'); 
 $routes->get('messages/(:any)', 'Account::messages'); 
+
+
 
 //Property Controller
 $routes->get('add-property/(:any)', 'Property::addProperty');
@@ -77,6 +84,7 @@ $routes->post('add-property-images/(:any)', 'Property::addPropertyImages');
 
 $routes->get('property-detail/(:any)', 'Property::index');
 $routes->post('property-detail/(:any)', 'Property::index');
+
 
 //Home Controller
 $routes->get('about/', 'Home::about');
@@ -101,8 +109,8 @@ $routes->group('backend', function($routes)
         $routes->add('properties', 'Backend\Properties::list');
         $routes->add('listing-type', 'Backend\ListingType::list');
         $routes->add('amenities', 'Backend\Amenities::list');
-        $routes->add('leads', 'Backend\Leads::list'); 
-        $routes->add('agents', 'Backend\Agents::list');
+        $routes->add('leads', 'Backend\Leads::list');   
+        $routes->add('agents', 'Backend\Agents::list'); 
         $routes->add('developers', 'Backend\Developers::list');
         $routes->add('members', 'Backend\Members::list');
         $routes->add('tickets', 'Backend\Tickets::list'); 
@@ -116,8 +124,7 @@ $routes->group('backend', function($routes)
         $routes->add('statistics', 'Backend\Statistics::list');
 
         $routes->add('settings', 'Backend\Settings::index');    
-        $routes->add('settings/index', 'Backend\Settings::index');
-            
+        $routes->add('settings/index', 'Backend\Settings::index');          
 }); 
 
 

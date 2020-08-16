@@ -122,19 +122,19 @@
                 
                 <div class="col-md-12">
                     <?php if($propertyDetail['bhk_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= ucfirst($propertyDetail['bhk_type']);?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= strtoupper($propertyDetail['bhk_type']);?></div>
                   <?php endif ?>
                    <?php if($propertyDetail['status_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= str_replace('_',' ',strtoupper($propertyDetail['status_type']));?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= str_replace('_',' ',strtoupper($propertyDetail['status_type']));?></div>
                   <?php endif ?>  
                    <?php if($propertyDetail['condition_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= strtoupper($propertyDetail['condition_type']);?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= strtoupper($propertyDetail['condition_type']);?></div>
                    <?php endif ?>
                    <?php if($propertyDetail['facing']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= strtoupper($propertyDetail['facing']);?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= strtoupper($propertyDetail['facing']);?></div>
                    <?php endif ?>
                    <?php if($propertyDetail['complex_type']) : ?>
-                      <div class="d-inline p-2 bg-danger text-white"><?= strtoupper($propertyDetail['complex_type']);?></div>
+                      <div class="shadow d-inline p-2 bg-danger text-white"><?= strtoupper($propertyDetail['complex_type']);?></div>
                    <?php endif ?>
                 </div>
                
@@ -184,7 +184,9 @@
               <div class="col-md-8">
                 <h3>Amenities</h3>
                      <?php foreach($propertyDetail['amenitiesName'] as $am) : ?>
-                           <div class="shadow d-inline p-2 bg-danger text-white"><?= $am['name'];?></div>
+                            <div class="shadow btn btn-sm btn-outline-danger" style="margin:2px">
+                              <?= $am['name'];?> 
+                            </div>
                      <?php endforeach ?> 
               </div>
                <div class="col-6 col-md-4">

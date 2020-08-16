@@ -283,7 +283,25 @@ $(document).ready(function() {
                    //console.log(html); 
                  }
               });
-        });  
+        }); 
+
+  $('#checkUsernameAvailability').click(function(){
+    var username = $('#username').val();
+    var data = {
+      username : username
+    }
+    $.ajax({
+      type : 'POST',
+      data : data,  
+      url : '/Ajax/checkUsernameAvailabilityAjax',  
+      success:function(html){   
+         $('#isUsernameAvailable').html(html);
+         //console.log(html); 
+       }
+    });   
+  });
+
+
   });
 //   setTimeout(function() {
 //             var fk_user_id  = $('#fk_user_id').val(); 

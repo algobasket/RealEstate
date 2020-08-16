@@ -8,12 +8,13 @@ class Home extends BaseController
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel');
         helper('geography'); 
+        helper('number'); 
 	}
 
 	public function index()
 	{
 		$data['title']         = "Welcome to PropertyRaja"; 
-		$data['featured']      = $this->PropertyModel->getAllFeaturedProperties();
+		$data['featured']      = $this->PropertyModel->getAllFeaturedProperties($status = 1); 
 		$data['cities']        = $this->GeographyModel->cities();
 		$data['property_type'] = $this->PropertyModel->getPropertyType();
 	    return view('landing',$data);       
@@ -143,6 +144,13 @@ class Home extends BaseController
     {
        $data['title'] = "Find Agent";
 	   return view('frontend/find-agent',$data);
+    }
+
+    public function test() 
+    {   
+    	$MessageModel = model('MessageModel');
+    	$r = $MessageModel->getAllUserContacts(21);
+    	print_r($r);
     }                  
     
 }

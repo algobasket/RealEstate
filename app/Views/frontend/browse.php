@@ -127,7 +127,7 @@
                                           <div class="col-md-8">
                                             <div class="card-body">
                                               <h3 class="card-title">
-                                                  <span>'.($row['total_price'] ? $row['total_price'].' INR' : 'Rs '.displayPrice($row['rent_per_mon']).'/mon').'</span>    
+                                                  <span>'.($row['total_price'] ? number_to_currency($row['total_price'], 'INR').' INR' : number_to_currency($row['rent_per_mon'], 'INR').' per month').'</span>    
                                                    <img src="'.publicFolder().'/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/>
                                               </h3>
                                               <p class="card-text">'.$row['title'].'</p>

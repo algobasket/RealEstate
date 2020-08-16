@@ -65,15 +65,19 @@ class Auth extends BaseController
                 {     
                       
                       $otpNumber = time();    
-                      if($this->sendOtpBySms($otpNumber,$isLoggedIn['mobile']) == TRUE)
+                      if($this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp') == TRUE)
                       {
                          $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
                       }else{
                         $this->session->setFlashdata('alert',redAlert('OTP sending failed but you can check on your registered email!'));
                         //return redirect()->back()->withInput(); 
-                      }
-                     
-                      $this->sendOtpByEmail($userId = $isLoggedIn['id'],$otp = $otpNumber,$to = $isLoggedIn['email']);  
+                      } 
+                      
+                      $this->sendEmail($isLoggedIn['id'],
+                        ['publicFolder' => publicFolder(),'otp' => $otpNumber],
+                        $isLoggedIn['email'],
+                        'Login OTP - PropertyRaja',
+                        'otp');    
 
                       $this->CrudModel->U('_users',['mobile' => $isLoggedIn['mobile']],['otp' => $otpNumber]);
                       if($remember == 1)
@@ -138,7 +142,7 @@ class Auth extends BaseController
                 {     
                       
                       $otpNumber = time();    
-                      if($this->sendOtpBySms($otpNumber,$isLoggedIn['mobile']) == TRUE)
+                      if($this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp') == TRUE)  
                       {
                          $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
                       }else{
@@ -146,7 +150,11 @@ class Auth extends BaseController
                         //return redirect()->back()->withInput(); 
                       }
                      
-                      $this->sendOtpByEmail($userId = $isLoggedIn['id'],$otp = $otpNumber,$to = $isLoggedIn['email']);  
+                     $this->sendEmail($isLoggedIn['id'],
+                        ['publicFolder' => publicFolder(),'otp' => $otpNumber],
+                        $isLoggedIn['email'],
+                        'Login OTP - PropertyRaja',
+                        'otp');   
 
                       $this->CrudModel->U('_users',['mobile' => $isLoggedIn['mobile']],['otp' => $otpNumber]);
                       if($remember == 1)
@@ -210,15 +218,18 @@ class Auth extends BaseController
                 {     
                       
                       $otpNumber = time();    
-                      if($this->sendOtpBySms($otpNumber,$isLoggedIn['mobile']) == TRUE)
+                      if($this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp') == TRUE)
                       {
                          $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
                       }else{
                         $this->session->setFlashdata('alert',redAlert('OTP sending failed but you can check on your registered email!'));
-                        //return redirect()->back()->withInput(); 
                       }
-                     
-                      $this->sendOtpByEmail($userId = $isLoggedIn['id'],$otp = $otpNumber,$to = $isLoggedIn['email']);  
+      
+                     $this->sendEmail($isLoggedIn['id'],
+                        ['publicFolder' => publicFolder(),'otp' => $otpNumber],
+                        $isLoggedIn['email'],
+                        'Login OTP - PropertyRaja',
+                        'otp');   
 
                       $this->CrudModel->U('_users',['mobile' => $isLoggedIn['mobile']],['otp' => $otpNumber]);
                       if($remember == 1)
@@ -228,7 +239,7 @@ class Auth extends BaseController
                       if($this->session->get('sessRedirect'))
                       {
                          $user['redirect'] = $this->session->get('sessRedirect');  
-                      }
+                      }  
 
                       $this->session->set('sessTemp',$user);
                       $this->session->remove('sessRedirect'); 
@@ -241,7 +252,7 @@ class Auth extends BaseController
            }
        }           
 		return view('frontend/login-auth',$data);       
-	}  
+	}   
 
 
 
@@ -310,7 +321,7 @@ class Auth extends BaseController
 	                 $access_code = strtoupper(uniqid());
 	                }else{
 	              	 $access_code = 0;    
-	                }   
+	                }         
                $uid = $this->AuthModel->register([
           			      'display_name' => $this->request->getPost('display-name'),
                       'username'     => $this->request->getPost('display-name').'.'.time(), 
@@ -325,7 +336,6 @@ class Auth extends BaseController
 		                ],[
                       'firstname' => "",
                       'lastname'  => "",
-                      'email'     => $this->request->getPost('email'),
                       'activity'  => $this->request->getPost('purpose'),
                       'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
     			            'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
@@ -338,13 +348,99 @@ class Auth extends BaseController
                         'operation'  =>   "register", 
                         'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
       			           'updated_at'    => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
-      		       ]); 
+      		       ]);
+
+                 $this->sendEmail(
+                  $uid,
+                  ['publicFolder' => publicFolder(),'base_url' => base_url()],
+                  $this->request->getPost('email'),
+                  'Thanks for joining - PropertyRaja','register'
+                );  
+
 		             $this->session->setFlashdata('alert','<div class="alert alert-success">Signup Successful</div>');
 		             return redirect()->to('/register');
            }
 		    }     
 		     return view('frontend/register',$data);         
-	 }   
+	 }
+
+
+
+   public function forgot_password()  
+   { 
+       $data['title'] = "Forgot Password | PropertyRaja"; 
+       $data['section'] = NULL;
+       if($this->request->getPost('submitEmailAndMobile'))
+       {
+            if( ! $this->validate([        
+              'email'  => 'required|min_length[10]|max_length[30]|valid_email',  
+           ])){  
+               $this->session->setFlashdata('alert','<div class="alert alert-danger">'.\Config\Services::validation()->listErrors().'</div>');
+                return redirect()->back()->withInput(); 
+           }else{   
+                   $array = [
+                     'email'  => $this->request->getPost('email')  
+                   ];
+                   $result = $this->CrudModel->R('_users',['email' => $array['email']]);
+                   if(is_array($result) && count($result) == 1)
+                   {   
+                       $otpNumber = strtoupper(uniqid()); 
+                        
+                      if($this->sendSms(['otp' => $otpNumber],$result[0]['mobile'],'otp') == TRUE)
+                      {
+                         $this->session->setFlashdata('alert',successAlert('OTP sent to your number '.$result[0]['mobile'].'</div>'));
+                      }else{
+                        $this->session->setFlashdata('alert',redAlert('OTP sending failed but you can check on your registered email!'));
+                        //return redirect()->back()->withInput(); 
+                      }
+                      $link = base_url().'/forgot-password/?id='.$result[0]['id']; 
+                      $emailData = ['otp' => $otpNumber,'link' => $link,'publicFolder' => publicFolder()]; 
+
+                      $this->sendEmail($uid = $result[0]['id'],$emailData,$to = $result[0]['email'],'OTP Pin | Forgot Password','forgot-password');
+
+                      $this->CrudModel->U('_users',['mobile' => $result[0]['mobile']],['otp' => $otpNumber]);
+                      return redirect()->to('/forgot-password/?id='.$result[0]['id']);            
+                   } 
+           } 
+       } 
+
+       if(isset($_GET['id']))       
+       {  
+          $id = $_GET['id'];    
+          $data['section'] = 'hash';         
+          if($this->request->getPost('submitOtp'))  
+          { 
+              $inputOtp = trim($this->request->getPost('inputOtp'));  
+              if($this->MessageModel->isOtpValid($id,$inputOtp) ==TRUE)
+              {  
+                 $this->session->set('section','changePasswordForm'); 
+              }else{ 
+                $this->session->setFlashdata('alert',redAlert('Wrong Otp Code'));
+                return redirect()->back()->withInput();  
+              }     
+          }
+          if(session('section') == 'changePasswordForm') 
+          { 
+             $data['section'] = 'changePasswordForm';
+             if($this->request->getPost('saveNewPassword'))  
+             { 
+                $newPassword = $this->request->getPost('newPassword');
+                $reenterPassword = $this->request->getPost('newPassword2');
+                if($newPassword == $reenterPassword)
+                {  
+                  $this->CrudModel->U('_users',['id' => $id],['password' => $newPassword]);
+                  $this->session->setFlashdata('alert',successAlert('Password Changed!'));
+                  $this->session->remove('section');
+                  $data['section'] = "success";         
+                }else{
+                  $this->session->setFlashdata('alert',redAlert('Password and Re-enter Password mismatch!'));
+                  return redirect()->back()->withInput(); 
+                }
+             }   
+          }    
+       }  
+      return view('frontend/forgot-password',$data);       
+   }      
 
 
 
@@ -409,30 +505,36 @@ class Auth extends BaseController
     } 
 
 
-    public function sendOtpBySms($otp,$to)     
+    public function sendSms($replaceData,$to,$template)       
     {  
-       $to  = trim($to);       
-       $msg    = 'Welcome to PropertyRaja your otp is '.$otp;    
+       $to  = trim($to); 
+       $TemplatesModel = model('TemplatesModel');  
+       $template   = $TemplatesModel->getSmsTemplate($template);
+       
+       $parser = \Config\Services::parser();
+
+       $msg = $parser->setData($replaceData)->renderString($template, ['cascadeData'=>true]);
+       
        $status = $this->MessageModel->localTextApi($to,$msg);
-       if($status == "success")
+       if($status == "success") 
        {
           return true;  
        }    
     }  
     
 
-    public function sendOtpByEmail($userId = null,$otp = null,$to = null)     
+    public function sendEmail($userId = null,$replaceData = null,$to = null,$subject = null,$template = null)      
     {   
        $data['title'] = "PropertyRaja"; 
        
-       $userDetail = $this->UserModel->getUserDetail(25);
+       $userDetail = $this->UserModel->getUserDetail(25); 
        $TemplatesModel = model('TemplatesModel'); 
-       $template   = $TemplatesModel->getEmailTemplate('login');    
+       $template   = $TemplatesModel->getEmailTemplate($template);    
       
        $parser = \Config\Services::parser();
        $parse  = [ 
          'name'       => $userDetail['firstname'] ? ucfirst($userDetail['firstname']).' '.ucfirst($userDetail['lastname']) : ucfirst($userDetail['display_name']),
-         'os'         => "gg",  
+         'os'         => "gg",   
          'browser'    => "gg", 
          'ip'         => get_client_ip(),
          'city'       => currentLocation()['city'],
@@ -440,8 +542,8 @@ class Auth extends BaseController
          'country'    => currentLocation()['country'],
          'link'       =>  base_url() .'/change-password/',  
          'base_url'   => 'https://propertyraja.algobasket.com/public'       
-       ]; 
-       
+       ];  
+       $parse = array_merge($parse,$replaceData);  
        $html = $parser->setData($parse)->renderString($template, ['cascadeData'=>true]);
        $data['template'] = $html;
        $msg = view('email-template/login',$data,['saveData' => true]);
@@ -449,17 +551,9 @@ class Auth extends BaseController
        $from = json_decode(getSettings('NoReplyEmail')[0]['setting_json'],true); 
        
        $MessageModel = model('MessageModel'); 
-       $status = $MessageModel->sendEmail($from,$userDetail['email'],"","",'Login - PropertyRaja',$msg);     
-       echo $status; 
-    }
-
-
-
-    public function test()
-    {
-       
+       $status = $MessageModel->sendEmail($from,$userDetail['email'],"","",$subject,$msg);     
+       return true;  
     } 
-
 
 
 }	

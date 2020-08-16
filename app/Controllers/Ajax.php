@@ -8,6 +8,7 @@ class Ajax extends BaseController
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel');      
+        $this->UserModel      = model('UserModel');        
 	} 
 
    function addPropertyPageLoad()
@@ -115,13 +116,13 @@ class Ajax extends BaseController
                                                 {
                                                     echo '<img src="'.publicFolder().'/property-images/'.$image['image_name'].'" class="card-img" width="150">';
                                                 }
-                                            }
+                                            } 
                                     echo '<label class="badge badge-dark" style="position: absolute;margin: 5px -70px;">'.count($row['images']).' Photo</label>';        
                                     echo '</div>
                                           <div class="col-md-8">
                                             <div class="card-body">
                                               <h3 class="card-title">
-                                                  <span>'.($row['total_price'] ? $row['total_price'].' INR' : 'Rs '.displayPrice($row['rent_per_mon']).'/mon').'</span>    
+                                                  <span>'.($row['total_price'] ? number_to_currency($row['total_price'], 'INR').' INR' : number_to_currency($row['rent_per_mon'], 'INR').' per month').'</span>    
                                                    <img src="'.publicFolder().'/images/star-empty.png" width="25" class="float-right favourite" data-star="0"/>
                                               </h3>
                                               <p class="card-text">'.$row['title'].'</p>
@@ -144,6 +145,19 @@ class Ajax extends BaseController
                   
         echo '</div>'; 
 
+    }
+
+
+    function checkUsernameAvailabilityAjax() 
+    {
+       $username = $this->request->getPost('username');
+       $isUsernameAvailable = $this->UserModel->isUsernameAvailable($username);
+       if($isUsernameAvailable == true)
+       { 
+         echo '<span class="text-success float-right">&nbsp;&nbsp;| '.$username.' is available!</span>';
+       }else{
+         echo '<span class="text-danger float-right">&nbsp;&nbsp;| '.$username.' already taken!</span>'; 
+       }
     }
 
 

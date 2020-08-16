@@ -8,10 +8,11 @@ class Account extends BaseController
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel');     
         $this->MessageModel   = model('MessageModel');      
-        $this->CrudModel      = model('CrudModel');       
+        $this->CrudModel      = model('CrudModel'); 
+        helper('inflector');       
 	}
 
-   public function index()
+   public function index() 
 	{
 		$data['title'] = "My Account | PropertyRaja.com";
 	    return view('frontend/sell-property',$data);    
@@ -50,8 +51,7 @@ class Account extends BaseController
              $toUpdate2 = [
 	               'firstname' => $this->request->getPost('firstname'),
 	               'lastname'  => $this->request->getPost('lastname'),
-	               'email'     => $this->request->getPost('email'),
-	               'address1'  => $this->request->getPost('address1'),
+	               'address1'  => $this->request->getPost('address1'),  
 	               'address2'  => $this->request->getPost('address2'),
 	               'country'   => $this->request->getPost('country'),
 	               'state'     => $this->request->getPost('state'), 
@@ -64,14 +64,22 @@ class Account extends BaseController
 		     return redirect()->to('/profile'); 
            }
         }
+        $data['sponsoredPropertiesAds'] = $this->PropertyModel->getAllSponsoredProperties(1);
 	    return view('frontend/profile',$data);    
 	}
     
 
-	public function listings() 
+	public function my_properties() 
 	{
-		$data['title'] = "My Listings | PropertyRaja.com";
-	    return view('frontend/listings',$data);    
+		$data['title'] = "My Added Properties | PropertyRaja.com";
+		$properties = $this->PropertyModel->getPropertiesByUserId(cUserId()); 
+	     if($properties != NULL) 
+	     {  
+           $data['properties'] = $properties; 
+	     }else{
+	     	$data['properties'] = NULL;
+	     }   
+	    return view('frontend/my-properties',$data);    
 	} 
 
 
@@ -110,13 +118,15 @@ class Account extends BaseController
 		       }
 		       
 		       return redirect()->to('/favourites/');
-		    }
-
-
-		     if($this->PropertyModel->getPropertiesByUserFavourite(cUserId())) 
-		     { 
-               $data['properties'] = $this->PropertyModel->getPropertiesByUserFavourite(cUserId());
-		     }  
+		    }  
+         
+              $properties = $this->PropertyModel->getPropertiesByUserFavourite(cUserId());
+		     if($properties != NULL) 
+		     {  
+               $data['properties'] = $properties; 
+		     }else{
+		     	$data['properties'] = NULL;
+		     }   
 	    return view('frontend/favourites',$data);   
 	}  
 
@@ -133,6 +143,13 @@ class Account extends BaseController
 		{  
             $data['getPropertyDetail'] = $this->PropertyModel->getPropertyDetail($data['pid']);
             $data['getMessages'] = $this->MessageModel->getMessages($data['pid'],$data['fk_user_id'],cUserId()); 
+		}
+
+		if(isset($_GET['pid']) && isset($_GET['uid']))
+		{ 
+	      $pid  = $_GET['pid'];		
+	      $fuid = $_GET['uid']; 		
+          $this->MessageModel->markMessagesAsRead(cUserId(),$fuid,$pid);  
 		} 
 
 	    return view('frontend/messages',$data);    
@@ -141,8 +158,14 @@ class Account extends BaseController
 
 	public function notifications()
 	{
-		$data['title'] = "Notifications | PropertyRaja.com";
+		$data['title'] = "Notifications | PropertyRaja.com";  
+		$data['notifications'] = $this->AccountModel->notifications($userId = cUserId());
 	    return view('frontend/notifications',$data);     
+	}
+
+	public function test()
+	{
+		echo allMessagesReceived();
 	}
 
 

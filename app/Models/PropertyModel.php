@@ -127,10 +127,16 @@ class PropertyModel extends Model
 
 
 
-   function getAllFeaturedProperties() 
+   function getAllFeaturedProperties($status = NULL) 
    {      
          $builder = $this->db->table($this->properties_tb); 
-         $builder->where(['status' =>1,'has_ads' => 1]);
+         if($status)
+         {
+            $builder->where(['status' =>1,'has_ads' => 1]);
+         }else{
+            $builder->where(['has_ads' => 1]);
+         }
+        
          $query = $builder->get();
           if(!empty($query->getResultArray()))
           {
@@ -142,24 +148,41 @@ class PropertyModel extends Model
              return $data;  
           }
           
-   }
+   }  
 
+   
 
-
-   function getAllSponsoredProperties() 
+   function getAllSponsoredProperties($status = NULL)  
    {
          $builder = $this->db->table($this->properties_tb); 
-         $builder->where(['status' =>1,'has_ads' => 2]);
+          if($status) 
+         {
+            $builder->where(['status' =>1,'has_ads' => 2]);
+         }else{
+            $builder->where(['has_ads' => 2]);
+         } 
          $query = $builder->get();
           if(!empty($query->getResultArray()))
           {
              foreach($query->getResultArray() as $r)
-               $r['images'] = $this->getPropertyImages($r['id']);
-               $data[] = $r;
+             {
+               $r['images'] = $this->getPropertyImages($r['id']); 
+               $r['propertyType']  = $this->getPropertyTypeFromPropertyId($r['property_type']);
+               $r['propertyCity']  = $this->getPropertyCity($r['city']);  
+               $data[] = $r; 
+             }
              return $data;  
           } 
    }
+   
 
+   function getPropertyCity($cityId) 
+   {
+        $builder = $this->db->table($this->cities);
+        $builder->where(['id' => $cityId]); 
+        $query = $builder->get(); 
+        return $query->getRowArray(); 
+   }
 
    function getPropertyDetail($propertyId) 
    {
@@ -302,9 +325,11 @@ class PropertyModel extends Model
        $query = $builder->get(); 
         if(!empty($query->getResultArray()))
         {
-           foreach($query->getResultArray() as $r){
+           foreach($query->getResultArray() as $r){ 
              $r['images'] = $this->getPropertyImages($r['id']);
              $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']);
+             $r['propertyType']  = $this->getPropertyTypeFromPropertyId($r['property_type']);
+             $r['contact']  = $this->getPropertyContact($r['user_id']);
              $data[] = $r;
            } 
            return $data;   
@@ -319,14 +344,15 @@ class PropertyModel extends Model
        $builder->where(['user_id' => $userId]);  
        $query = $builder->get();  
        //print_r($query->getResultArray());exit; 
+        $data = NULL;   
         if(is_array($query->getResultArray()))   
         {
            foreach($query->getResultArray() as $r){ 
             
              $data[] = $this->getPropertyDetail($r['property_id']);    
            } 
-           return $data;          
-        }  
+           return $data;            
+        }
    }      
 
 

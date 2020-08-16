@@ -38,7 +38,7 @@ class Dashboard extends BaseController
 
 	public function appointments()
 	{
-		$data['title'] = "Agent Appointments | Welcome to PropertyRaja";
+		$data['title'] = "Agent Appointments | Welcome to PropertyRaja"; 
 	   return view('frontend/dashboard/appointments',$data);
 	}
 

@@ -10,7 +10,9 @@
            <h1 class="display-4">Welcome Agent</h1>
 
             <div class="card"> 
-              <div class="card-header"><?= $this->include('frontend/dashboard/tabs') ?></div>
+                <div class="card-header">
+                  <?= $this->include('frontend/dashboard/tabs') ?>  
+                </div>
               <div class="card-body">
                 <h1 class="display-4">My Listings <b class="text-muted float-right" style="font-size: 20px;margin-top:20px">Showing 06 Result . Active</b> </h1> 
                 

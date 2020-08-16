@@ -10,6 +10,7 @@ class AccountModel extends Model
        protected $countries = '_countries'; 
        protected $states = '_states'; 
        protected $cities = '_cities'; 
+       protected $notifications = '_notifications'; 
        protected $status_tb = '_status';  
 
     
@@ -51,10 +52,54 @@ class AccountModel extends Model
         $builder->where('id',$status);
         $query = $builder->get();
           foreach($query->getResultArray() as $r)
-              $data = $r;
-
+          {
+              $data[] = $r;
+          } 
            return $data; 
-    } 
+    }
+
+
+    function notifications($userId) 
+    {   
+        $builder = $this->db->table($this->notifications); 
+        $builder->select('*');
+        $builder->where(['user_id' => $userId]); 
+        $query = $builder->get(); 
+        if(count($query->getResultArray()) > 0 ) 
+        {
+            foreach($query->getResultArray() as $r)
+            {
+              $data[] = $r;
+            }
+            return $data;   
+        }    
+    }
+
+
+    function allNotificationsReceived($userId = NULL,$status = NULL)    
+    {
+       $builder = $this->db->table($this->notifications);
+       if($status == 0)
+       {
+         // Get all my unread notifications
+           $builder->where(['user_id' => $userId,'status' => 0]);
+       }elseif($status == 1){
+         // Get all my received read notifications
+           $builder->where(['user_id' => $userId,'status' => 1]);
+       }else{
+          // Get all my received notifications
+           $builder->where(['user_id' => $userId]); 
+       } 
+         
+       $query = $builder->get(); 
+        if(!empty($query->getResultArray()))
+        {
+           return count($query->getResultArray());  
+        }else{
+           return 0;
+        }  
+    }  
+
 
     function saveUserSessLog($data)
     {
