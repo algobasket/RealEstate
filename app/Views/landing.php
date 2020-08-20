@@ -11,7 +11,7 @@
 
 <main role="main">
 
-  <section class="jumbotron text-center">
+  <section class="jumbotron text-center" style="background-color: antiquewhite;">
     <div class="container">
       <center>
        <a href="<?= base_url();?>"> 

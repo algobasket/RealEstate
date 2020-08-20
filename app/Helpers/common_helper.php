@@ -454,3 +454,10 @@ if(!function_exists('publicFolder')){
    	  }  
    }
 }
+
+if(!function_exists('allowedImageExt')){
+	function allowedImageExt() 
+	{
+		return json_encode(['jpg','png','webp','jpeg','JPG','PNG','WEBP','JPEG']);  
+	}
+}

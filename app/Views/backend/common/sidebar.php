@@ -43,6 +43,12 @@
         <a href="<?= base_url();?>/backend/user/developers" class="stretched-link"></a>
      </li> 
     
+    <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "customers") ? "active" : "" ;?>">
+      Customers/Owners<br> 
+    <small> Customers/Owners</small> 
+      <span class="badge badge-info float-right">0</span>
+      <a href="<?= base_url();?>/backend/user/customers" class="stretched-link"></a>
+    </li>
 
     <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "staff") ? "active" : "" ;?>">
       Staff Members<br> 

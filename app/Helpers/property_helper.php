@@ -43,3 +43,32 @@ if(! function_exists('fullUrl'))
   	return $actual_link;
   }
 }
+
+if(! function_exists('totalPropertiesSoldByUser'))
+{
+  function totalPropertiesSoldByUser($userId){
+     $PropertyModel  = model('PropertyModel');  
+  	 $total_sold = count($PropertyModel->totalPropertiesSoldByUser($userId));
+     return $total_sold;      
+  }
+}
+
+if(! function_exists('totalPropertiesSoldByUser'))
+{
+  function totalPropertiesSoldByUser($userId){
+     $PropertyModel  = model('PropertyModel');  
+  	 $total_sold = $PropertyModel->totalPropertiesSoldByUser($userId);
+     return $total_sold;      
+  }
+}  
+
+
+if(! function_exists('totalUserReviews'))  
+{
+  function totalUserReviews($userType,$userId,$status)  
+  {
+     $UserModel  = model('UserModel');  
+  	 $getAllReviews = $UserModel->getAllReviews($userType,$userId,$status); 
+     return $getAllReviews ? count($getAllReviews) : 0;         
+  }   
+}     

@@ -202,7 +202,13 @@
             <div class="col-md-12">
                 <h3>Contact</h3>
                   <div class="shadow media position-relative">
-                    <img src="<?= publicFolder();?>/user-images/agent-1.jpeg" class="mr-3" alt="..." width="200">
+                     
+                     <?php if($propertyDetail['contact']['profile_pic']){ ?>
+                        <img src="<?= publicFolder();?>/user-images/thumbnails/<?= $propertyDetail['contact']['profile_pic'];?>" class="mr-3" alt="..." width="200">
+                     <?php }else{ ?>
+                     <img src="<?= publicFolder();?>/images/agent-c.png" class="img-circled" width="150"/>    
+                     <?php } ?>
+
                     <div class="media-body"><br>
                       <h5 class="mt-0">
                         <?php echo ucfirst($propertyDetail['contact']['firstname']) . ' ' . ucfirst($propertyDetail['contact']['lastname']);?>
@@ -225,14 +231,16 @@
                     
                     <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?> 
                       <a href="javascript:void(0)" class="btn btn-danger">
-                         <img src="<?= publicFolder();?>/images/contact-phone2.png" class="mr-3" alt="..." width="25">
-                         <?php if($propertyDetail['contact']['role'] =='customer' && $propertyDetail['contact']['activity'] =='sell') : ?>
+                         <img src="<?= publicFolder();?>/images/contact-phone2.png" alt="..." width="25">
+                         <?php if($propertyDetail['contact']['role'] =='customer' && $propertyDetail['contact']['activity'] =='sell'){ ?>
                            Contact <?php echo ucfirst("Owner");?>
-                         <?php endif ?> 
-                         <?php if($propertyDetail['contact']['role'] =='customer' && $propertyDetail['contact']['activity'] =='buy_rent') : ?>
+                         <?php }elseif($propertyDetail['contact']['role'] =='customer' && $propertyDetail['contact']['activity'] =='buy_rent'){ ?>
                            Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
-                         <?php endif ?> 
-                          
+                         <?php }elseif($propertyDetail['contact']['role'] =='agent'){ ?>
+                           Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
+                         <?php }else{ ?> 
+                           Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
+                         <?php } ?>  
                       </a>
                   
 

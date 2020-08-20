@@ -17,7 +17,7 @@
     <?= $this->include('backend/common/sidebar');?> 
     <div class="col-md-9">
         
-        <?php if($section == "add"){ ?> 
+        <?php if($section == "add"){ ?>
 
 
 
@@ -133,7 +133,7 @@
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                           </tr>
-                        </thead>
+                        </thead> 
                         <tbody>
                           <?php $i = 1;foreach($getLeads as $lead) : ?>
                           <tr>

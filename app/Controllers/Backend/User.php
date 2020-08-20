@@ -14,6 +14,8 @@ class User extends BackendController
       $this->UserModel      = model('UserModel');   
       $this->CrudModel      = model('CrudModel');    
       $this->PropertyModel  = model('PropertyModel');     
+      $this->GeographyModel  = model('GeographyModel');
+      helper('property');       
   }   
 
 
@@ -29,50 +31,56 @@ class User extends BackendController
   {
     $data['title'] = "Leads";
 
-    if($this->request->getPost('editLead')) 
-        {  
+       if($this->request->getPost('editLead')) 
+        {   
             $data = [
-              'name'       => $this->request->getPost('name'),
-              'updated_at' => date('Y-m-d h:i:s'),
+              'user_id'           => $this->request->getPost('user_id'), 
+              'property_id'       => $this->request->getPost('property_id'),
+              'lead_source_id'    => $this->request->getPost('lead_source_id'),
+              'lead_source_link'  => $this->request->getPost('lead_source_link'),
+              'updated_at' => date('Y-m-d h:i:s'), 
               'status'     => $this->request->getPost('status')
             ];
-            $result = $this->CrudModel->U('_amenities',['id' => Segment(5)],$data);
+            $result = $this->CrudModel->U('_interested',['id' => Segment(5)],$data);
             if($result == true)
             {  
-               $this->session->setFlashdata('alert','<div class="alert alert-success">Amenities Updated</div>');
-               return redirect()->to('/backend/properties/amenities');
+               $this->session->setFlashdata('alert',successAlert('Lead Updated'));
+               return redirect()->to('/backend/user/leads');
             }
         } 
        if($this->request->getPost('addLead')) 
        {    
             $data = [ 
-                  'name'       => $this->request->getPost('name'),
-                  'created_at' => date('Y-m-d h:i:s'),
+                  'user_id'           => $this->request->getPost('user_id'), 
+                  'property_id'       => $this->request->getPost('property_id'),
+                  'lead_source_id'    => $this->request->getPost('lead_source_id'),
+                  'lead_source_link'  => $this->request->getPost('lead_source_link'),
+                  'created_at' => date('Y-m-d h:i:s'), 
                   'updated_at' => date('Y-m-d h:i:s'),
-                  'status'     => $this->request->getPost('status')
+                  'status'     => $this->request->getPost('status') 
                 ]; 
-            $result = $this->CrudModel->C('_amenities',$data);   
+            $result = $this->CrudModel->C('_interested',$data);    
             if($result == true) 
             {  
-               $this->session->setFlashdata('alert','<div class="alert alert-success">Amenities Added</div>');
-               return redirect()->to('/backend/properties/amenities');
+               $this->session->setFlashdata('alert',successAlert('Lead Added'));
+               return redirect()->to('/backend/user/leads');
             } 
        } 
        $data['section']    = segment(4);
        if($data['section'] == "edit")
        {  
-           $data['lead'] = $this->UserModel->getLeads(null,segment(5));  
+           $data['lead'] = $this->UserModel->getLeads(null,segment(5))[0]; 
        }
        if($data['section'] == "delete")
-       {  
-           $this->CrudModel->D('_amenities',['id' => Segment(5)]);
-           $this->session->setFlashdata('alert','<div class="alert alert-danger">Amenities Deleted</div>');
-           return redirect()->to('/backend/properties/amenities');
+       {   
+           $this->CrudModel->D('_interested',['id' => Segment(5)]);
+           $this->session->setFlashdata('alert',redAlert('Lead Deleted'));
+           return redirect()->to('/backend/user/leads'); 
        }  
-       $data['getLeads'] = $this->UserModel->getLeads(null,null); 
-       $data['allStatus'] = $this->AccountModel->allStatus();
-
-       return view('backend/user',$data);
+       $data['getLeads']   = $this->UserModel->getLeads(null,null); 
+       $data['allStatus']  = $this->AccountModel->allStatus(); 
+       $data['leadSource'] = $this->UserModel->leadSource();     
+       return view('backend/leads',$data);   
   }
 
 
@@ -89,9 +97,121 @@ class User extends BackendController
       $data['total_sold'] = $total_sold ? $total_sold : 0;
 
     }elseif($data['section'] == "edit"){
+        
+        if($this->request->getPost('uploadProfilePic'))
+        {
+              $exts = ['jpg','png','webp','jpeg','JPG','PNG','JPEG','WEBP']; 
+               if($imagefile = $this->request->getFiles()) 
+          {  $i = 0;
+             foreach($imagefile['images'] as $img) 
+             {
+                if ($img->isValid() && ! $img->hasMoved())
+                {      
+                       if(in_array($img->getClientExtension(),$exts))
+                       {          
+                               if($img->getSizeByUnit('mb') > 4) 
+                               {
+                                              $invalid_size =  "Please upload image between 1MB-4MB"; 
+                               }else{
+                                                   $newName = $img->getRandomName();
+                               if($img->move(WRITEPATH.'../public/user-images', $newName))
+                               { 
+                                      $this->AccountModel->removeUserProfilePic(segment(5)); 
 
-       
+                                      $insert = [
+                                                  'profile_pic' => $newName,     
+                                                  'updated_at'  => date('Y-m-d h:i:s')                                         
+                                      ];  
+                                   $this->CrudModel->U('_user_details',['user_id' => segment(5)],$insert); 
+                                   
+                                                      $image = \Config\Services::image()
+                              ->withFile(WRITEPATH.'../public/user-images/'.$newName)  
+                              ->fit(200, 200, 'center')
+                              ->save(WRITEPATH.'../public/user-images/thumbnails/'.$newName);   
 
+                                   $i++;  
+                                 } 
+                                 
+                              }
+                                           
+                       }else{
+                              $invalid_ext = $img->getClientExtension() . " - Invalid image extension";
+                       }
+                     
+                }
+             }
+          }
+
+           if($i > 0) 
+           { 
+              $this->session->setFlashdata('alert',successAlert('Your Profile image uploaded!'));
+           }            
+           if(@$invalid_ext)
+           {
+              $this->session->setFlashdata('alert',redAlert($invalid_ext));  
+           }
+           if(@$invalid_size)
+           {
+              $this->session->setFlashdata('alert',redAlert($invalid_size));   
+           }
+              return redirect()->to('/backend/user/agents/edit/'.segment(5));
+        }
+
+        if($this->request->getPost('update_profile'))
+        {
+             if(! $this->validate([
+              'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
+              'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
+              'display_name' => 'required|min_length[2]|max_length[20]|alpha',
+              'username'    => 'min_length[0]|max_length[15]|alpha_numeric',
+              'mobile'      => 'min_length[10]|max_length[15]|numeric',
+              'email'       => 'min_length[5]|max_length[40]|valid_email', 
+              'address1'    => 'min_length[5]|max_length[100]',
+              'address2'    => 'min_length[0]|max_length[100]'  
+           ])){
+                 $this->session->setFlashdata('alert','<div class="alert alert-danger">'.\Config\Services::validation()->listErrors().'</div>');
+        
+           }else{
+             $toUpdate = [ 
+                  'display_name' => $this->request->getPost('display_name'),
+                  'username'     => $this->request->getPost('username'),
+                  'mobile'       => $this->request->getPost('mobile'),
+                  'email'        => $this->request->getPost('email') 
+             ];
+             $toUpdate2 = [
+                 'firstname' => $this->request->getPost('firstname'),
+                 'lastname'  => $this->request->getPost('lastname'),
+                 'address1'  => $this->request->getPost('address1'),  
+                 'address2'  => $this->request->getPost('address2'),
+                 'country'   => $this->request->getPost('country'),
+                 'state'     => $this->request->getPost('state'), 
+                 'city'      => $this->request->getPost('city'),   
+                 'activity'  => $this->request->getPost('myActivity'),
+                 'specialities'  => $this->request->getPost('specialities'),  
+                 'experience'  => $this->request->getPost('experience'),  
+                 'website'  => $this->request->getPost('website'),  
+                 'linkedin'  => $this->request->getPost('linkedin'),  
+                 'twitter'  => $this->request->getPost('twitter'),  
+                 'facebook'  => $this->request->getPost('facebook'),  
+                 'instagram'  => $this->request->getPost('instagram'),  
+                 'blog'  => $this->request->getPost('blog'),  
+                 'english_level'  => $this->request->getPost('english_level'),  
+                 're_license_no'  => $this->request->getPost('re_license_no'),   
+                 'service_area'  => json_encode($this->request->getPost('service_area'),true),
+                 'updated_at' => date('Y-m-d h:i:s')    
+             ];  
+             $this->CrudModel->U('_users',['id' => segment(5)],$toUpdate); 
+             $this->CrudModel->U('_user_details',['user_id' => segment(5)],$toUpdate2);
+             $this->session->setFlashdata('alert',successAlert('Agent profile updated!'));
+             return redirect()->to('/backend/user/agents/edit/'.segment(5));  
+           } 
+        } 
+            $data['profile']   = $this->AccountModel->getProfileDetail(segment(5)); 
+            $data['countries'] = $this->GeographyModel->countries();
+            $data['states']    = $this->GeographyModel->states();
+            $data['cities']    = $this->GeographyModel->cities();
+            $total_sold = $this->PropertyModel->totalPropertiesSoldByUser(segment(5));
+            $data['total_sold'] = $total_sold ? $total_sold : 0 ;  
     }else{
 
       $data['agents'] = $this->UserModel->getAllUsersByRole('agent');  
@@ -106,6 +226,139 @@ class User extends BackendController
   {
     $data['title'] = "Developer";
     return view('backend/developers',$data); 
+  }
+
+
+  function customers()
+  {
+     $data['title'] = "Buyers/Owners"; 
+     $data['section'] = segment(4); 
+
+    if($data['section'] == "profile"){ 
+     
+      $data['profile'] = $this->UserModel->getUserDetail(segment(5));  
+
+    }elseif($data['section'] == "edit"){
+        
+        if($this->request->getPost('uploadProfilePic'))
+        {
+              $exts = ['jpg','png','webp','jpeg','JPG','PNG','JPEG','WEBP']; 
+               if($imagefile = $this->request->getFiles()) 
+          {  $i = 0;
+             foreach($imagefile['images'] as $img) 
+             {
+                if ($img->isValid() && ! $img->hasMoved())
+                {      
+                       if(in_array($img->getClientExtension(),$exts))
+                       {          
+                               if($img->getSizeByUnit('mb') > 4) 
+                               {
+                                              $invalid_size =  "Please upload image between 1MB-4MB"; 
+                               }else{
+                                                   $newName = $img->getRandomName();
+                               if($img->move(WRITEPATH.'../public/user-images', $newName))
+                               { 
+                                      $this->AccountModel->removeUserProfilePic(segment(5)); 
+
+                                      $insert = [
+                                                  'profile_pic' => $newName,     
+                                                  'updated_at'  => date('Y-m-d h:i:s')                                         
+                                      ];  
+                                   $this->CrudModel->U('_user_details',['user_id' => segment(5)],$insert); 
+                                   
+                                                      $image = \Config\Services::image()
+                              ->withFile(WRITEPATH.'../public/user-images/'.$newName)  
+                              ->fit(200, 200, 'center')
+                              ->save(WRITEPATH.'../public/user-images/thumbnails/'.$newName);   
+
+                                   $i++;  
+                                 } 
+                                 
+                              }
+                                           
+                       }else{
+                              $invalid_ext = $img->getClientExtension() . " - Invalid image extension";
+                       }  
+                }
+             }
+          }
+
+           if($i > 0) 
+           { 
+              $this->session->setFlashdata('alert',successAlert('Your Profile image uploaded!'));
+           }            
+           if(@$invalid_ext)
+           {
+              $this->session->setFlashdata('alert',redAlert($invalid_ext));  
+           }
+           if(@$invalid_size)
+           {
+              $this->session->setFlashdata('alert',redAlert($invalid_size));   
+           }
+              return redirect()->to('/backend/user/customers/edit/'.segment(5));
+        }
+
+        if($this->request->getPost('update_profile'))
+        {
+             if(! $this->validate([
+              'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
+              'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
+              'display_name' => 'required|min_length[2]|max_length[20]|alpha',
+              'username'    => 'min_length[0]|max_length[15]|alpha_numeric',
+              'mobile'      => 'min_length[10]|max_length[15]|numeric',
+              'email'       => 'min_length[5]|max_length[40]|valid_email', 
+              'address1'    => 'min_length[5]|max_length[100]',
+              'address2'    => 'min_length[0]|max_length[100]'  
+           ])){
+                 $this->session->setFlashdata('alert','<div class="alert alert-danger">'.\Config\Services::validation()->listErrors().'</div>');
+        
+           }else{
+             $toUpdate = [ 
+                  'display_name' => $this->request->getPost('display_name'),
+                  'username'     => $this->request->getPost('username'),
+                  'mobile'       => $this->request->getPost('mobile'),
+                  'email'        => $this->request->getPost('email') 
+             ];
+             $toUpdate2 = [
+                 'firstname' => $this->request->getPost('firstname'),
+                 'lastname'  => $this->request->getPost('lastname'),
+                 'address1'  => $this->request->getPost('address1'),  
+                 'address2'  => $this->request->getPost('address2'),
+                 'country'   => $this->request->getPost('country'),
+                 'state'     => $this->request->getPost('state'), 
+                 'city'      => $this->request->getPost('city'),   
+                 'activity'  => $this->request->getPost('myActivity'),
+                 'specialities'  => $this->request->getPost('specialities'),  
+                 'experience'  => $this->request->getPost('experience'),  
+                 'website'  => $this->request->getPost('website'),  
+                 'linkedin'  => $this->request->getPost('linkedin'),  
+                 'twitter'  => $this->request->getPost('twitter'),  
+                 'facebook'  => $this->request->getPost('facebook'),  
+                 'instagram'  => $this->request->getPost('instagram'),  
+                 'blog'  => $this->request->getPost('blog'),  
+                 'english_level'  => $this->request->getPost('english_level'),  
+                 're_license_no'  => $this->request->getPost('re_license_no'),   
+                 'service_area'  => json_encode($this->request->getPost('service_area'),true),
+                 'updated_at' => date('Y-m-d h:i:s')     
+             ];  
+             $this->CrudModel->U('_users',['id' => segment(5)],$toUpdate); 
+             $this->CrudModel->U('_user_details',['user_id' => segment(5)],$toUpdate2);
+             $this->session->setFlashdata('alert',successAlert('Agent profile updated!'));
+             return redirect()->to('/backend/user/customers/edit/'.segment(5));  
+           } 
+        } 
+            $data['profile']   = $this->AccountModel->getProfileDetail(segment(5)); 
+            $data['countries'] = $this->GeographyModel->countries();
+            $data['states']    = $this->GeographyModel->states();
+            $data['cities']    = $this->GeographyModel->cities();
+            $total_sold = $this->PropertyModel->totalPropertiesSoldByUser(segment(5));
+            $data['total_sold'] = $total_sold ? $total_sold : 0 ;   
+    }else{ 
+
+      $data['customers'] = $this->UserModel->getAllUsersByRole('customer');  
+
+    }
+     return view('backend/customers',$data);  
   }
 
 
@@ -153,12 +406,6 @@ class User extends BackendController
           }          
           echo '</ul>';                                                                       
    }
-
-
-
-
-
-
 
 
 }

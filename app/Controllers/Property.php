@@ -253,18 +253,16 @@ class Property extends BaseController
 				   if($i > 0)
 				   { 
                 $this->session->setFlashdata('alert','<div class="alert alert-success">Your property image uploaded!</div>');
-				   }   
-	          	   	  
-	          	   if(@$invalid_ext)
-	          	   {
-	          	   	  $this->session->setFlashdata('alert','<div class="alert alert-danger">'.$invalid_ext.'</div>');
-	          	   }
-	          	   if(@$invalid_size)
-	          	   {
-	          	   	  $this->session->setFlashdata('alert','<div class="alert alert-danger">'.$invalid_size.'</div>');
-	          	   }
-
-          	       return redirect()->to('/add-property-images/'.segment(2));  
+				   }      	  
+      	   if(@$invalid_ext)
+      	   {
+      	   	  $this->session->setFlashdata('alert','<div class="alert alert-danger">'.$invalid_ext.'</div>');
+      	   }
+      	   if(@$invalid_size)
+      	   {
+      	   	  $this->session->setFlashdata('alert','<div class="alert alert-danger">'.$invalid_size.'</div>');
+      	   }
+          	return redirect()->to('/add-property-images/'.segment(2));  
          }
          $data['propertyImages'] = $this->getPropertyImages(segment(2));   
 		 return view('frontend/add-property-images',$data); 

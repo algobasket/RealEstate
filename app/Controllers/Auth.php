@@ -527,7 +527,7 @@ class Auth extends BaseController
     {   
        $data['title'] = "PropertyRaja"; 
        
-       $userDetail = $this->UserModel->getUserDetail(25); 
+       $userDetail = $this->UserModel->getUserDetail($userId);  
        $TemplatesModel = model('TemplatesModel'); 
        $template   = $TemplatesModel->getEmailTemplate($template);    
       

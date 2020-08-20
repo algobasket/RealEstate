@@ -27,6 +27,66 @@ class Account extends BaseController
         $data['countries'] = $this->GeographyModel->countries();
         $data['states']    = $this->GeographyModel->states();
         $data['cities']    = $this->GeographyModel->cities(); 
+
+        if($this->request->getPost('uploadProfilePic'))
+        {
+        	    $exts = ['jpg','png','webp','jpeg','JPG','PNG','JPEG','WEBP']; 
+        	     if($imagefile = $this->request->getFiles()) 
+					{  $i = 0;
+					   foreach($imagefile['images'] as $img) 
+					   {
+					      if ($img->isValid() && ! $img->hasMoved())
+					      {      
+					      	     if(in_array($img->getClientExtension(),$exts))
+					      	     {          
+					      	     	       if($img->getSizeByUnit('mb') > 4) 
+					      	     	       {
+                                              $invalid_size =  "Please upload image between 1MB-4MB"; 
+					      	     	       }else{
+                                                   $newName = $img->getRandomName();
+										           if($img->move(WRITEPATH.'../public/user-images', $newName))
+										           { 
+										           	      $this->AccountModel->removeUserProfilePic(cUserId()); 
+
+										           	      $insert = [
+						                                      'profile_pic' => $newName,    
+							                                  'updated_at'  => date('Y-m-d h:i:s')							                           
+										           	      ];  
+										           	   $this->CrudModel->U('_user_details',['user_id' => cUserId()],$insert); 
+										           	   
+                                                      $image = \Config\Services::image()
+											        ->withFile(WRITEPATH.'../public/user-images/'.$newName)  
+											        ->fit(200, 200, 'center')
+											        ->save(WRITEPATH.'../public/user-images/thumbnails/'.$newName);   
+
+										           	   $i++;  
+										             } 
+										             
+					      	     	      }
+                                           
+					      	     }else{
+                                   $invalid_ext = $img->getClientExtension() . " - Invalid image extension";
+					      	     }
+					           
+					      }
+					   }
+					}
+
+				   if($i > 0)
+				   { 
+                      $this->session->setFlashdata('alert',successAlert('Your Profile image uploaded!'));
+				   }      	  
+		      	   if(@$invalid_ext)
+		      	   {
+		      	   	  $this->session->setFlashdata('alert',redAlert($invalid_ext));  
+		      	   }
+		      	   if(@$invalid_size)
+		      	   {
+		      	   	  $this->session->setFlashdata('alert',redAlert($invalid_size));  
+		      	   }
+          	      return redirect()->to('/profile');
+        }	
+        
         if($this->request->getPost('update_profile'))
         {
            if(! $this->validate([

@@ -14,10 +14,10 @@ class UserModel extends Model
        protected $property_interested_tb = '_interested'; 
        protected $properties_tb      = '_properties'; 
        protected $property_ty_tb     = '_property_type';  
-       protected $status_tb = '_status';  
-       protected $lead_source_tb = '_lead_source';  
+       protected $status_tb = '_status';   
        protected $reviews_tb = '_reviews';  
        protected $appointments_tb = '_appointments';  
+       protected $lead_source_tb = '_lead_source';   
 
     
     function getUserCountry($userId = NULL)
@@ -77,14 +77,19 @@ class UserModel extends Model
          }
 
          $query = $builder->get();
-
-        foreach($query->getResultArray() as $r)
-        {
-           $r['images'] = $PropertyModel->getPropertyImages($r['property_id']);
-           $data[] = $r;
-        }  
-          return $data;       
+         $data = array();
+        if(is_array($query->getResultArray()))
+        { 
+           foreach($query->getResultArray() as $r)
+           {
+             $r['images'] = $PropertyModel->getPropertyImages($r['property_id']);
+             $data[] = $r;
+           }  
+            return $data;    
+        } 
+           
     }
+
 
 
     function getAllUsersByRole($role)
@@ -96,6 +101,7 @@ class UserModel extends Model
          $builder->where($this->users_tb.'.role',$role); 
          //$builder->getCompiledSelect();exit;
          $query = $builder->get();
+         $data = array();
           foreach($query->getResultArray() as $r)
           {
               $data[] = $r;
@@ -118,6 +124,7 @@ class UserModel extends Model
            return $r;
         }   
     }
+
 
     function searchUser($txt)
     {
@@ -155,17 +162,18 @@ class UserModel extends Model
     }
 
 
+
     function getAllReviews($userType = NULL,$userId = NULL,$status = NULL)
     {
         $builder = $this->db->table($this->reviews_tb);  
         $builder->select([$this->reviews_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
-        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->reviews_tb.'.status'); 
+        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->reviews_tb.'.status','left'); 
         
          if(isset($userType)) 
          {
              if($userType == 'seller')
              {
-                $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->reviews_tb.'.buyer_id'); 
+                $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->reviews_tb.'.buyer_id','left'); 
                 $builder->where($this->reviews_tb.'.seller_id',$userId);
              }
              if($userType == 'buyer') 
@@ -187,6 +195,7 @@ class UserModel extends Model
         }  
         return $data;     
     } 
+
 
 
     function getAllUserAppointment($userType = NULL,$userId = NULL,$status = NULL)
@@ -222,6 +231,7 @@ class UserModel extends Model
             
     }
 
+
     function userActivity($userId)  
     {
          $builder = $this->db->table($this->user_detail_tb);
@@ -237,7 +247,23 @@ class UserModel extends Model
            }
            return $data;   
          }
+    } 
+
+
+    function leadSource()     
+    { 
+        $builder = $this->db->table($this->lead_source_tb);  
+        $builder->select([$this->lead_source_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->join($this->status_tb,$this->status_tb.'.id ='.$this->lead_source_tb.'.status','left');
+        $query = $builder->get();  
+        foreach($query->getResultArray() as $r)
+        {
+            $data[] = $r;  
+        }   
+        return $data;     
     }
+
+    
 
 
     function userRatings()

@@ -17,7 +17,7 @@ class AccountModel extends Model
     function getProfileDetail($userId)
     {
          $builder = $this->db->table($this->users_tb);
-         $builder->select('*');
+         $builder->select('*'); 
          $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id = '.$this->users_tb.'.id');
          $builder->where($this->users_tb.'.id',$userId); 
          $query = $builder->get();
@@ -27,6 +27,24 @@ class AccountModel extends Model
            }  
         }  
     }
+
+    function removeUserProfilePic($userId) 
+    {    
+         helper('filesystem');
+         $getProfileDetail = $this->getProfileDetail($userId);
+         $fileName = $getProfileDetail['profile_pic'];
+         $path = FCPATH.'./user-images/'.$fileName;   
+         //echo $path;exit;
+         if(file_exists($path) &&  $fileName !=NULL) 
+         { 
+           unlink(FCPATH.'user-images/'.$fileName); 
+           unlink(FCPATH.'user-images/thumbnails/'.$fileName);
+           $builder  = $this->db->table($this->user_detail_tb); 
+           $builder->where('user_id',$userId);   
+           $builder->update(['profile_pic' => '']);
+           return true;    
+         }     
+    } 
 
     function saveProfileDetail($data)
     {

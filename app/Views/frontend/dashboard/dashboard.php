@@ -61,8 +61,204 @@
                    <b>&nbsp;&nbsp;Actual Amount</b> = Σ (Total Price Of All Sales) |
                    <b>&nbsp;&nbsp;Target Amount</b> = Σ (Total Price Of All Listings)
                 </div>
+                
+                 <br>
+                <h3 class="display-4" style="font-size: 24px">Target vs Actual </h3>
+
+                 <div class="row">
+                    <div class="col-md-12">
+                         <div class="card">
+                            <div class="card-body">
+                                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                            </div>   
+                          </div> 
+                    </div>
+                  </div>
+
+
+
                 <br>
                 <h3 class="display-4" style="font-size: 24px">Stats</h3>
+
+                 <div class="row">
+                    <div class="col-sm-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Listings Views</h5>
+                          <canvas id="myChart" style="width: 300px !important"></canvas>
+                          <script>    
+                          var ctx = document.getElementById('myChart');
+                          var myChart = new Chart(ctx, {
+                              type: 'bar',
+                              data: {
+                                  labels: ['Jan', 'Feb', 'March', 'Apr', 'May', 'Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                                  datasets: [{
+                                      label: 'My Listings Views', 
+                                      data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
+                                      backgroundColor: [
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(255, 206, 86, 0.2)',
+                                          'rgba(75, 192, 192, 0.2)',
+                                          'rgba(153, 102, 255, 0.2)',
+                                          'rgba(255, 159, 64, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(255, 206, 86, 0.2)',
+                                          'rgba(75, 192, 192, 0.2)',
+                                          'rgba(153, 102, 255, 0.2)',
+                                          'rgba(255, 159, 64, 0.2)'
+                                      ],
+                                      borderColor: [
+                                          'rgba(255, 99, 132, 1)',
+                                          'rgba(54, 162, 235, 1)',
+                                          'rgba(255, 206, 86, 1)',
+                                          'rgba(75, 192, 192, 1)',
+                                          'rgba(153, 102, 255, 1)',
+                                          'rgba(255, 159, 64, 1)',
+                                          'rgba(255, 99, 132, 1)',
+                                          'rgba(54, 162, 235, 1)',
+                                          'rgba(255, 206, 86, 1)',
+                                          'rgba(75, 192, 192, 1)',
+                                          'rgba(153, 102, 255, 1)',
+                                          'rgba(255, 159, 64, 1)'
+                                      ],
+                                      borderWidth: 1
+                                  }]
+                              },
+                              options: {
+                                  scales: {
+                                      yAxes: [{
+                                          ticks: {
+                                              beginAtZero: true
+                                          }
+                                      }]
+                                  }
+                              }
+                          });
+                          </script>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Total Earning</h5>
+                          <canvas id="myChart2" style="width: 300px !important"></canvas>
+                          <script>    
+                          var ctx = document.getElementById('myChart2'); 
+                          var myChart = new Chart(ctx, {
+                              type: 'bar',
+                              data: {
+                                  labels: ['Jan', 'Feb', 'March', 'Apr', 'May', 'Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                                  datasets: [{ 
+                                      label: 'Total Earning', 
+                                      data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
+                                      backgroundColor: [
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(255, 206, 86, 0.2)',
+                                          'rgba(75, 192, 192, 0.2)',
+                                          'rgba(153, 102, 255, 0.2)',
+                                          'rgba(255, 159, 64, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(255, 206, 86, 0.2)',
+                                          'rgba(75, 192, 192, 0.2)',
+                                          'rgba(153, 102, 255, 0.2)',
+                                          'rgba(255, 159, 64, 0.2)'
+                                      ],
+                                      borderColor: [
+                                          'rgba(255, 99, 132, 1)',
+                                          'rgba(54, 162, 235, 1)',
+                                          'rgba(255, 206, 86, 1)',
+                                          'rgba(75, 192, 192, 1)',
+                                          'rgba(153, 102, 255, 1)',
+                                          'rgba(255, 159, 64, 1)',
+                                          'rgba(255, 99, 132, 1)',
+                                          'rgba(54, 162, 235, 1)',
+                                          'rgba(255, 206, 86, 1)',
+                                          'rgba(75, 192, 192, 1)',
+                                          'rgba(153, 102, 255, 1)',
+                                          'rgba(255, 159, 64, 1)'
+                                      ],
+                                      borderWidth: 1
+                                  }]
+                              },
+                              options: {
+                                  scales: {
+                                      yAxes: [{
+                                          ticks: {
+                                              beginAtZero: true
+                                          }
+                                      }]
+                                  }
+                              }
+                          });
+                          </script>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Realestate Developers</h5>
+                          <canvas id="myChart5" style="width: 300px !important"></canvas>
+                          <script>    
+                          var ctx = document.getElementById('myChart5');
+                          var myChart = new Chart(ctx, {
+                              type: 'bar',
+                              data: {
+                                  labels: ['Jan', 'Feb', 'March', 'Apr', 'May', 'Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                                  datasets: [{
+                                      label: 'Realestate Developers', 
+                                      data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
+                                      backgroundColor: [
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(255, 206, 86, 0.2)',
+                                          'rgba(75, 192, 192, 0.2)',
+                                          'rgba(153, 102, 255, 0.2)',
+                                          'rgba(255, 159, 64, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(255, 206, 86, 0.2)',
+                                          'rgba(75, 192, 192, 0.2)',
+                                          'rgba(153, 102, 255, 0.2)',
+                                          'rgba(255, 159, 64, 0.2)'
+                                      ],
+                                      borderColor: [
+                                          'rgba(255, 99, 132, 1)',
+                                          'rgba(54, 162, 235, 1)',
+                                          'rgba(255, 206, 86, 1)',
+                                          'rgba(75, 192, 192, 1)',
+                                          'rgba(153, 102, 255, 1)',
+                                          'rgba(255, 159, 64, 1)',
+                                          'rgba(255, 99, 132, 1)',
+                                          'rgba(54, 162, 235, 1)',
+                                          'rgba(255, 206, 86, 1)',
+                                          'rgba(75, 192, 192, 1)',
+                                          'rgba(153, 102, 255, 1)',
+                                          'rgba(255, 159, 64, 1)'
+                                      ],
+                                      borderWidth: 1
+                                  }]
+                              },
+                              options: {
+                                  scales: {
+                                      yAxes: [{
+                                          ticks: {
+                                              beginAtZero: true
+                                          }
+                                      }]
+                                  }
+                              }
+                          });
+                          </script>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
 
               </div>

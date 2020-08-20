@@ -15,6 +15,125 @@
     
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css" integrity="sha512-SUJFImtiT87gVCOXl3aGC00zfDl6ggYAw5+oheJvRJ8KBXZrr/TMISSdVJ5bBarbQDRC2pR5Kto3xTR0kpZInA==" crossorigin="anonymous" />  
+    <script src="https://kit.fontawesome.com/6fd02afa84.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha512-QEiC894KVkN9Tsoi6+mKf8HaCLJvyA6QIRzY5KrfINXYuP9NxdIkRQhGq3BZi0J4I7V5SidGM3XUQ5wFiMDuWg==" crossorigin="anonymous"></script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" integrity=" sha512-G8JE1Xbr0egZE5gNGyUm1fF764iHVfRXshIoUWCTPAbKkkItp/6qal5YAHXrxEu4HNfPTQs6HOu3D5vCGS1j3w==" crossorigin="anonymous"></script>  
+   <script>
+        window.onload = function () {
+
+        var options = {
+          animationEnabled: true,
+          theme: "light2",
+          title: {
+            text: "Monthly Sales Data"
+          },
+          axisX: {
+            valueFormatString: "MMM"
+          },
+          axisY: {
+            prefix: "Lac-",
+            labelFormatter: addSymbols
+          },
+          toolTip: {
+            shared: true
+          },
+          legend: {
+            cursor: "pointer",
+            itemclick: toggleDataSeries
+          },
+          data: [
+            {
+              type: "column",
+              name: "Actual Sales",
+              showInLegend: true,
+              xValueFormatString: "MMMM YYYY",
+              yValueFormatString: "Lac-#,##0",
+              dataPoints: [
+                { x: new Date(2020, 0), y: 20000 },
+                { x: new Date(2020, 1), y: 25000 },
+                { x: new Date(2020, 2), y: 30000 },
+                { x: new Date(2020, 3), y: 70000, indexLabel: "High Renewals" },
+                { x: new Date(2020, 4), y: 40000 },
+                { x: new Date(2020, 5), y: 60000 },
+                { x: new Date(2020, 6), y: 55000 },
+                { x: new Date(2020, 7), y: 33000 },
+                { x: new Date(2020, 8), y: 45000 },
+                { x: new Date(2020, 9), y: 30000 },
+                { x: new Date(2020, 10), y: 50000 },
+                { x: new Date(2020, 11), y: 35000 }
+              ]
+            },
+            {
+              type: "line",
+              name: "Target Sales",
+              showInLegend: true,
+              yValueFormatString: "Lac-#,##0",
+              dataPoints: [
+                { x: new Date(2020, 0), y: 32000 },
+                { x: new Date(2020, 1), y: 37000 },
+                { x: new Date(2020, 2), y: 40000 },
+                { x: new Date(2020, 3), y: 52000 },
+                { x: new Date(2020, 4), y: 45000 },
+                { x: new Date(2020, 5), y: 47000 },
+                { x: new Date(2020, 6), y: 42000 },
+                { x: new Date(2020, 7), y: 43000 },
+                { x: new Date(2020, 8), y: 41000 },
+                { x: new Date(2020, 9), y: 42000 },
+                { x: new Date(2020, 10), y: 50000 },
+                { x: new Date(2020, 11), y: 45000 }
+              ]
+            },
+            {
+              type: "area",
+              name: "Profit",
+              markerBorderColor: "white", 
+              markerBorderThickness: 2,
+              showInLegend: true,
+              yValueFormatString: "Lac-#,##0",
+              dataPoints: [
+                { x: new Date(2020, 0), y: 4000 },
+                { x: new Date(2020, 1), y: 7000 },
+                { x: new Date(2020, 2), y: 12000 },
+                { x: new Date(2020, 3), y: 40000 },
+                { x: new Date(2020, 4), y: 20000 },
+                { x: new Date(2020, 5), y: 35000 },
+                { x: new Date(2020, 6), y: 33000 },
+                { x: new Date(2020, 7), y: 20000 },
+                { x: new Date(2020, 8), y: 25000 },
+                { x: new Date(2020, 9), y: 16000 },
+                { x: new Date(2020, 10), y: 29000 },
+                { x: new Date(2020, 11), y: 20000 }
+              ]
+            }]
+        };
+        $("#chartContainer").CanvasJSChart(options);
+
+        function addSymbols(e) {
+          var suffixes = ["", "K", "M", "B"];
+          var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+
+          if (order > suffixes.length - 1)
+            order = suffixes.length - 1;
+
+          var suffix = suffixes[order];
+          return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+        }
+
+        function toggleDataSeries(e) {
+          if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+          } else {
+            e.dataSeries.visible = true;
+          }
+          e.chart.render();
+        }
+
+
+        }
+</script>
 
     <title><?= $title ? $title : "Site" ?></title>
   </head>
@@ -36,7 +155,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <script src="<?= publicFolder();?>/assets/js/script.js"></script>
-
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>  
     
     <script>
       $('document').ready(function(){
@@ -128,35 +247,6 @@ $(document).ready(function() {
             // Revalidate the date field
             $('#eventForm').formValidation('revalidateField', 'date');
         });
-
-    // $('#eventForm').formValidation({
-    //     framework: 'bootstrap',
-    //     icon: {
-    //         valid: 'glyphicon glyphicon-ok',
-    //         invalid: 'glyphicon glyphicon-remove',
-    //         validating: 'glyphicon glyphicon-refresh'
-    //     },
-    //     fields: {
-    //         name: {
-    //             validators: {
-    //                 notEmpty: {
-    //                     message: 'The name is required'
-    //                 }
-    //             }
-    //         },
-    //         date: {
-    //             validators: {
-    //                 notEmpty: {
-    //                     message: 'The date is required'
-    //                 },
-    //                 date: {
-    //                     format: 'YYYY-MM-DD',
-    //                     message: 'The date is not a valid'
-    //                 }
-    //             }
-    //         }
-    //     }
-    // });
 });
 </script>
 <script>
@@ -181,146 +271,6 @@ $(document).ready(function() {
 
 
 </script>
-<script>
-  $('document').ready(function(){
-    $('.msg_send_btn').click(function(){
-            var fk_user_id  = $('#fk_user_id').val(); 
-            var property_id = $('#property_id').val();
-            var message = $('.write_msg').val();
-            var obj = { 
-              'fk_user_id'  : fk_user_id,
-              'property_id' : property_id,
-              'message' : message 
-            };
-            $.ajax({ 
-              type : 'POST',  
-              data : obj,
-              url  : '/Message/messagePostAjax', 
-              success : function(res){
-                  //$('.msg_history').append(res);
-                  $('.write_msg').val('');
-              }
-            }); 
-      }); 
 
-
-
-    $('.searchDrop').change(function(){  
-          var listing_type  = $('.listing_type').val();
-          if(listing_type == "rent")
-          {
-            $('.rental_price').show();
-            $('.total_price').hide();
-          }else{
-            $('.rental_price').hide(); 
-            $('.total_price').show();
-          } 
-          var property_type = $('.property_type').val(); 
-          var price         = (listing_type == "rent") ? $('.rental_price').val() : $('.total_price').val(); 
-          var facing        = $('.facing').val(); 
-          var bhk_type       = $('.bhktype').val();   
-          var availability  = $('.availability').val(); 
-          var houseOwner    = $('#houseOwner:checked').val();  
-          var realEstateDeveloper  = $('#realEstateDeveloper:checked').val(); 
-          var agent  = $('#agent:checked').val(); 
-          var data = {
-             listing_type : listing_type,
-             property_type : property_type,
-             price : price,
-             facing : facing ? facing : 'any',
-             bhk_type : bhk_type,
-             availability : availability ? availability : 'any',
-             houseOwner : houseOwner ? houseOwner : 'any',
-             realEstateDeveloper : realEstateDeveloper ? realEstateDeveloper : 'any',
-             agent : agent ? agent : 'any' 
-          }
-          //alert("ok");  
-             $.ajax({
-                type : 'POST',
-                data : data,
-                url : '/Ajax/searchPropertyAjax', 
-                success:function(html){  
-                   $('.ajaxSearchResult').html(html);
-                   //console.log(html); 
-                 }
-              });
-        });
-         $('.searchDrop').click(function(){  
-          var listing_type  = $('.listing_type').val();
-          if(listing_type == "rent")
-          {
-            $('.rental_price').show();
-            $('.total_price').hide();
-          }else{
-            $('.rental_price').hide(); 
-            $('.total_price').show();
-          } 
-          var property_type = $('.property_type').val(); 
-          var price         = (listing_type == "rent") ? $('.rental_price').val() : $('.total_price').val(); 
-          var facing        = $('.facing').val(); 
-          var bhk_type       = $('.bhktype').val();   
-          var availability  = $('.availability').val(); 
-          var houseOwner    = $('#houseOwner:checked').val();  
-          var realEstateDeveloper  = $('#realEstateDeveloper:checked').val(); 
-          var agent  = $('#agent:checked').val(); 
-          var data = {
-             listing_type : listing_type,
-             property_type : property_type,
-             price : price,
-             facing : facing ? facing : 'any',
-             bhk_type : bhk_type,
-             availability : availability ? availability : 'any',
-             houseOwner : houseOwner ? houseOwner : 'any',
-             realEstateDeveloper : realEstateDeveloper ? realEstateDeveloper : 'any',
-             agent : agent ? agent : 'any' 
-          }
-          //alert("ok");  
-             $.ajax({
-                type : 'POST',
-                data : data,
-                url : '/Ajax/searchPropertyAjax', 
-                success:function(html){  
-                   $('.ajaxSearchResult').html(html);
-                   //console.log(html); 
-                 }
-              });
-        }); 
-
-  $('#checkUsernameAvailability').click(function(){
-    var username = $('#username').val();
-    var data = {
-      username : username
-    }
-    $.ajax({
-      type : 'POST',
-      data : data,  
-      url : '/Ajax/checkUsernameAvailabilityAjax',  
-      success:function(html){   
-         $('#isUsernameAvailable').html(html);
-         //console.log(html); 
-       }
-    });   
-  });
-
-
-  });
-//   setTimeout(function() {
-//             var fk_user_id  = $('#fk_user_id').val(); 
-//             var property_id = $('#property_id').val();
-//             var obj = { 
-//               'fk_user_id'  : fk_user_id,
-//               'property_id' : property_id
-//             };
-//            $.ajax({ 
-//               type : 'POST',  
-//               data : obj,
-//               url  : '/Message/getMessagesAjax', 
-//               success : function(res){
-//                   $('.msg_history').html(res);
-//               }
-//             }); 
-// }, 5000);
-</script>
-
-  </body>
+</body> 
 </html>  
