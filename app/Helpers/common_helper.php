@@ -371,6 +371,14 @@ if(!function_exists('statusList'))
     }
 }
 
+if(!function_exists('roleList')) 
+{
+    function roleList($type,$status)
+    {
+       return model('UserModel')->roleList($type,$status);  
+    }
+}
+
 if(!function_exists('removeSpace')){ 
 	function removeSpace($json){
       return str_replace(" ","",trim($json));

@@ -6,10 +6,10 @@
 <br>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="https:/">Home</a></li>
-      <li class="breadcrumb-item"><a href="https:/browse-course">Browse</a></li>
+      <li class="breadcrumb-item"><a href="<?= base_url();?>/backend/dashboard/index">Home</a></li> 
+      <li class="breadcrumb-item"><a href="<?= base_url().'/backend/'.segment(2);?>/index"><?= ucfirst(segment(2));?></a></li>
       </ol>
-    </nav>
+    </nav> 
     <br>  
 
     
@@ -123,8 +123,8 @@
                   <td><?= $s['created_at'];?></td>
                   <td><?= $s['updated_at'];?></td>
                   <td>
-                    <label class="<?= statusLabel($s['status'])['status_badge'];?>">
-                      <?= statusLabel($s['status'])['status_name'];?>
+                    <label class="<?= $s['status'];?>">
+                      <?= $s['status'];?> 
                     </label>
                   </td>
                   <td>

@@ -18,7 +18,8 @@ class UserModel extends Model
        protected $reviews_tb = '_reviews';  
        protected $appointments_tb = '_appointments';  
        protected $lead_source_tb = '_lead_source';   
-
+       protected $roles_tb = '_roles';   
+ 
     
     function getUserCountry($userId = NULL)
     {
@@ -261,6 +262,27 @@ class UserModel extends Model
             $data[] = $r;  
         }   
         return $data;     
+    }
+
+    function roleList($type,$status) 
+    {
+        $builder = $this->db->table($this->roles_tb);  
+        $builder->select([$this->roles_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->join($this->status_tb,$this->status_tb.'.id ='.$this->roles_tb.'.status','left'); 
+        if($type)
+        {
+          $builder->where($this->roles_tb.'.role_type',$type); 
+        }
+        if($status)
+        {
+          $builder->where($this->roles_tb.'.status',$status);  
+        } 
+        $query = $builder->get();  
+        foreach($query->getResultArray() as $r)
+        {
+            $data[] = $r;  
+        }   
+        return $data;    
     }
 
     

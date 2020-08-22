@@ -76,6 +76,7 @@
                                     <h6>
                                         PropertyRaja Premier Agent
                                     </h6>
+
                                     <h6>
                                       Ratings :
                                       <img src="<?= publicFolder();?>/images/star.png" width="20">
@@ -86,6 +87,21 @@
                                       <span>4/5</span>
                                     </h6>
                                     <h6>Reviews : <span>0</span></h6>
+                                     <h6>
+                                        Activity - <?= strtoupper((str_replace('_', ' / ', $profile['activity'])));?>
+                                    </h6>
+                                    <h6>
+                                        Verified Email - <?= ($profile['is_email_verified'] ==1) ? "Yes" : "No";?>
+                                     </h6>
+                                     <h6>
+                                        Verified Account - <?= ($profile['is_verified'] ==1) ? "Yes" : "No";?> 
+                                     </h6>
+                                     <h6>
+                                        Role - <?= ucfirst($profile['role']);?>
+                                    </h6>
+                                    <h6>
+                                        Account Status - <label class="<?= $profile['status_badge'];?>"><?= ucfirst($profile['status_name']);?></label>
+                                    </h6>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
@@ -112,7 +128,7 @@
                                 <a href="<?= $profile['website'];?>" target="__self">
                                    <?= $profile['website'];?>
                                 </a>
-                            <?php }else{ ?>
+                            <?php }else{ ?>  
                                No Website
                             <?php } ?>
                               

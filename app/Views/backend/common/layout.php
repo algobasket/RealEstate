@@ -146,7 +146,7 @@
   <body> 
 
  <header>
-      <div class="navbar navbar-dark bg-dark box-shadow">
+      <div class="navbar navbar-dark box-shadow" style="background-color: #611119">
         <div class="container-fluid d-flex justify-content-between">
             <a href="https:/" class="navbar-brand d-flex align-items-center">
               <strong><img src="http://localhost:8080/images/propertyraja.png" width="200"></strong>

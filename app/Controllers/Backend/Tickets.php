@@ -9,24 +9,24 @@ class Tickets extends BackendController
 
   function __construct()
   {
-      $this->AccountModel   = model('AccountModel');   
-      $this->UserModel      = model('UserModel');   
-      $this->CrudModel      = model('CrudModel');    
-  }
+      $this->AccountModel  = model('AccountModel');   
+      $this->UserModel     = model('UserModel');   
+      $this->CrudModel     = model('CrudModel');    
+      $this->TicketModel   = model('TicketModel');         
+  } 
 
   
   function index()
   {
     $data['title']   = "Tickets";
-    $data['tickets'] = $this->CrudModel->R('_tickets',[
-       'req_res' => 'req' 
-    ]);
+    $data['tickets'] = $this->TicketModel->getTickets($TicketId = NULL,$parentId = 0,$userId = NULL,$req_res = 'req',$status = NULL); 
     $data['section'] = ""; 
     return view('backend/tickets',$data);  
   }
 
+
   function create()
-  { 
+  {  
   	$data['title'] = "Create Ticket";
 
   	if($this->request->getPost('create'))
@@ -50,21 +50,37 @@ class Tickets extends BackendController
     return view('backend/tickets',$data);
   } 
 
-  function read()
-  {
-        $cookie =  get_cookie('userCookie');
-        print_r($cookie);
+
+
+  function openTicket() 
+  {  
+     $data['title']    = "Open Ticket";
+     $data['section']  = 'openTicket';
+     $data['ticketId'] = segment(4); 
+     $data['detail']   = $this->TicketModel->getTickets($data['ticketId'],$parentId = 0,$userId = NULL,$req_res = 'req',$status = NULL)[0];
+
+      if($this->request->getPost('ticketReplyBtn'))
+      {  
+         $text = $this->request->getPost('ticketReplyText');  
+         $this->TicketModel->replyToTicket($data['ticketId'],$text,$data['detail']['created_by'],$staffUserId = cUserId(),1);   
+      }    
+      
+     
+     $data['response'] = $this->TicketModel->getTickets($TicketId = NULL,$parentId = $data['ticketId'],$userId = NULL,$req_res = 'res',$status = NULL);
+     return view('backend/tickets',$data);  
   }
 
-  function update()
+
+  function updateTicket()
   {
       set_cookie('userId','asas','3600');
 	  set_cookie('display','asas','3600');
 	  set_cookie('role','asasas','3600');
 	  set_cookie('email','dddd','3600');    
-}
+  }
 
-  function delete()
+
+  function deleteTicket() 
   {
       $this->CrudModel->D('_tickets',array(
          'id' => segment(4)
@@ -72,5 +88,6 @@ class Tickets extends BackendController
        $this->session->setFlashdata('alert','<div class="alert alert-danger">Ticket Deleted</div>');
        return redirect()->to('/backend/tickets/index'); 
   }
+
 
 }  

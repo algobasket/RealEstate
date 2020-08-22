@@ -20,18 +20,17 @@
         <h3 class="display-4">Tickets <?= anchor('/backend/tickets/create/',' + Create Ticket','class="btn btn-danger btn-sm float-right"');?></h3>
         <?= \Config\Services::session()->getFlashdata('alert');?>
         <div class="table-responsive"> 
-          <table class="table">
+          <table class="table small">
               <caption>List of tickets </caption>
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">User</th>
+                  <th scope="col">Created By</th>
+                  <th scope="col">Support</th>
                   <th scope="col">Title</th>
                   <th scope="col">Subject</th>
                   <th scope="col">Description</th>
-                  <th scope="col">Created By</th>
-                  <th scope="col">Created At</th>
-                  <th scope="col">Updated At</th>
+                  <th scope="col">Created/Updated</th>
                   <th scope="col">Status</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -41,17 +40,18 @@
                 <?php $i=1;foreach(@$tickets as $ticket) : ?>  
                 <tr>
                   <th scope="row"><?= $i;?></th> 
-                  <td><?= $ticket['user_id'];?></td> 
+                  <td><?= ucfirst($ticket['fname_req']).' '.ucfirst($ticket['lname_req']);?></td> 
+                  <td><?= ucfirst($ticket['fname_res']).' '.ucfirst($ticket['lname_res']);?></td>
                   <td><?= $ticket['title'];?></td>
                   <td><?= $ticket['subject'];?></td>
                   <td><?= $ticket['description'];?></td>
-                  <td><?= $ticket['created_at'];?></td>
-                  <td><?= $ticket['updated_at'];?></td>
-                  <td><label class="<?= statusLabel($ticket['status'])['status_badge'];?>"><?= statusLabel($ticket['status'])['status_name'];?></label></td>
+                  <td><?= $ticket['created_at'];?><br><?= $ticket['updated_at'];?></td>
+                  <td><label class="<?= $ticket['status_badge'];?>"><?= $ticket['status_name'];?></label></td>
                   <td>
-                     <a href="<?= base_url();?>/backend/tickets/edit/<?= $ticket['id'];?>"><img src="<?= publicFolder();?>/images/edit.png" width="20"></a> | 
+                     <a href="<?= base_url();?>/backend/tickets/openTicket/<?= $ticket['id'];?>"><img src="<?= publicFolder();?>/images/chat.png" width="30"></a> | 
+                     <a href="<?= base_url();?>/backend/tickets/edit/<?= $ticket['id'];?>"><img src="<?= publicFolder();?>/images/edit.png" width="30"></a> | 
                      <a href="javascript:void(0)" data-confirmedurl="<?= base_url();?>/backend/tickets/delete/<?= $ticket['id'];?>" class="deletePop">
-                      <img src="<?= publicFolder();?>/images/delete.png" width="20">
+                      <img src="<?= publicFolder();?>/images/delete.png" width="30">
                     </a>   
                   </td>
                 </tr> 
@@ -119,9 +119,47 @@
           <?= form_close() ;?>
         </div>
        <?php endif ?>
+       
 
+       <?php if(@$section == 'openTicket') : ?>
+        <div class="container-fluid small">
+          <div class="row">
+            <h5>Title   : <?= $detail['title'];?></h5> 
+          </div>
+          <br>
+          <div class="row">
+            <h5>Subject : <?= $detail['subject'];?></h5> 
+          </div>  
+          <br>
+          <hr>
 
+          <div class="row">
+            <ul class="list-unstyled" style="width: 100%;height: 600px;overflow: scroll;">
+            
+            <?php foreach($response as $res) : ?> 
+              <li class="media">
+                <img src="<?= publicFolder();?>/images/customer-2.png" class="mr-3" width="80" />
+                <div class="media-body">
+                  <h5 class="mt-0 mb-1"><small><?= ucfirst($res['fname_res']).' '.ucfirst($res['lname_res']);?>(Staff)</small></h5>
+                  <?= $res['response'];?>   
+                </div>
+              </li>
+              <hr>
+            <?php endforeach ?>
 
+            </ul>
+          </div> 
+
+          <div class="row">
+            <?= form_open('/backend/tickets/openTicket/'.$ticketId,'style="width:100%"');?> 
+               <textarea class="form-control" name="ticketReplyText" placeholder="Write Reply..." required=""></textarea>
+               <br>
+               <input type="submit" name="ticketReplyBtn" class="btn btn-danger" value="Reply" /> 
+            <?= form_close();?>
+          </div>
+        </div> 
+       
+       <?php endif ?>
 
 
 
