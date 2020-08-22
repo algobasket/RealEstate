@@ -35,7 +35,7 @@ class Settings extends BackendController
            'updated_at'   => date('Y-m-d h:i:s'), 
            'status'       => 1 
          ];
-        //print_r($data);exit;
+
         $this->CrudModel->C('_settings',$data);  
         $this->session->setFlashdata('alert','<div class="alert alert-success">New Setting Added!</div>');
 		return redirect()->to('/backend/settings/'); 
@@ -49,7 +49,7 @@ class Settings extends BackendController
    function edit()
    { 
       $data['title']   = "Edit Setting";
-      if($this->request->getPost('setting_submit'))
+      if($this->request->getPost('setting_submit')) 
       {
          $data = [
            'setting_name' => $this->request->getPost('setting_name'),

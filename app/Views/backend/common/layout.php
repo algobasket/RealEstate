@@ -22,7 +22,6 @@
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css" integrity="sha512-SUJFImtiT87gVCOXl3aGC00zfDl6ggYAw5+oheJvRJ8KBXZrr/TMISSdVJ5bBarbQDRC2pR5Kto3xTR0kpZInA==" crossorigin="anonymous" /> 
     <script src="https://kit.fontawesome.com/6fd02afa84.js" crossorigin="anonymous"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha512-QEiC894KVkN9Tsoi6+mKf8HaCLJvyA6QIRzY5KrfINXYuP9NxdIkRQhGq3BZi0J4I7V5SidGM3XUQ5wFiMDuWg==" crossorigin="anonymous"></script>
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" integrity=" sha512-G8JE1Xbr0egZE5gNGyUm1fF764iHVfRXshIoUWCTPAbKkkItp/6qal5YAHXrxEu4HNfPTQs6HOu3D5vCGS1j3w==" crossorigin="anonymous"></script>  
@@ -139,17 +138,21 @@
 
         }
 </script>
-    
+<style type="text/css">
+  .list-group-item.active{
+    background-color: #253961;
+  }
+</style>    
     
     <title><?= $title ? $title : "Site" ?></title>    
   </head>
   <body> 
 
  <header>
-      <div class="navbar navbar-dark box-shadow" style="background-color: #611119">
+      <div class="navbar navbar-dark box-shadow" style="background-color: #14264a"> 
         <div class="container-fluid d-flex justify-content-between">
-            <a href="https:/" class="navbar-brand d-flex align-items-center">
-              <strong><img src="http://localhost:8080/images/propertyraja.png" width="200"></strong>
+            <a href="<?= base_url();?>/backend/dashboard/index" class="navbar-brand d-flex align-items-center">
+              <strong><img src="<?= publicFolder();?>/images/propertyraja.png" width="200"></strong>
             </a>
 
             <button class="navbar-toggler dropdown-toggle small" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -170,7 +173,7 @@
   <?= $this->renderSection('content') ?>  
 
         
-<footer class="text-muted">
+<footer class="text-muted" style="background-color: #14264a">
   <div class="container">
     <p class="float-right">
       <p >
@@ -260,6 +263,9 @@
           });
         
            
+      });
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
       });
       function searchedUser(i){
         $('#searchedInputid').val(i);

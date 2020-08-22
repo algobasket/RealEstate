@@ -94,8 +94,8 @@
                         </tr> 
                         <tr> 
                           <td colspan="2"> 
-                            <input type="submit" name="addPropertyType" value="Add Property Type" class="btn btn-primary" />
-                            <a href="<?= base_url();?>/backend/properties/propertyTypes/" class="btn btn-danger"/>  
+                            <input type="submit" name="addPropertyType" value="Add Property Type" class="btn btn-danger" />
+                            <a href="<?= base_url();?>/backend/properties/propertyTypes/" class="btn btn-white"/>  
                               Cancel
                             </a>
                           </td> 
@@ -109,7 +109,11 @@
 
         <?php }else{ ?>
 
-                <h3 class="display-4">Property Types <a href="<?= base_url();?>/backend/properties/propertyTypes/add" class="btn btn-danger btn-sm float-right">Add Property Type</a></h3>
+                <h3 class="display-4">
+                  Property Types |  
+                  <a href="<?= base_url();?>/backend/properties/propertyTypeAccessMap" class="btn btn-danger btn-sm">Property Type Map</a>
+                  <a href="<?= base_url();?>/backend/properties/propertyTypes/add" class="btn btn-danger btn-sm ">Add Property Type</a>
+                </h3>
                 <?= \Config\Services::session()->getFlashdata('alert');?>
                 <div class="table-responsive">
                   <table class="table small">

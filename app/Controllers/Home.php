@@ -7,6 +7,8 @@ class Home extends BaseController
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel');
+        $this->UserModel      = model('UserModel'); 
+        $this->CrudModel      = model('CrudModel'); 
         helper('geography'); 
         helper('number'); 
 	}
@@ -88,7 +90,31 @@ class Home extends BaseController
     
     public function contact()
     {
-       $data['title'] = "Contact Us";
+       $data['title'] = "Contact Us"; 
+       if($this->request->getPost('submitContactUs'))
+       {
+       	   //  if(! $this->validate([
+           //    'fname'   => 'required|min_length[3]|max_length[40]|',  
+           //    'lname'   => 'required|min_length[3]|max_length[40]',
+           //    'email'   => 'required|min_length[6]|max_length[20]|valid_email',
+           //    'comment' => 'required|min_length[30]|max_length[300]'  
+           // ])){
+               
+           // }else{ 
+           	  $data = [
+                  'firstname' => $this->request->getPost('fname'),
+		          'lastname'  => $this->request->getPost('lname'),
+		          'email'     => $this->request->getPost('email'),
+		          'comment'   => $this->request->getPost('comment'),
+		          'created'   => date('Y-m-d h:i:s'), 
+                  'updated'   => date('Y-m-d h:i:s'),   
+                  'status'    => 1  
+		      ]; 
+		      $this->CrudModel->C('_user_queries',$data);  
+		      $this->session->setFlashdata('alert',successAlert('Query Successful Sent'));
+		      return redirect()->to('/contact');    
+          // }	   
+       }
 	   return view('frontend/contact',$data);
     }
 
@@ -140,10 +166,11 @@ class Home extends BaseController
 	   return view('frontend/careers',$data);
     }
 
-    public function findAgent()
+    public function findAgent() 
     {
        $data['title'] = "Find Agent";
-	   return view('frontend/find-agent',$data);
+       $data['agents'] = $this->UserModel->getAllUsersByRole('agent');
+	   return view('frontend/find-agent',$data); 
     }
 
     public function test() 

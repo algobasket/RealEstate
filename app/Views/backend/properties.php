@@ -1,6 +1,11 @@
 <?= $this->extend('backend/common/layout') ?> 
 <?= $this->section('content') ?>   
-
+<style type="text/css">
+  .cancelBadge{
+    margin: 5px 5px 0 -30px;
+    position: absolute;
+  } 
+</style>
 
 <div class="container-fluid">
 <br>
@@ -22,22 +27,47 @@
            <div class="table-responsive">
            <table class="table small">
               <tbody>
+                <tr>
+                    <th scope="row">Pictures</th>
+                    <td> 
+                      <?php foreach($propertyDetail['images'] as $img) : ?> 
+                        <a href="javascript:void(0)" class="text-decoration-none" data-image-id="<?= $img['id'];?>" data-image-file="<?= $img['image_name'];?>">  
+                          <img src="<?= publicFolder() .'/property-images/'.$img['image_name'];?>" class="rounded" style="width:200px;height:150px"/> 
+                          <img src="<?= publicFolder() .'/images/cancel-1.png';?>" class="cancelBadge" style="width:25px;" data-toggle="tooltip" data-placement="bottom" title="Delete this image"/>
+                        </a> 
+                      <?php endforeach ?>  
+                    </td>
+                 </tr> 
+               <?php if(in_array('title',$propertyTypeMap)) : ?> 
                  <tr>
                     <th scope="row">Title</th>
                     <td><input type="text" name="title" class="form-control" /></td>
                  </tr>
+               <?php endif ?> 
+
+                <?php if(in_array('description',$propertyTypeMap)) : ?> 
                   <tr>
                     <th scope="row">Description</th>
                     <td><textarea type="text" name="description" class="form-control" ></textarea></td>
                  </tr>
+                 <?php endif ?> 
+                 
+                 <?php if(in_array('about',$propertyTypeMap)) : ?> 
                  <tr>
                     <th scope="row">About</th>
                     <td><textarea type="text" name="about" class="form-control" ></textarea></td>
                  </tr>
+                 <?php endif ?>
+
+                 <?php if(in_array('specification',$propertyTypeMap)) : ?> 
                  <tr>
                     <th scope="row">Specification</th>
                     <td><textarea type="text" name="specification" class="form-control" ></textarea></td>
                  </tr>
+                 <?php endif ?>
+                 
+
+                 <?php if(in_array('listing_type',$propertyTypeMap)) : ?>
                  <tr>
                     <th scope="row">Types</th>
                     <td>
@@ -72,6 +102,10 @@
                       </select>
                     </td>
                  </tr>
+                 <?php endif ?>
+
+
+                 <?php if(in_array('city',$propertyTypeMap)) : ?> 
                  <tr>
                     <th scope="row">Location</th>
                     <td>
@@ -82,6 +116,8 @@
                        </select> 
                     </td>
                  </tr>
+                 <?php endif ?>
+
               </tbody>
            </table>
            </div>

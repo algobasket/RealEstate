@@ -71,9 +71,47 @@ class PropertyModel extends Model
            $data[] = $r;
         } 
        return $data;     
+    }
+
+
+    function getPropertyFields()  
+    { 
+         $fields  = $this->db->getFieldNames($this->properties_tb); 
+         $data = array(); 
+         if(!empty($fields))
+          {
+             foreach($fields as $f)
+             {
+               $data[] = $f; 
+             }
+             return $data;  
+          } 
+    }   
+
+    function propertyTypeFieldMap($id = NULL,$propertyTypeId = NULL) 
+    {
+         $builder = $this->db->table($this->property_ty_mp_tb.' a');
+         $builder->select('a.*,b.type_name,c.status_name,c.status_badge');
+         $builder->join($this->property_ty_tb.' b','b.id = a.property_type');
+         $builder->join($this->status_tb.' c','c.id = a.status','LEFT');
+         if($id)
+         {
+           $builder->where(['a.id' => $id]); 
+         }
+         if($propertyTypeId)
+         {
+           $builder->where(['a.property_type' => $propertyTypeId]);  
+         }
+         $query = $builder->get();
+         $data = array();     
+          foreach($query->getResultArray() as $r)
+          {
+              $data[] = $r;
+          }
+          return $data;  
     } 
 
-
+    
 
    function getPropertyAmeneties()  
     {   

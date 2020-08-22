@@ -4,6 +4,7 @@
         <div class="col-12 col-md">
           <img class="mb-2" src="<?= publicFolder();?>/images/propertyraja.png" alt="" width="150">
           <small class="d-block mb-3 text-muted">&copy; 2017-2020 | Developed by Algobasket</small>
+          <img class="mb-2" src="<?= publicFolder();?>/images/app.png" alt="" width="200">
         </div>
         <div class="col-6 col-md">
           <h5>Quick links</h5> 

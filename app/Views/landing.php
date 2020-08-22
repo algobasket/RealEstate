@@ -5,7 +5,15 @@
   select,option {
     font-size: 15px !important;
   }
-</style>    
+
+</style>
+
+
+<div class="corner-ribbon right">
+  <a href="https://github.com/algobasket/RealEstate" class="stretched-link text-white" target="__self">
+    <b>Github</b>
+  </a> 
+</div> 
 
 <?= $this->include('common/header');?>
 
@@ -137,9 +145,7 @@
       <?php endif ?>   
        <!------------END IF-------------> 
     </div>
-  </div>
-
-</main>
+  </div></main>
 
 <div class="container">
 <footer class="pt-4 my-md-5 pt-md-5 border-top">
@@ -147,6 +153,7 @@
       <div class="col-12 col-md">
         <img class="mb-2" src="<?= publicFolder();?>/images/propertyraja.png" alt="" width="150">
         <small class="d-block mb-3 text-muted">&copy; 2017-2020 | Developed by Algobasket</small>
+         <img class="mb-2" src="<?= publicFolder();?>/images/app.png" alt="" width="200">
       </div>
       <div class="col-6 col-md">
         <h5>Quick links</h5>
@@ -182,8 +189,10 @@
         </ul>
       </div>
     </div>
-  </footer>
- </div>
+</footer>
+</div>
 
 
+
+ 
 <?= $this->endSection() ?>

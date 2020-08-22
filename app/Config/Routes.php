@@ -89,6 +89,7 @@ $routes->post('property-detail/(:any)', 'Property::index');
 //Home Controller
 $routes->get('about/', 'Home::about');
 $routes->get('contact/', 'Home::contact');
+$routes->post('contact/', 'Home::contact'); 
 $routes->get('careers/', 'Home::careers');
 $routes->get('terms-and-conditions/', 'Home::terms');
 $routes->get('testimonials/', 'Home::testimonials');

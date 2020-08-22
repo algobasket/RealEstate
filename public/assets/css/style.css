@@ -321,3 +321,70 @@
     font-weight: 600;
     color: #6589b1; 
 }
+
+
+
+ /* CORNER RIBBON STYLING */
+.corner-ribbon{
+  width: 200px;
+  background: #2f2f2f;
+  color: #fff;
+  position: fixed;
+  text-align: center;
+  top: 25px;
+  line-height: 40px;
+  z-index: 9999999
+}
+
+.corner-ribbon.left{
+  left: -50px;
+  -ms-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.corner-ribbon.right{
+  right: -50px;
+  left: auto;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+  .contact{
+    padding: 4%;
+  }
+  .col-md-3{
+    background: #ff9b00;
+    padding: 4%;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+  }
+  .contact-info{
+    margin-top:10%;
+  }
+  .contact-info img{
+    margin-bottom: 15%;
+  }
+  .contact-info h2{
+    margin-bottom: 10%;
+  }
+  .col-md-9{
+    background: #fff;
+    padding: 3%;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
+  .contact-form label{
+    font-weight:600;
+  }
+  .contact-form button{
+    background: #25274d;
+    color: #fff;
+    font-weight: 600;
+    width: 25%;
+  }
+  .contact-form button:focus{
+    box-shadow:none;
+  }

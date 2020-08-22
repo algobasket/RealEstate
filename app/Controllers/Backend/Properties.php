@@ -11,7 +11,8 @@ class Properties extends BackendController
       $this->AccountModel   = model('AccountModel');   
       $this->GeographyModel = model('GeographyModel');   
       $this->PropertyModel  = model('PropertyModel');  
-      $this->CrudModel      = model('CrudModel');  
+      $this->CrudModel      = model('CrudModel');
+      helper('inflector');    
 	}   
 
 
@@ -83,6 +84,53 @@ class Properties extends BackendController
      $data['allStatus'] = $this->AccountModel->allStatus();
      return view('backend/property-types',$data);    
   }  
+
+
+
+  function propertyTypeAccessMap()     
+  {   
+      $data['title']   = "Property Types Access Map | PropertyRaja.com";
+      $data['section'] = segment(4);
+       if($this->request->getPost('addPropertyTypeAccess')) 
+       {    
+            $data = [ 
+                  'property_type'  => $this->request->getPost('property_type'),
+                  'access'     => json_encode($this->request->getPost('access'),true),
+                  'created_at' => date('Y-m-d h:i:s'),
+                  'updated_at' => date('Y-m-d h:i:s'),
+                  'status'     => $this->request->getPost('status')
+                ];
+            $result = $this->CrudModel->C('_property_type_map',$data); 
+            if($result == true)
+            {  
+               $this->session->setFlashdata('alert','<div class="alert alert-success">New PropertyTypeMap Added</div>');
+               return redirect()->to('/backend/properties/propertyTypeAccessMap'); 
+            }
+       }
+       if($this->request->getPost('editPropertyTypeAccess')) 
+       {     
+            $data = [ 
+                  'property_type'  => $this->request->getPost('property_type'),
+                  'access'     => json_encode($this->request->getPost('access'),true),
+                  'updated_at' => date('Y-m-d h:i:s'),
+                  'status'     => $this->request->getPost('status')
+                ];
+            $result = $this->CrudModel->U('_property_type_map',['id' => segment(5)],$data);  
+            if($result == true)
+            {  
+               $this->session->setFlashdata('alert','<div class="alert alert-success">PropertyTypeMap Updated</div>');
+               return redirect()->to('/backend/properties/propertyTypeAccessMap');  
+            }
+       }
+       if($data['section'] == "edit")
+       {  
+           $data['editPropertyTypeMap']  = $this->PropertyModel->propertyTypeFieldMap(segment(5),NULL)[0]; 
+       }     
+      $data['propertyTypeMap']  = $this->PropertyModel->propertyTypeFieldMap();    
+      $data['propertyFields']   = $this->PropertyModel->getPropertyFields();  
+      $data['getPropertyType']  = $this->PropertyModel->getPropertyType();   
+      return view('backend/property-types-access-map',$data);
+  } 
 
 
 
@@ -359,14 +407,14 @@ class Properties extends BackendController
   public function edit()
   { 
        $data['title'] = "Edit Property | PropertyRaja.com";
-       $data['property-detail'] = $this->PropertyModel->getPropertyDetail(segment(4));
-       $data['property_type'] = $this->PropertyModel->getPropertyType();
+       $data['propertyDetail'] = $this->PropertyModel->getPropertyDetail(segment(4)); 
+       $data['property_type']   = $this->PropertyModel->getPropertyType(); 
        $data['cities']    = $this->GeographyModel->cities(); 
        $data['amenities'] = $this->PropertyModel->getPropertyAmeneties();
-       $data['profile']   = $this->AccountModel->getProfileDetail(cUserId());
-
+       $data['profile']   = $this->AccountModel->getProfileDetail(cUserId()); 
+       $data['propertyTypeMap']  = json_decode($this->PropertyModel->propertyTypeFieldMap(NULL,$data['propertyDetail']['property_type'])[0]['access']);
        $data['section']="editProperty"; 
-       return view('backend/properties',$data);  
+       return view('backend/properties',$data);   
   } 
 
 
