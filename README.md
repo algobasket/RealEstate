@@ -13,7 +13,7 @@ Password - cus123
 
 -------Agent-------
 Mobile - 8638720242
-Password - cus123
+Password - agent123
 
 -----Staff/backend (Admin)----
 Username - admin123
