@@ -25,7 +25,7 @@
                       <p>Phone - (316)-90987</p> 
                     </div>
                   </div>
-                  <div class="col-md-9">
+                  <div class="col-md-9"> 
                     <div class="contact-form">
                     <?php if(\Config\Services::session()->getFlashdata('alert')){ ?>
                          <div class="alert alert-success" role="alert">

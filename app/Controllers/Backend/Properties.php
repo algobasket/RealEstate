@@ -68,6 +68,8 @@ class Properties extends BackendController
           }
      } 
 
+     
+
      $data['section'] = segment(4);
      if($data['section'] == "edit")
      {  
@@ -87,7 +89,7 @@ class Properties extends BackendController
 
 
 
-  function propertyTypeAccessMap()     
+  function propertyTypeAccessMap()      
   {   
       $data['title']   = "Property Types Access Map | PropertyRaja.com";
       $data['section'] = segment(4);
@@ -287,47 +289,47 @@ class Properties extends BackendController
 
          if($this->request->getPost('add-images'))
           {        
-	           if($imagefile = $this->request->getFiles())
-						{  $i = 0;
-						   foreach($imagefile['images'] as $img)
-						   {
-						      if ($img->isValid() && ! $img->hasMoved())
-						      {      
-						      	     if(in_array($img->getClientExtension(),$exts))
-						      	     {         
-						      	     	       if($img->getSizeByUnit('mb') > 10)
-						      	     	       {
-                                      $invalid_size =  "Please upload image less than 10MB";
-						      	     	       }else{
-                                                       $newName = $img->getRandomName();
-											           if($img->move(WRITEPATH.'../public/property-images', $newName)){ 
-											           	      $insert = [
-							                                      'image_name'  => $newName,
-							                                      'property_id' => $this->request->uri->getSegment(2),
-							                                      'user_id'     => cUserId(),
-							                                      'mime_type'   => $img->getClientMimeType(),
-							                                      'created_at'  => date('Y-m-d h:i:s'), 
-									                                  'updated_at'  => date('Y-m-d h:i:s'),
-									                                  'status'      => 1
-											           	      ];  
-											           	   $this->PropertyModel->addPropertyImages($insert);
-											           	   //$this->watermarkPropertyImages($newName);
-											           	   $i++;  
-											             }
-						      	     	      }
-                                               
-						      	     }else{
-                                       $invalid_ext = $img->getClientExtension() . " - Invalid image extension";
-						      	     }
-						           
-						      }
-						   }
-						}
+    	           if($imagefile = $this->request->getFiles())
+    						{  $i = 0;
+    						   foreach($imagefile['images'] as $img)
+    						   {
+    						      if ($img->isValid() && ! $img->hasMoved())
+    						      {      
+    						      	     if(in_array($img->getClientExtension(),$exts))
+    						      	     {         
+    						      	     	       if($img->getSizeByUnit('mb') > 10)
+    						      	     	       {
+                                          $invalid_size =  "Please upload image less than 10MB";
+    						      	     	       }else{
+                                                           $newName = $img->getRandomName();
+    											           if($img->move(WRITEPATH.'../public/property-images', $newName)){ 
+    											           	      $insert = [
+    							                                      'image_name'  => $newName,
+    							                                      'property_id' => $this->request->uri->getSegment(2),
+    							                                      'user_id'     => cUserId(),
+    							                                      'mime_type'   => $img->getClientMimeType(),
+    							                                      'created_at'  => date('Y-m-d h:i:s'), 
+    									                                  'updated_at'  => date('Y-m-d h:i:s'),
+    									                                  'status'      => 1
+    											           	      ];  
+    											           	   $this->PropertyModel->addPropertyImages($insert);
+    											           	   //$this->watermarkPropertyImages($newName);
+    											           	   $i++;  
+    											             }
+    						      	     	      }
+                                                   
+    						      	     }else{
+                                           $invalid_ext = $img->getClientExtension() . " - Invalid image extension";
+    						      	     }
+    						           
+    						      }
+    						   }
+    						}
 
-				   if($i > 0)
-				   {
-                      $this->session->setFlashdata('alert','<div class="alert alert-success">Your property image uploaded!</div>');
-				   }   
+      				   if($i > 0)
+      				   {
+                            $this->session->setFlashdata('alert','<div class="alert alert-success">Your property image uploaded!</div>');
+      				   }   
 	          	   if(@$invalid_ext)
 	          	   {
 	          	   	  $this->session->setFlashdata('alert','<div class="alert alert-danger">'.$invalid_ext.'</div>');
@@ -341,20 +343,34 @@ class Properties extends BackendController
          }
          $data['propertyImages'] = $this->getPropertyImages(segment(2));   
 		 return view('frontend/add-property-images',$data); 
-	}
+	  }
 
-	public function getPropertyImages($id)
-	{   
-		if(is_array($array = $this->PropertyModel->getPropertyImages($id))){
-           return $array;
-		} 
-	} 
+
+
+  	public function getPropertyImages($id)
+  	{   
+  		if(is_array($array = $this->PropertyModel->getPropertyImages($id))){
+             return $array;
+  		} 
+  	}   
+
+
+
+    public function removePropertyImage()
+    {
+         $imageId   = $this->request->getPost('imageId');
+         $imageFile = $this->request->getPost('imageFile');
+         unlink(FCPATH.'property-images/'.$imageFile); 
+         unlink(FCPATH.'property-images/thumbnails/'.$imageFile);
+         $this->CrudModel->D('_property_images',['id' => $imageId]); 
+         return true;   
+    }    
 
 
 
 
   public function amenities()
-   {    
+  {    
         $data['title'] = "Amenities | PropertyRaja.com";
         if($this->request->getPost('editAmenities')) 
         {  
@@ -407,7 +423,77 @@ class Properties extends BackendController
   public function edit()
   { 
        $data['title'] = "Edit Property | PropertyRaja.com";
-       $data['propertyDetail'] = $this->PropertyModel->getPropertyDetail(segment(4)); 
+       $data['propertyDetail'] = $this->PropertyModel->getPropertyDetail(segment(4));
+
+       if($this->request->getPost('submitImageBtn')) 
+       {   
+             $exts = ['jpg','png','webp','jpeg','JPG','PNG','JPEG','WEBP']; 
+               if($imagefile = $this->request->getFiles()) 
+                  {  $i = 0;
+                     foreach($imagefile['images'] as $img) 
+                     {
+                        if ($img->isValid() && ! $img->hasMoved())
+                        {      
+                               if(in_array($img->getClientExtension(),$exts))
+                               {          
+                                       if($img->getSizeByUnit('mb') > 10) 
+                                       {
+                                              $invalid_size =  "Please upload image between 1MB-10MB"; 
+                                       }else{
+                                              $newName = $img->getRandomName();
+                                       if($img->move(WRITEPATH.'../public/property-images', $newName))
+                                       {  
+
+                                              $insert = [
+                                                          'image_name'  => $newName,     
+                                                          'mime_type'   => $img->getClientMimeType(),     
+                                                          'property_id' => segment(4),     
+                                                          'user_id'     => $data['propertyDetail']['user_id'],     
+                                                          'created_at'  => date('Y-m-d h:i:s'),                                         
+                                                          'updated_at'  => date('Y-m-d h:i:s'),                                         
+                                                          'status'      => 1                                         
+                                              ];  
+                                           $this->CrudModel->C('_property_images',$insert); 
+                                           
+                                      $image = \Config\Services::image();
+                                      $image->withFile(WRITEPATH.'../public/property-images/'.$newName);  
+                                      $image->fit(348, 232, 'center'); 
+                                      $image->save(WRITEPATH.'../public/property-images/thumbnails/'.$newName);
+
+                                      $image->withFile(WRITEPATH.'../public/property-images/'.$newName);   
+                                      $image->fit(1106, 737, 'center'); 
+                                      $image->save(WRITEPATH.'../public/property-images/'.$newName);     
+
+                                           $i++;  
+                                         } 
+                                         
+                                      }
+                                                   
+                               }else{
+                                      $invalid_ext = $img->getClientExtension() . " - Invalid image extension";
+                               }
+                             
+                        }
+                     }
+                  }
+
+                 if($i > 0)  
+                 { 
+                    $this->session->setFlashdata('alert',successAlert('Property Image Uploaded!'));
+                 }            
+                 if(@$invalid_ext)
+                 {
+                    $this->session->setFlashdata('alert',redAlert($invalid_ext));  
+                 }
+                 if(@$invalid_size)
+                 {
+                    $this->session->setFlashdata('alert',redAlert($invalid_size));   
+                 }
+                  return redirect()->to('/backend/properties/edit/'.segment(4));
+       } 
+
+
+        
        $data['property_type']   = $this->PropertyModel->getPropertyType(); 
        $data['cities']    = $this->GeographyModel->cities(); 
        $data['amenities'] = $this->PropertyModel->getPropertyAmeneties();
@@ -428,7 +514,7 @@ class Properties extends BackendController
 
 
 	 public function watermarkPropertyImages($filename)
-	  {
+	 {
        \Config\Services::image('imagick')
         ->withFile(WRITEPATH.'uploads/'.$filename)
         ->text('Copyright 2020 - PropertyRaja.com', [
@@ -441,17 +527,7 @@ class Properties extends BackendController
         ]) 
         ->save(WRITEPATH.'uploads/watermarked/'.$filename);
         return true;
-	   }
+	 }
 
 
-
-
-	   function test()  
-     {  
-     
-		   print_r($this->PropertyModel->getAmenetiesByPropertyId(20));  
-	   }
-
- 
-
-} 
+}  

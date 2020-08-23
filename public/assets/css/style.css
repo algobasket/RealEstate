@@ -354,8 +354,9 @@
 
   .contact{
     padding: 4%;
-  }
-  .col-md-3{
+   } 
+
+  .contactFormBanner{ 
     background: #ff9b00;
     padding: 4%;
     border-top-left-radius: 0.5rem;

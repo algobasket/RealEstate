@@ -79,14 +79,18 @@
        <div class="row"> 
           <div id="carouselExampleFade" class="shadow carousel slide carousel-fade" data-ride="carousel">
           <div class="carousel-inner">
-            
+              <?php if(is_array($propertyDetail['images'])){ ?> 
               <?php foreach($propertyDetail['images'] as $key => $img) : ?> 
                 <?php $active = ($key == 1) ? "active": "" ;?> 
                 <div class="carousel-item <?= $active;?>"> 
                     <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 img-lg" /> 
                 </div>
                 <?php endforeach ?>
-           
+              <?php }else{ ?>
+                <div class="carousel-item active">  
+                    <img src="<?= publicFolder().'/images/no-image-2.png';?>" class="d-block w-100 img-lg" /> 
+                </div>
+              <?php } ?>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -401,6 +401,21 @@
                   </div>
                 </div>
               </div>
+              
+              
+              <hr class="mb-4">
+
+              <h4 class="mb-3">Account Status</h4>
+
+              <div class="d-block"> 
+                  <select name="status" class="form-control form-control-sm">
+                        <?php foreach(statusList() as $status) : ?>
+                           <option value="<?= $status['id'];?>" class="<?= $status['status_badge'];?>" <?= ($profile['status'] == $status['id']) ? "selected" : "" ;?> >  
+                              <?= $status['status_name'];?> 
+                            </option> 
+                        <?php endforeach ?> 
+                      </select>
+              </div>  
 
               <hr class="mb-4">
 

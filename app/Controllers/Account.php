@@ -183,7 +183,7 @@ class Account extends BaseController
               $properties = $this->PropertyModel->getPropertiesByUserFavourite(cUserId());
 		     if($properties != NULL) 
 		     {  
-               $data['properties'] = $properties; 
+                $data['properties'] = $properties;  
 		     }else{
 		     	$data['properties'] = NULL;
 		     }   
@@ -210,8 +210,7 @@ class Account extends BaseController
 	      $pid  = $_GET['pid'];		
 	      $fuid = $_GET['uid']; 		
           $this->MessageModel->markMessagesAsRead(cUserId(),$fuid,$pid);  
-		} 
-
+		}  
 	    return view('frontend/messages',$data);    
 	}
 

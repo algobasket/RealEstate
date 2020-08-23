@@ -22,7 +22,7 @@
                       <option value="2bhk">2 BHK</option>  
                       <option value="3bhk">3 BHK</option>  
                       <option value="4bhk">4 BHK</option>  
-                      <option value="+5bhk">5+ BHK</option>           
+                      <option value="+5bhk">5+ BHK</option>            
                   </select>
                   <div class="invalid-feedback">
                     Please select BHK type.

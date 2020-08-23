@@ -95,12 +95,19 @@
                     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
                       <div class="carousel-inner">
                          <!------------START FOREACH-------------> 
-                        <?php foreach($fp['images'] as $key => $img) : ?>
+                        <?php 
+                        if(is_array($fp['images'])){
+                        foreach($fp['images'] as $key => $img) : ?>
                         <?php $active = ($key == 1) ? "active": "" ;?> 
                         <div class="carousel-item <?= $active;?>"> 
                             <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
                         </div>
                         <?php endforeach ?>
+                        <?php }else{ ?>
+                         <div class="carousel-item active"> 
+                            <img src="<?= publicFolder().'/images/empty-image-3.png';?>" class="d-block w-100 imgp" style="width:80%" alt="...">
+                        </div>
+                        <?php } ?> 
                          <!------------END FOREACH-------------> 
                       </div>
                     </div>

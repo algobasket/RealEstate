@@ -129,7 +129,7 @@ class User extends BackendController
                               ->fit(200, 200, 'center')
                               ->save(WRITEPATH.'../public/user-images/thumbnails/'.$newName);   
 
-                                   $i++;  
+                                   $i++;   
                                  } 
                                  
                               }
@@ -155,7 +155,7 @@ class User extends BackendController
               $this->session->setFlashdata('alert',redAlert($invalid_size));   
            }
               return redirect()->to('/backend/user/agents/edit/'.segment(5));
-        }
+        } //Upload End
 
         if($this->request->getPost('update_profile'))
         {
@@ -176,7 +176,8 @@ class User extends BackendController
                   'display_name' => $this->request->getPost('display_name'),
                   'username'     => $this->request->getPost('username'),
                   'mobile'       => $this->request->getPost('mobile'),
-                  'email'        => $this->request->getPost('email') 
+                  'email'        => $this->request->getPost('email'),
+                  'status'       => $this->request->getPost('status')  
              ];
              $toUpdate2 = [
                  'firstname' => $this->request->getPost('firstname'),

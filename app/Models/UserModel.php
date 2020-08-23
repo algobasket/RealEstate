@@ -163,6 +163,24 @@ class UserModel extends Model
     }
 
 
+    function isUserSuspendedOrBanned($userId) 
+    {
+         $builder = $this->db->table($this->users_tb);
+         $builder->select([$this->users_tb.'status',$this->status_tb.'status_name']);
+         $builder->join($this->status_tb,$this->status_tb.'.id='.$this->users_tb.'.status','left');  
+         $builder->where($this->users_tb.'.id',$userId); 
+         $query = $builder->get();
+         $result = $query->getResultArray();  
+        foreach($result as $r)
+        {
+           if(in_array($r['status_name'],['Suspended','Banned']))
+           {
+              exit('Sorry your account is '.$r['status_name'] .'due to vialation of our rules and policies!');
+           } 
+        }
+    }
+
+
 
     function getAllReviews($userType = NULL,$userId = NULL,$status = NULL)
     {

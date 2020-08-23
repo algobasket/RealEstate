@@ -115,6 +115,7 @@
                              echo '<div class="card mb-3" style="width:100%;">
                                         <div class="row no-gutters">
                                           <div class="col-md-4">';
+                                            if(is_array($row['images'])){
                                             foreach($row['images'] as $key => $image)
                                             {   
                                                 if($key == 0)
@@ -122,7 +123,11 @@
                                                     echo '<img src="'.publicFolder().'/property-images/'.$image['image_name'].'" class="card-img" width="150">';
                                                 }
                                             }
-                                    echo '<label class="badge badge-dark" style="position: absolute;margin: 5px -70px;">'.count($row['images']).' Photo</label>';        
+                                             echo '<label class="badge badge-dark" style="position: absolute;margin: 5px -70px;">'.count($row['images']).' Photo</label>';  echo '<label class="badge badge-dark" style="position: absolute;margin: 5px -70px;">'.count($row['images']).' Photo</label>'; 
+                                          }else{
+                                            echo '<img src="'.publicFolder().'/images/empty-image-3.png" class="card-img" width="150">';
+                                          }
+                                          
                                     echo '</div>
                                           <div class="col-md-8">
                                             <div class="card-body">

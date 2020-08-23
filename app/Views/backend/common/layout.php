@@ -272,6 +272,34 @@
         $('.listUser').hide();
       }
     </script> 
- 
+    <script type="text/javascript">
+  $('document').ready(function(){
+     $('.removeImage').click(function(){
+
+      var r = confirm("Do you want to delete this image ?");
+      if (r == true) {
+           var imageId   = $(this).attr('data-image-id');
+           var imageFile = $(this).attr('data-image-file');
+           var data = {
+             imageId : imageId,
+             imageFile : imageFile
+           }
+           $.ajax({
+              type : 'POST',
+              data : data,
+              url  : '/backend/properties/removePropertyImage',
+              success:function(html){
+               $('#removeImage'+imageId).hide();  
+              } 
+           });
+      } else {
+        alert('Cannot delete this item');
+      }
+
+      
+
+     });
+  });
+</script>
 </body>
 </html>

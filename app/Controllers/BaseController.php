@@ -41,7 +41,14 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		$this->session = \Config\Services::session();
-		$this->validation = \Config\Services::validation();         
+		$this->validation = \Config\Services::validation();
+
+		$UserModel = model('UserModel');
+		if(session('userId'))
+		{
+           $UserModel->isUserSuspendedOrBanned();
+		}
+		         
 	} 
 
 }
