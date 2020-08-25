@@ -46,7 +46,18 @@ class BaseController extends Controller
 		$UserModel = model('UserModel');
 		if(session('userId'))
 		{
-           $UserModel->isUserSuspendedOrBanned();
+		   if(segment(1) != 'logout')
+		   {
+		   	   $status = $UserModel->isUserSuspendedOrBanned(session('userId'));
+	           if($status)
+	           {
+	           	 $data['title']  =  'Account '.$status; 
+	           	 $data['status'] =  $status;  
+	           	 echo view('frontend/account-status',$data,['saveData' => TRUE]);
+	           	 exit;  
+	           } 
+		   } 
+           
 		}
 		         
 	} 

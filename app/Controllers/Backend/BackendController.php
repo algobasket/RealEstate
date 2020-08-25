@@ -24,11 +24,9 @@ class BackendController extends Controller
 
 	public function isTrustedUser() 
 	{   
-		 $role = $this->session->get('role');
-		if($role)  
-		{  
-            if(in_array($role,['admin','subadmin','contentwriter','sales']))
-			{
+		$role = $this->session->get('role');
+		if($role){   
+            if(in_array($role,['admin','subadmin','contentwriter','sales'])){
 	          return true;
 			}else{
 				throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -39,8 +37,7 @@ class BackendController extends Controller
               throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
            }
 		}
-		
-	}
+	}        
 
 
 }   	

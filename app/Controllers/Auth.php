@@ -293,7 +293,8 @@ class Auth extends BaseController
                   return redirect()->back()->withInput(); 
                } 
            }
-		}    
+		}
+    $data['staffRoles'] = $this->UserModel->getAllRolesByRoleType('staff');    
 		return view('frontend/login-auth',$data);      
 	} 
 
@@ -446,7 +447,7 @@ class Auth extends BaseController
 
     public function logout() 
     { 
-        delete_cookie('userCookie');   
+        delete_cookie('userCookie');       
     	  $array_items = ['userId', 'email','display','role'];
         $this->session->remove($array_items);
         $this->session->setFlashdata('alert','<div class="alert alert-success">Logged out from all devices</div>'); 

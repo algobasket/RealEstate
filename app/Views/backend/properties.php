@@ -312,7 +312,7 @@
                                  <?php endif ?>
                            </div>     
                      </div>                         
-                    </td>
+                    </td> 
                  </tr>
 
                   <tr>
@@ -614,7 +614,7 @@
                        <a href="javascript:void(0)" class="imagesS" data-images='<?= $implode;?>'>  
                           <?php foreach($r['images'] as $key => $img) : ?>
                              <?php if($key < 3) : ?>
-                             <img src="<?= base_url().'/property-images/thumbnails/'.$img['image_name'];?>" alt="..." class="rounded-circle" width="50" height="50" style="margin-left:-30px;border:2px solid #fff" />
+                             <img src="<?= publicFolder().'/property-images/thumbnails/'.$img['image_name'];?>" alt="..." class="rounded-circle" width="50" height="50" style="margin-left:-30px;border:2px solid #fff" />
                              <?php endif ?>
                           <?php endforeach ?>  
                        </a>

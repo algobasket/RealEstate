@@ -25,29 +25,29 @@
                 <div class="card border-dark mb-3" style="max-width: 18rem;">
                   <div class="card-header">Total Properties</div>
                   <div class="card-body">
-                    <h5 class="card-title display-4 text-center">3800</h5>
+                    <h5 class="card-title display-4 text-center"><?= $totalProperties;?></h5> 
                     <p></p>
                   </div>
                 </div>
                  <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
                   <div class="card-header">Total Agents</div>
                   <div class="card-body">
-                    <h5 class="card-title display-4 text-center">45</h5>
-                     <p class="text-center">Active - 56 | Blocked - 6</p>
+                    <h5 class="card-title display-4 text-center"><?= $totalAgents;?></h5>
+                    <!--  <p class="text-center">Active - 56 | Blocked - 6</p> -->
                   </div>
                 </div>
                  <div class="card border-dark mb-3" style="max-width: 18rem;">
                   <div class="card-header">Total Developers</div>
                   <div class="card-body">
-                    <h5 class="card-title display-4 text-center">567</h5>
-                     <p class="text-center">Active - 56 | Blocked - 6</p>
+                    <h5 class="card-title display-4 text-center"><?= $totalDevelopers;?></h5>
+                     <!-- <p class="text-center">Active - 56 | Blocked - 6</p> -->
                   </div>
                 </div>
                  <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
                   <div class="card-header">Total Staff</div>
                   <div class="card-body">
-                    <h5 class="card-title display-4 text-center">45</h5>
-                    <p class="text-center">Admin - 3 | Sub Admin - 6</p>
+                    <h5 class="card-title display-4 text-center"><?= $totalStaff;?></h5> 
+                    <p class="text-center">Admin - <?= $totalAdmin;?> | Sub Admin - <?= $totalSubAdmin;?></p>
                   </div>
                 </div>        
          </div>

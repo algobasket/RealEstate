@@ -484,6 +484,241 @@
             <?= form_close();?> 
          </div>
 
+       <?php }elseif($section =="add"){ ?> 
+         
+         <div class="container">  
+                <h3 class="display-4">Add Staff</h3>
+             <hr>
+             <?= \Config\Services::session()->getFlashdata('alert');?>
+             <?= form_open('backend/user/staff/add') ?>  
+        
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName">First name</label>
+                  <input type="text" class="form-control" id="firstName" name="firstname" placeholder="First Name"  required=""> 
+                  <div class="invalid-feedback">
+                    Valid first name is required.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName">Last name</label>
+                  <input type="text" class="form-control" id="lastName" name="lastname" placeholder="Last Name" required="">
+                  <div class="invalid-feedback">
+                    Valid last name is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="username">Display Name</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="display_name" name="display_name" placeholder="Display Name" required="">
+                  <div class="invalid-feedback" style="width: 100%;">
+                    Your username is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="username">Username <span class="text-muted">(Optional)</span> <span id="isUsernameAvailable"></span></label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><?= base_url();?>/@</span>
+                  </div>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Username" >
+                  <div class="input-group-append">
+                    <a href="javascript:void(0)" class="input-group-text" type="button" id="checkUsernameAvailability">Check Availability</a>
+                  </div>
+                  <div class="invalid-feedback" style="width: 100%;">
+                    Your username is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="username">Mobile</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Mobile Number" required="">
+                  <div class="invalid-feedback" style="width: 100%;">
+                    Your username is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+                <div class="invalid-feedback">
+                  Please enter a valid email address for shipping updates.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address1" placeholder="1234 Main St" required="">
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" name="address2" id="address2" placeholder="Apartment or suite">
+              </div>
+
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="country">Country</label>
+                  <select class="custom-select d-block w-100" name="country" id="country" required="">
+                      <option value="">Choose...</option>
+                    <?php foreach($countries as $c) : ?>
+                      <option value="<?= $c['id'];?>" ><?= $c['country_name'];?></option>
+                    <?php endforeach ?>  
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid country.
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="state">State</label>
+                  <select class="custom-select d-block w-100" name="state" id="state" required="">
+                    <option value="">Choose...</option>
+                    <?php foreach($states as $s) : ?>
+                      <option value="<?= $s['id'];?>"><?= $s['state_name'];?></option>
+                    <?php endforeach ?> 
+                  </select>
+                  <div class="invalid-feedback"> 
+                    Country name required.
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="zip">City</label>
+                  <select class="custom-select d-block w-100" name="city" id="city" required="">
+                    <option value="">Choose...</option>
+                    <?php foreach($cities as $cy) : ?>
+                      <option value="<?= $cy['id'];?>"><?= $cy['city_name'];?></option>
+                    <?php endforeach ?> 
+                  </select>
+                  <div class="invalid-feedback">
+                    Country name required.
+                  </div>
+                </div>
+              </div>
+             
+              <hr class="mb-4">
+
+              <h4 class="mb-3">Skills & Experience</h4>
+
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="english_level">English Level</label>
+                  <input type="text" class="form-control" id="english_level" name="english_level" placeholder="">
+                  <div class="invalid-feedback">
+                    Please select your English level.
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                   <label for="facebook">Experience</label>
+                  <input type="text" class="form-control" id="experience" name="experience" placeholder="Years of experience">
+                  <div class="invalid-feedback">
+                    Please enter your years of experience.
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="specialities">Specialities</label>
+                 <input type="text" class="form-control" id="specialities" name="specialities" placeholder="Your specialities">
+                  <div class="invalid-feedback">
+                    Please enter your specialities.
+                  </div>
+                </div>
+              </div> 
+
+             
+              <hr class="mb-4">
+
+              <h4 class="mb-3">My Activity</h4>
+
+              <div class="d-block my-3">
+                <div class="custom-control custom-radio">
+                  <input id="credit" name="myActivity" type="radio" class="custom-control-input" required value="buy_rent" />
+                  <label class="custom-control-label" for="credit">Searching for Home</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input id="debit" name="myActivity" type="radio" class="custom-control-input" required value="sell">
+                  <label class="custom-control-label" for="debit">Selling Property</label>
+                </div>
+              </div>
+
+               <hr class="mb-4">
+
+              <h4 class="mb-3">Account Status</h4>
+
+              <div class="d-block"> 
+                   <select class="custom-select d-block w-100" name="status" id="status">
+                    <?php foreach(statusList() as $s) : ?>
+                      <option value="<?= $s['id'];?>" class="<?= $s['status_badge'];?>">
+                        <?= $s['status_name'];?>
+                      </option> 
+                    <?php endforeach ?> 
+                  </select>
+              </div>
+
+             <hr class="mb-4">
+
+              <h4 class="mb-3">Social Media</h4>
+
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="twitter">Twitter</label>
+                  <input type="text" class="form-control" id="twitter" name="twitter" placeholder="eg- @username">
+                  <div class="invalid-feedback">
+                    Please select your Twitter @username.
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                   <label for="facebook">Facebook</label>
+                  <input type="text" class="form-control" id="facebook" name="facebook" placeholder="eg- facebook.com/username">
+                  <div class="invalid-feedback">
+                    Please select your Facebook username.
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="linkedin">Linkedin</label>
+                 <input type="text" class="form-control" id="linkedin" name="linkedin" placeholder="eg- linkedin.com/username">
+                  <div class="invalid-feedback">
+                    Please select your Linkedin profile link.
+                  </div>
+                </div>
+              </div>
+               <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="instagram">Instagram</label>
+                  <input type="text" class="form-control" id="instagram" name="instagram" placeholder="eg- instagram.com/username">
+                  <div class="invalid-feedback">
+                    Please select your Instagram profile link.
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                   <label for="blog">Blog</label>
+                  <input type="text" class="form-control" id="blog" name="blog" placeholder="eg- blogger.com/username">
+                  <div class="invalid-feedback">
+                    Please select your blog link.
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="website">Website</label>
+                 <input type="text" class="form-control" id="website" name="website" placeholder="Website link">
+                  <div class="invalid-feedback">
+                    Please select your Website link.
+                  </div>
+                </div>
+              </div>
+
+              <hr class="mb-4">
+                <input class="btn btn-outline-primary btn-lg btn-block" type="submit" name="addStaff" value="Add Staff"/> 
+            <?= form_close();?> 
+         </div>
+
        <?php }else{ ?>
         
 
@@ -495,7 +730,8 @@
               <?= strtoupper($role['role_name']);?>
             </option> 
           <?php endforeach ?>  
-        </select> 
+        </select>
+        <a href="<?= base_url();?>/backend/user/staff/add" class="btn btn-danger btn-sm">Add Staff</a> 
        </h3> 
 
         <div class="table-responsive">

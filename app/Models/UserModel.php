@@ -127,6 +127,42 @@ class UserModel extends Model
     }
 
 
+    function getAllUsersByRoleType($roleType = NULL) 
+    {
+         $builder = $this->db->table($this->users_tb);  
+         $builder->select([$this->users_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id ='.$this->users_tb.'.id','left');
+         $builder->join($this->status_tb,$this->status_tb.'.id ='.$this->users_tb.'.status','left'); 
+         $builder->join($this->roles_tb,$this->roles_tb.'.role_name ='.$this->users_tb.'.role','left');
+         if($roleType)
+         {
+            $builder->where($this->roles_tb.'.role_type',$roleType); 
+         } 
+         $query = $builder->get();
+         $data = array();
+          foreach($query->getResultArray() as $r)
+          {
+              $data[] = $r;
+          } 
+          return $data;  
+    } 
+
+
+    function getAllRolesByRoleType($roleType = NULL) 
+    {
+         $builder = $this->db->table($this->roles_tb);  
+         $builder->select([$this->roles_tb.'.*']);  
+         $builder->where($this->roles_tb.'.role_type',$roleType);
+         $query = $builder->get();
+         $data = array();
+          foreach($query->getResultArray() as $r)
+          {
+              $data[] = $r;
+          }  
+          return $data;
+    }   
+
+
     function searchUser($txt)
     {
         $builder = $this->db->table($this->users_tb);  
@@ -166,18 +202,16 @@ class UserModel extends Model
     function isUserSuspendedOrBanned($userId) 
     {
          $builder = $this->db->table($this->users_tb);
-         $builder->select([$this->users_tb.'status',$this->status_tb.'status_name']);
+         $builder->select([$this->users_tb.'.status',$this->status_tb.'.status_name']);
          $builder->join($this->status_tb,$this->status_tb.'.id='.$this->users_tb.'.status','left');  
          $builder->where($this->users_tb.'.id',$userId); 
+         $builder->whereIn($this->status_tb.'.status_name',['Suspended','Banned']); 
          $query = $builder->get();
          $result = $query->getResultArray();  
         foreach($result as $r)
         {
-           if(in_array($r['status_name'],['Suspended','Banned']))
-           {
-              exit('Sorry your account is '.$r['status_name'] .'due to vialation of our rules and policies!');
-           } 
-        }
+           return $r['status_name'];
+        }      
     }
 
 

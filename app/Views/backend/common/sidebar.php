@@ -8,52 +8,52 @@
      
          <li class="list-group-item openMenu <?php echo ((segment(2) == "properties" && segment(3) == "index") || segment(3) == "view") ? "active" : "" ;?>"> 
           Browse All Properties<br><small><span class="badge badge-info">3+</span> Property added recently</small>
-          <span class="badge badge-info float-right">3</span>
+          <span class="badge badge-info float-right"><?php echo adminSCounter()['properties'];?></span>
           <a href="<?= base_url();?>/backend/properties/index" class="stretched-link"></a> 
          </li> 
 
         <li class="list-group-item openMenu <?php echo (segment(2) == "properties" && segment(3) == "propertyTypes") ? "active" : "" ;?>">
         Property Type <br><small> Property listing types</small> 
-        <span class="badge badge-info float-right">10</span>
+        <span class="badge badge-info float-right"><?php echo adminSCounter()['propertyTypes'];?></span>
         <a href="<?= base_url();?>/backend/properties/propertyTypes" class="stretched-link"></a> 
         </li> 
       
         <li class="list-group-item openMenu <?php echo (segment(2) == "properties" && segment(3) == "amenities") ? "active" : "" ;?>">
         Amenities<br><small> All facilities available</small>
-        <span class="badge badge-info float-right">10</span>
+        <span class="badge badge-info float-right"><?php echo adminSCounter()['propertyAmenities'];?></span>
         <a href="<?= base_url();?>/backend/properties/amenities" class="stretched-link"></a>
         </li>
        
        <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "leads") ? "active" : "" ;?>">
       Leads<br> <small> Buyers interested in properties</small>
-      <span class="badge badge-info float-right">0</span>
+      <span class="badge badge-info float-right"><?php echo adminSCounter()['leads'];?></span>
       <a href="<?= base_url();?>/backend/user/leads" class="stretched-link"></a>
        </li>
     
       <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "agents") ? "active" : "" ;?>" >
          Agents <br><small>Brokers or Dealers</small>
-        <span class="badge badge-info float-right">0</span>
+        <span class="badge badge-info float-right"><?php echo adminSCounter()['agents'];?></span>
         <a href="<?= base_url();?>/backend/user/agents" class="stretched-link"></a>
       </li>
     
      <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "developers") ? "active" : "" ;?>">
         Realestate Developers      <br> 
         <small> Realestate developers or Builders</small> 
-        <span class="badge badge-info float-right">0</span>
+        <span class="badge badge-info float-right"><?php echo adminSCounter()['developers'];?></span>
         <a href="<?= base_url();?>/backend/user/developers" class="stretched-link"></a>
      </li> 
     
     <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "customers") ? "active" : "" ;?>">
       Customers/Owners<br> 
     <small> Customers/Owners</small> 
-      <span class="badge badge-info float-right">0</span>
+      <span class="badge badge-info float-right"><?php echo adminSCounter()['customers'];?></span>
       <a href="<?= base_url();?>/backend/user/customers" class="stretched-link"></a>
     </li>
 
     <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "staff") ? "active" : "" ;?>">
       Staff Members<br> 
     <small> Backend staff members</small>
-      <span class="badge badge-info float-right">0</span>
+      <span class="badge badge-info float-right"><?php echo adminSCounter()['staffs'];?></span>
       <a href="<?= base_url();?>/backend/user/staff" class="stretched-link"></a>
     </li>
 

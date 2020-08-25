@@ -451,6 +451,40 @@ if(!function_exists('tabNotificationCount')){
 }
 
 
+if(!function_exists('adminSCounter')){   
+   function adminSCounter()    
+   {
+   	 if(session('userId'))
+   	 {  
+   	 	$PropertyModel  = model('PropertyModel');
+   	 	$UserModel      = model('UserModel');
+   	 	$StatisticModel = model('StatisticModel');
+   	 	$MessageModel   = model('MessageModel');  
+
+        $properties = $PropertyModel->getProperties();
+        $propertyTypes = $PropertyModel->getPropertyType();
+        $propertyAmenities = $PropertyModel->getPropertyAmeneties();
+        $leads = $UserModel->getLeads();
+        $agents = $UserModel->getAllUsersByRole('agent');
+        $developers = $UserModel->getAllUsersByRole('developer');
+        $customers = $UserModel->getAllUsersByRole('customer');
+        $staffs = $UserModel->getAllUsersByRoleType('staff');
+        
+        return [
+         'properties'    => count($properties),
+         'propertyTypes' => count($propertyTypes),
+         'propertyAmenities' => count($propertyAmenities),
+         'leads' => count($leads), 
+         'agents' => count($agents), 
+         'developers' => count($developers), 
+         'customers'  => count($customers), 
+         'staffs'     => count($staffs)  
+        ];
+   	 }  
+   }
+}
+
+
 if(!function_exists('publicFolder')){    
    function publicFolder()  
    {

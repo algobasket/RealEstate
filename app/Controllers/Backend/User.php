@@ -482,6 +482,55 @@ class User extends BackendController
             $data['cities']    = $this->GeographyModel->cities();
             $total_sold = $this->PropertyModel->totalPropertiesSoldByUser(segment(5));
             $data['total_sold'] = $total_sold ? $total_sold : 0 ;   
+    }elseif($data['section'] == "add"){ 
+      if($this->request->getPost('addStaff'))  
+        { 
+             if(! $this->validate([
+              'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
+              'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
+              'display_name' => 'required|min_length[2]|max_length[30]|alpha',
+              'username'    => 'min_length[0]|max_length[50]|alpha_numeric',
+              'mobile'      => 'min_length[10]|max_length[15]|numeric',
+              'email'       => 'min_length[5]|max_length[40]|valid_email', 
+              'address1'    => 'min_length[5]|max_length[100]',
+              'address2'    => 'min_length[0]|max_length[100]'  
+           ])){
+                 $this->session->setFlashdata('alert','<div class="alert alert-danger">'.\Config\Services::validation()->listErrors().'</div>'); 
+           }else{
+             $toUpdate = [ 
+                  'display_name' => $this->request->getPost('display_name'),
+                  'username'     => $this->request->getPost('username'),
+                  'mobile'       => $this->request->getPost('mobile'),
+                  'email'        => $this->request->getPost('email'), 
+                  'status'       => $this->request->getPost('status')   
+             ];
+             $toUpdate2 = [
+                 'firstname' => $this->request->getPost('firstname'),
+                 'lastname'  => $this->request->getPost('lastname'),
+                 'address1'  => $this->request->getPost('address1'),  
+                 'address2'  => $this->request->getPost('address2'),
+                 'country'   => $this->request->getPost('country'),
+                 'state'     => $this->request->getPost('state'), 
+                 'city'      => $this->request->getPost('city'),   
+                 'activity'  => $this->request->getPost('myActivity'),
+                 'specialities'  => $this->request->getPost('specialities'),  
+                 'experience'  => $this->request->getPost('experience'),  
+                 'website'  => $this->request->getPost('website'),  
+                 'linkedin'  => $this->request->getPost('linkedin'),  
+                 'twitter'  => $this->request->getPost('twitter'),  
+                 'facebook'  => $this->request->getPost('facebook'),  
+                 'instagram'  => $this->request->getPost('instagram'),  
+                 'blog'  => $this->request->getPost('blog'),  
+                 'english_level'  => $this->request->getPost('english_level'),  
+                 're_license_no'  => $this->request->getPost('re_license_no'),   
+                 'service_area'  => json_encode($this->request->getPost('service_area'),true),
+                 'updated_at' => date('Y-m-d h:i:s')     
+             ];  
+             $userId = $this->AuthModel->register($toUpdate,$toUpdate2); 
+             $this->session->setFlashdata('alert',successAlert('Staff Account Created!'));
+             return redirect()->to('/backend/user/staff/edit/'.$userId);     
+           } 
+        } 
     }else{ 
 
       $data['customers'] = $this->UserModel->getAllUsersByRole('customer');  
@@ -613,15 +662,65 @@ class User extends BackendController
            } 
         } 
             $data['profile']   = $this->AccountModel->getProfileDetail(segment(5)); 
-            $data['countries'] = $this->GeographyModel->countries();
-            $data['states']    = $this->GeographyModel->states();
-            $data['cities']    = $this->GeographyModel->cities();
             $total_sold = $this->PropertyModel->totalPropertiesSoldByUser(segment(5));
             $data['total_sold'] = $total_sold ? $total_sold : 0 ;     
+    }elseif($data['section'] == "add"){ 
+      if($this->request->getPost('addStaff'))  
+        { 
+             if(! $this->validate([
+              'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
+              'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
+              'display_name' => 'required|min_length[2]|max_length[30]|alpha',
+              'username'    => 'min_length[0]|max_length[50]|alpha_numeric',
+              'mobile'      => 'min_length[10]|max_length[15]|numeric',
+              'email'       => 'min_length[5]|max_length[40]|valid_email', 
+              'address1'    => 'min_length[5]|max_length[100]',
+              'address2'    => 'min_length[0]|max_length[100]'  
+           ])){
+                 $this->session->setFlashdata('alert','<div class="alert alert-danger">'.\Config\Services::validation()->listErrors().'</div>');
+        
+           }else{
+             $toUpdate = [ 
+                  'display_name' => $this->request->getPost('display_name'),
+                  'username'     => $this->request->getPost('username'),
+                  'mobile'       => $this->request->getPost('mobile'),
+                  'email'        => $this->request->getPost('email'), 
+                  'status'       => $this->request->getPost('status')   
+             ];
+             $toUpdate2 = [
+                 'firstname' => $this->request->getPost('firstname'),
+                 'lastname'  => $this->request->getPost('lastname'),
+                 'address1'  => $this->request->getPost('address1'),  
+                 'address2'  => $this->request->getPost('address2'),
+                 'country'   => $this->request->getPost('country'),
+                 'state'     => $this->request->getPost('state'), 
+                 'city'      => $this->request->getPost('city'),   
+                 'activity'  => $this->request->getPost('myActivity'),
+                 'specialities'  => $this->request->getPost('specialities'),  
+                 'experience'  => $this->request->getPost('experience'),  
+                 'website'  => $this->request->getPost('website'),  
+                 'linkedin'  => $this->request->getPost('linkedin'),  
+                 'twitter'  => $this->request->getPost('twitter'),  
+                 'facebook'  => $this->request->getPost('facebook'),  
+                 'instagram'  => $this->request->getPost('instagram'),  
+                 'blog'  => $this->request->getPost('blog'),  
+                 'english_level'  => $this->request->getPost('english_level'),  
+                 're_license_no'  => $this->request->getPost('re_license_no'),   
+                 'service_area'  => json_encode($this->request->getPost('service_area'),true),
+                 'updated_at' => date('Y-m-d h:i:s')     
+             ];  
+             $userId = $this->AuthModel->register($toUpdate,$toUpdate2); 
+             $this->session->setFlashdata('alert',successAlert('Staff Account Created!'));
+             return redirect()->to('/backend/user/staff/edit/'.$userId);     
+           } 
+        } 
     }else{  
       $data['cRole'] = $this->request->getGet('role') ? $this->request->getGet('role') : "admin";
       $data['staff'] = $this->UserModel->getAllUsersByRole($data['cRole']);   
-    }  
+    }
+    $data['countries'] = $this->GeographyModel->countries();
+    $data['states']    = $this->GeographyModel->states();
+    $data['cities']    = $this->GeographyModel->cities();  
     return view('backend/staff-members',$data);  
   } 
 

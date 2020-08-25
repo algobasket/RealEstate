@@ -16,7 +16,7 @@
 
         PropertyRaja launched in 2020 and is headquartered in New Delhi.
 
-       </p>
+       </p> 
         
         
    </div>

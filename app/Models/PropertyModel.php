@@ -67,10 +67,12 @@ class PropertyModel extends Model
        $builder->select($select);  
        $builder->join($this->status_tb,$this->status_tb.'.id = '.$this->property_ty_tb.'.status','LEFT');   
        $query = $builder->get();
-        foreach($query->getResultArray() as $r){
-           $data[] = $r;
-        } 
-       return $data;     
+       $data = array();      
+        foreach($query->getResultArray() as $r)
+        {
+            $data[] = $r;
+        }
+        return $data;  
     }
 
 
@@ -124,9 +126,12 @@ class PropertyModel extends Model
        $builder->select($select);
         $builder->join($this->status_tb,$this->status_tb.'.id='.$this->amenities_tb.'.status','LEFT'); 
          $query = $builder->get();
+          $data = array();     
           foreach($query->getResultArray() as $r)
-               $data[] = $r;
-          return $data;  
+          {
+              $data[] = $r;
+          }
+          return $data; 
     }
 
 
