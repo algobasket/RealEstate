@@ -41,9 +41,15 @@
       <a href="<?= base_url();?>" class="navbar-brand d-flex align-items-center">
         <img src="<?= publicFolder();?>/images/propertyraja.png" width="200"/>
       </a>
+
       
+
       <div class="btn-group">
-            <?php if(\Config\Services::session()->get('userId')){ ?> 
+             <?php if(!\Config\Services::session()->get('userId')){ ?>
+               <a href="<?= base_url();?>/login/?redirect=/add-property" class="text-danger text-decoration-none sellPropertyBtn"><b>Sell Property</b></a>
+             <?php } ?> 
+             
+            <?php if(\Config\Services::session()->get('userId')){ ?>  
             <a href="<?= base_url();?>/messages/?status=1" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="All messages sent to owners">
               <img src="<?= publicFolder();?>/images/messages.png" width="22"/> <span class="badge badge-danger"><?= allMessagesReceived();?></span>
               <span class="sr-only">unread messages</span> 

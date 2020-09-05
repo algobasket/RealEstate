@@ -143,10 +143,17 @@
   </div>
   <div class="form-group">
     <label for="inputCity">Staff Role</label>
-    <select name="role" class="form-control"> 
-       <?php foreach($staffRoles as $roles) : ?>
-          <option value="<?= $roles['role_name'];?>"><?= ucfirst($roles['role_name']);?></option> 
-       <?php endforeach ?> 
+    <select name="role" class="form-control">
+      <?php if(is_array($staffRoles)){ ?> 
+
+           <?php foreach($staffRoles as $roles){ ?>
+              <option value="<?= $roles['role_name'];?>"><?= ucfirst($roles['role_name']);?></option> 
+           <?php } ?>
+
+       <?php }else{ ?>
+              <option value="">No Roles</option> 
+       <?php } ?>
+
     </select>
   </div>
   <div class="form-group">

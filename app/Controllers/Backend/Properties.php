@@ -491,7 +491,48 @@ class Properties extends BackendController
                  }
                   return redirect()->to('/backend/properties/edit/'.segment(4));
        } 
-
+       
+       if($this->request->getPost('editPropertyDetail'))
+       {      
+             $array = [ 
+                        'listing_type'   => $this->request->getPost('listing_type'),  
+                        'property_type'  => $this->request->getPost('property_type'),  
+                        'complex_type'   => $this->request->getPost('complex_type'),
+                        'bhk_type'       => $this->request->getPost('bhk_type'),      
+                        'status_type'    => $this->request->getPost('status_type'), 
+                        'condition_type' => $this->request->getPost('condition_type'),     
+                        'title'          => $this->request->getPost('title'),  
+                        'description'    => $this->request->getPost('description'),  
+                        'specification'  => $this->request->getPost('specification'), 
+                        'about'          => $this->request->getPost('about'), 
+                        'facing'         => $this->request->getPost('facing'),
+                        'amenities'      => json_encode($this->request->getPost('amenities'),true),         
+                        'city'           => $this->request->getPost('city'),      
+                        'locality'       => $this->request->getPost('locality'),
+                        'scale'          => trim($this->request->getPost('scale')),                
+                        'builtup_area'   => $this->request->getPost('builtup_area'),      
+                        'project_name'   => $this->request->getPost('project_name'),      
+                        'floor'          => $this->request->getPost('floor'),        
+                        'unit_price'     => $this->request->getPost('unit_price'),      
+                        'renovation_cost' => $this->request->getPost('renovation_cost'),      
+                        'old_total_price'    => $this->request->getPost('old_total_price'),       
+                        'total_price'    => $this->request->getPost('total_price'),
+                        'rent_per_mon'   => $this->request->getPost('rent_per_mon'),      
+                        'project_total_area' => $this->request->getPost('project_total_area'),       
+                        'launch_date'    => $this->request->getPost('launch_date'),      
+                        'posession_date' => $this->request->getPost('posession_date'),      
+                        'rera_id'        => $this->request->getPost('rera_id'),      
+                        'approving_authority' => $this->request->getPost('approving_authority'),       
+                        'has_ads'        => $this->request->getPost('has_ads'),             
+                        'public_or_private' => $this->request->getPost('public_or_private'),             
+                        'created_at'     => $this->request->getPost('created_at'),  
+                        'updated_at'     => $this->request->getPost('updated_at'),   
+                        'status'         => $this->request->getPost('status') 
+                    ];
+          $this->PropertyModel->updateProperty($pid = segment(4),$array);
+          $this->session->setFlashdata('alert',successAlert('Property Detail Updated!'));
+          return redirect()->to('/backend/properties/edit/'.segment(4));    
+       }
 
         
        $data['property_type']   = $this->PropertyModel->getPropertyType(); 

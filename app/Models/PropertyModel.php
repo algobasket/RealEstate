@@ -580,6 +580,14 @@ class PropertyModel extends Model
         $total =  array_sum($data);
       }
       return $total;
+   }
+
+   function updateProperty($pid,$data)
+   {
+       $builder = $this->db->table($this->properties_tb); 
+       $builder->where(['id'=>$pid]); 
+       $builder->update($data);
+       return true;   
    } 
 
    function deleteProperty($pid)

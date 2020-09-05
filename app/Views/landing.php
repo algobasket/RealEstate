@@ -21,11 +21,11 @@
 
   <section class="jumbotron text-center" style="background-color: antiquewhite;">
     <div class="container">
-      <center>
+      <!-- <center>
        <a href="<?= base_url();?>"> 
         <img src="<?= publicFolder();?>/images/propertyraja.png" width="300"/> 
        </a>
-      </center>
+      </center> -->
       <h1>Welcome back, continue your home search</h1>
       <p class="lead text-muted">India's No 1 Property Site</p>
       <p>

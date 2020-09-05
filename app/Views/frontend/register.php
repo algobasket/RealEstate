@@ -18,7 +18,7 @@
 
   <?= form_open('register','onsubmit="return validateForm(this)"') ?>
   <?= csrf_field() ?> 
-  <?php if(\Config\Services::session()->getFlashdata('alert')){ ?>
+  <?php if(\Config\Services::session()->getFlashdata('success') == 1){ ?> 
  
    <div class="card">
         <div class="card-body">

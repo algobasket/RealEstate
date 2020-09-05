@@ -64,14 +64,10 @@ class Auth extends BaseController
                 if($isLoggedIn)  
                 {     
                       
-                      $otpNumber = time();    
-                      if($this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp') == TRUE)
-                      {
-                         $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
-                      }else{
-                        $this->session->setFlashdata('alert',redAlert('OTP sending failed but you can check on your registered email!'));
-                        //return redirect()->back()->withInput(); 
-                      } 
+                      $otpNumber = time();
+
+                     $this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp');
+                     $this->session->setFlashdata('alert',successAlert('OTP sent to your number '.$isLoggedIn['mobile'].' and registered email!'));
                       
                       $this->sendEmail($isLoggedIn['id'],
                         ['publicFolder' => publicFolder(),'otp' => $otpNumber],
@@ -94,7 +90,7 @@ class Auth extends BaseController
 
                       return redirect()->to('/Auth/verify');            
                 }else{
-                 $this->session->setFlashdata('alert','<div class="alert alert-danger">User Not Found</div>');
+                 $this->session->setFlashdata('alert',redAlert('User Not Found</div>'));
                  return redirect()->back()->withInput();
                } 
            }
@@ -142,13 +138,8 @@ class Auth extends BaseController
                 {     
                       
                       $otpNumber = time();    
-                      if($this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp') == TRUE)  
-                      {
-                         $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
-                      }else{
-                        $this->session->setFlashdata('alert',redAlert('OTP sending failed but you can check on your registered email!'));
-                        //return redirect()->back()->withInput(); 
-                      }
+                     $this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp');
+                     $this->session->setFlashdata('alert',successAlert('OTP sent to your number '.$isLoggedIn['mobile'].' and registered email!'));
                      
                      $this->sendEmail($isLoggedIn['id'],
                         ['publicFolder' => publicFolder(),'otp' => $otpNumber],
@@ -171,7 +162,7 @@ class Auth extends BaseController
 
                       return redirect()->to('/Auth/verify');            
                 }else{
-                 $this->session->setFlashdata('alert','<div class="alert alert-danger">User Not Found</div>');
+                 $this->session->setFlashdata('alert',redAlert('User Not Found'));
                  return redirect()->back()->withInput();
                } 
            }
@@ -217,13 +208,9 @@ class Auth extends BaseController
                 if($isLoggedIn)  
                 {     
                       
-                      $otpNumber = time();    
-                      if($this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp') == TRUE)
-                      {
-                         $this->session->setFlashdata('alert','<div class="alert alert-success">OTP sent to your number '.$isLoggedIn['mobile'].'</div>');
-                      }else{
-                        $this->session->setFlashdata('alert',redAlert('OTP sending failed but you can check on your registered email!'));
-                      }
+                       $otpNumber = time();    
+                       $this->sendSms(['otp' => $otpNumber],$isLoggedIn['mobile'],'otp');
+                       $this->session->setFlashdata('alert',successAlert('OTP sent to your number '.$isLoggedIn['mobile'].' and registered email!'));
       
                      $this->sendEmail($isLoggedIn['id'],
                         ['publicFolder' => publicFolder(),'otp' => $otpNumber],
@@ -246,7 +233,7 @@ class Auth extends BaseController
 
                       return redirect()->to('/Auth/verify');            
                 }else{
-                 $this->session->setFlashdata('alert','<div class="alert alert-danger">User Not Found</div>');
+                 $this->session->setFlashdata('alert',redAlert('User Not Found'));
                  return redirect()->back()->withInput();
                } 
            }
@@ -258,7 +245,8 @@ class Auth extends BaseController
 
 
 	public function login_staff()
-	{ 
+	{
+
     if(session('role')) 
     {
          return isLoggedIn();
@@ -282,18 +270,18 @@ class Auth extends BaseController
                 if($status){
                    $this->session->set([
                      'userId'  => $status['id'],   
-                     'display' => $status['display_name'],  
+                     'display' => $status['display_name'],    
                      'role'    => $status['role'],
                      'email'   => $status['email']
                    ]);
                    return redirect()->to('/backend/dashboard/index');  
                 }else{
-                 $this->session->setFlashdata('alert','<div class="alert alert-danger">Staff Not Found</div>');
+                 $this->session->setFlashdata('alert',redAlert('Staff Not Found'));
                  //return redirect()->to('/login-staff');
                   return redirect()->back()->withInput(); 
                } 
            }
-		}
+		} 
     $data['staffRoles'] = $this->UserModel->getAllRolesByRoleType('staff');    
 		return view('frontend/login-auth',$data);      
 	} 
@@ -304,7 +292,7 @@ class Auth extends BaseController
 
 	public function register()    
 	{ 
-		   $data['title'] = "Register to PropertyRaja";  
+		   $data['title'] = "Register to PropertyRaja";    
 
         if($this->request->getPost('sign-up')){  
 
@@ -314,15 +302,15 @@ class Auth extends BaseController
               'mobile-number' => 'required|min_length[10]|max_length[12]|numeric',    
               'password'      => 'required|min_length[6]|max_length[20]'     
            ])){ 
-               $this->session->setFlashdata('alert','<div class="alert alert-danger">'.\Config\Services::validation()->listErrors().'</div>');
+               $this->session->setFlashdata('alert',redAlert(\Config\Services::validation()->listErrors()));
                 return redirect()->back()->withInput(); 
            }else{
-           	       $rolename = $this->request->getPost('rolename');
-	              if($rolename == "developer" || $rolename == "agent"){
-	                 $access_code = strtoupper(uniqid());
-	                }else{
-	              	 $access_code = 0;    
-	                }         
+           	    //     $rolename = $this->request->getPost('rolename');
+	              // if($rolename == "developer" || $rolename == "agent"){
+	              //    $access_code = strtoupper(uniqid());
+	              //   }else{
+	              // 	 $access_code = 0;    
+	              //   }          
                $uid = $this->AuthModel->register([
           			      'display_name' => $this->request->getPost('display-name'),
                       'username'     => $this->request->getPost('display-name').'.'.time(), 
@@ -330,40 +318,45 @@ class Auth extends BaseController
           			      'mobile'       => $this->request->getPost('mobile-number'),  
           			      'password'     => $this->request->getPost('password'),
           			      'ip'           => $this->request->getIPAddress(),
-          			      'access_code'  => $access_code,
+          			      //'access_code'  => $access_code,
           			      'role'         => $this->request->getPost('rolename'),
           			      'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
           			      'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
-		                ],[
+		                ],[ 
                       'firstname' => "",
-                      'lastname'  => "",
+                      'lastname'  => "",  
                       'activity'  => $this->request->getPost('purpose'),
                       'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
     			            'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
 		             ]);
-      		       $agent = $this->request->getUserAgent(); 
-      		       $this->AuthModel->saveUserSessLog([
-                        'user_id'    => $uid,
-                        'ip'         => $this->request->getIPAddress(),
-                        'user_agent' => $agent->getAgentString(), 
-                        'operation'  =>   "register", 
-                        'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
-      			           'updated_at'    => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
-      		       ]);
 
-                 $this->sendEmail(
-                  $uid,
-                  ['publicFolder' => publicFolder(),'base_url' => base_url()],
-                  $this->request->getPost('email'),
-                  'Thanks for joining - PropertyRaja','register'
-                );  
+                 if($uid)
+                 {
+                   $agent = $this->request->getUserAgent(); 
+                   $this->AuthModel->saveUserSessLog([ 
+                          'user_id'    => $uid, 
+                          'ip'         => $this->request->getIPAddress(),
+                          'user_agent' => $agent->getAgentString(), 
+                          'operation'  => "register",  
+                          'created_at' => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
+                          'updated_at' => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
+                   ]);
 
-		             $this->session->setFlashdata('alert','<div class="alert alert-success">Signup Successful</div>');
-		             return redirect()->to('/register');
+                   $this->sendEmail(
+                    $uid,
+                    ['publicFolder' => publicFolder(),'base_url' => base_url()],
+                    $this->request->getPost('email'),
+                    'Thanks for joining - PropertyRaja','register'
+                  );  
+                   $this->session->setFlashdata('success',1);    
+                 }else{
+                   $this->session->setFlashdata('alert',redAlert('Some Error Occurs. Please try later'));
+                 } 
+		             return redirect()->to('/register'); 
            }
 		    }     
 		     return view('frontend/register',$data);         
-	 }
+	 }  
 
 
 
@@ -506,6 +499,7 @@ class Auth extends BaseController
     } 
 
 
+
     public function sendSms($replaceData,$to,$template)       
     {  
        $to  = trim($to); 
@@ -521,7 +515,8 @@ class Auth extends BaseController
        {
           return true;  
        }    
-    }  
+    }
+
     
 
     public function sendEmail($userId = null,$replaceData = null,$to = null,$subject = null,$template = null)      
@@ -554,7 +549,8 @@ class Auth extends BaseController
        $MessageModel = model('MessageModel'); 
        $status = $MessageModel->sendEmail($from,$userDetail['email'],"","",$subject,$msg);     
        return true;  
-    } 
+    }
 
 
-}	
+
+}  	

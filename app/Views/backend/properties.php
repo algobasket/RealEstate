@@ -26,6 +26,7 @@
            <h3>Edit Property</h3> 
            <?= \Config\Services::session()->getFlashdata('alert');?>
            <div class="table">
+           
            <table class="table small">
               <tbody>
                 <tr>
@@ -60,6 +61,8 @@
                       <?= form_close();?> 
                     </td>
                  </tr>
+
+               <?= form_open('/backend/properties/edit/'.segment(4));?>  
                <?php if(in_array('title',$propertyTypeMap)) : ?> 
                  <tr>
                     <th scope="row">Title</th>
@@ -215,13 +218,13 @@
                              <div class="col-md-2">
                          
                                   <?php if(in_array('builtup_area',$propertyTypeMap)) : ?> 
-                                     <b style="line-height:31px;">Builtup Area &nbsp;&nbsp;</b>
+                                     <b style="line-height:31px;">Builtup Area (in <?= $propertyDetail['scale'];?>)&nbsp;&nbsp;</b>
                                     <input type="text" class="form-control form-control-sm" name="builtup_area" value="<?= $propertyDetail['builtup_area'];?>" placeholder="Builtup Area" style="width: 180px" required >
                                  <?php endif ?>  
                              </div> 
                              <div class="col-md-2">
                                  <?php if(in_array('project_total_area',$propertyTypeMap)) : ?>         
-                                        <b style="line-height:31px;">Project Total Area</b> 
+                                        <b style="line-height:31px;">Project Total Area (in <?= $propertyDetail['scale'];?>)</b> 
                                         <input type="text" class="form-control form-control-sm" value="<?= $propertyDetail['project_total_area'];?>" placeholder="Project Total Area" name="project_total_area" style="width: 180px" required />
                                  <?php endif ?>
                           </div> 
@@ -322,25 +325,37 @@
                             <div class="col-md-2">
                                <?php if(in_array('rera_id',$propertyTypeMap)) : ?> 
                                     <b style="line-height:31px;">RERA ID</b> 
-                                    <input type="text" class="form-control form-control-sm" value="<?= $propertyDetail['rera_id'];?>" name="rera_id" placeholder="RERA ID" required />
+                                    <input type="text" class="form-control form-control-sm" value="<?= $propertyDetail['rera_id'];?>" name="rera_id" placeholder="RERA ID" />
                                <?php endif ?> 
                             </div>
                              <div class="col-md-2">
                                  <?php if(in_array('approving_authority',$propertyTypeMap)) : ?> 
                                       <b style="line-height:31px;">Approving Authority</b> 
-                                      <input type="text" class="form-control form-control-sm" value="<?= $propertyDetail['approving_authority'];?>" name="approving_authority" placeholder="Approving Authority" required />
+                                      <input type="text" class="form-control form-control-sm" value="<?= $propertyDetail['approving_authority'];?>" name="approving_authority" placeholder="Approving Authority"  />
                                  <?php endif ?>  
                              </div> 
                              <div class="col-md-2">
                                  <?php if(in_array('has_ads',$propertyTypeMap)) : ?>         
                                         <b style="line-height:31px;">Has Ads</b>  
-                                        <input type="text" class="form-control form-control-sm" value="<?= $propertyDetail['has_ads'];?>" name="has_ads" placeholder="Has Ads" style="width: 180px" required />
+                                        <select class="form-control form-control-sm" name="has_ads"> 
+                                          <option value="1" <?= ($propertyDetail['has_ads'] == 1) ? "selected" : "";?> class="bg-warning">Make it Featured</option>
+                                          <option value="2" <?= ($propertyDetail['has_ads'] == 2) ? "selected" : "";?> class="bg-info">Sponsored Ad</option> 
+                                        </select>
                                  <?php endif ?>
-                            </div> 
+                            </div>
+                            <div class="col-md-2">
+                                 <?php if(in_array('public_or_private',$propertyTypeMap)) : ?>         
+                                        <b style="line-height:31px;">Public or Private</b>  
+                                        <select class="form-control form-control-sm" name="public_or_private"> 
+                                          <option value="private" <?= ($propertyDetail['public_or_private'] == 'private') ? "selected" : "";?> class="bg-danger">Private</option>
+                                          <option value="public" <?= ($propertyDetail['public_or_private'] == 'public') ? "selected" : "";?> class="bg-success">Public</option> 
+                                        </select>
+                                 <?php endif ?> 
+                            </div>  
                                
                      </div>                         
                     </td>
-                 </tr>
+                 </tr> 
 
                  <?php if(in_array('status',$propertyTypeMap)) : ?>    
                  <tr> 
@@ -365,10 +380,14 @@
                        <input type="submit" name="editPropertyDetail" class="btn btn-outline-danger btn-block" value="Update Detail" />           
                     </td>
                  </tr>
-                
-    
+
+
+             <?= form_close();?> 
+             
+
            </tbody> 
            </table>
+           
            </div>
 
         <?php }elseif(@$section == "viewProperty"){ ?>  
