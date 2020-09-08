@@ -257,8 +257,196 @@ $(document).ready(function(){
       	 i++; 
       });
 
-        
-  });
+
+
+     $('.calcAdsPrice').click(function(){ 
+        $('#adsPaymentPopup').modal('show');
+        var pid = $(this).attr('data-pid');
+        var adstype = $(this).attr('data-adstype');
+        $('#sPropertyId').val(pid); 
+        $('#sAdsType').val(adstype); 
+     }) 
+
+
+   $('#featured_from').change(function(){
+        var from = $(this).val();
+        var upto = $('#featured_upto').val();
+        var adsPrice = $('#adsPricePerDay').val();
+
+        if(from && upto)
+        {
+              var date1 = new Date(from); 
+              var date2 = new Date(upto);   
+                
+              // To calculate the time difference of two dates 
+              var Difference_In_Time = date2.getTime() - date1.getTime(); 
+                
+              // To calculate the no. of days between two dates 
+              var Difference_In_Days = 1 + Difference_In_Time / (1000 * 3600 * 24);
+              var totalAdsprice = adsPrice * Difference_In_Days;
+              if(Difference_In_Days > 0)
+              {
+                var html = '<hr>'+
+                         '<h5>Make this Property Featured for '+Difference_In_Days+' days</h5>'+
+                         '<h4>Total Cost : '+totalAdsprice+' INR</h4>'+
+                         '<br>'+
+                         '<input type="submit" class="btn btn-success" name="createAdsPayment" value="Create Payment"/>' ;
+              }else{
+                var html = '<hr>'+
+                           '<h5>Invalid Date Choosen</h5>';
+              } 
+              
+              $('#resultCalcAdsPrice').html(html);
+        }
+     });
+
+     $('#featured_upto').change(function(){
+        var from = $('#featured_from').val();
+        var upto = $(this).val(); 
+        var adsPrice = $('#adsPricePerDay').val();
+
+        if(from && upto) 
+        {
+              var date1 = new Date(from); 
+              var date2 = new Date(upto);   
+                
+              // To calculate the time difference of two dates 
+              var Difference_In_Time = date2.getTime() - date1.getTime(); 
+                
+              // To calculate the no. of days between two dates 
+              var Difference_In_Days = 1 + Difference_In_Time / (1000 * 3600 * 24); 
+              var totalAdsprice = adsPrice * Difference_In_Days; 
+              if(Difference_In_Days > 0)
+              {
+                var html = '<hr>'+
+                         '<h5>Make this Property Featured for '+Difference_In_Days+' days</h5>'+
+                         '<h4>Total Cost : '+totalAdsprice+' INR</h4>'+
+                         '<br>'+ 
+                         '<input type="submit" class="btn btn-success" name="createAdsPayment" value="Create Payment"/>' ;
+              }else{
+                var html = '<hr>'+
+                           '<div class="alert alert-danger">Invalid Date Choosen</div>';
+              } 
+            
+              $('#resultCalcAdsPrice').html(html);
+        }
+     }) 
+     
+     $('#agentLocation').keypress(function(event){
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            $('#agentSForm').submit(); 
+        } 
+     });
+     $('#agentLocation').keyup(function(event){
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            $('#agentSForm').submit(); 
+        } 
+     });
+     $('#agentName').keypress(function(event){
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            $('#agentSForm').submit();  
+        } 
+     }); 
+     $('#agentService').change(function(event){
+          if($('#agentName').val() || $('#agentLocation').val())
+          {
+            $('#agentSForm').submit(); 
+          } 
+     });
+     
+     $('.starHover').click(function(){ 
+          var title  = $(this).attr('data-title');
+          var starid = $(this).attr('data-starid');
+          $('#selectedStar').val(starid);
+          if(starid !=  0)
+          {
+              for(i = 1; i <= starid ; i++)
+              { 
+                $('.star'+i).show();  
+                $('.star-empty'+i).hide();  
+              } 
+          }  
+     });
+     $('.starHover').mouseover(function(){ 
+          var title  = $(this).attr('data-title');
+          var starid = $(this).attr('data-starid');
+          for(i = 1; i <= starid ; i++){ 
+              $('.star'+i).show();  
+              $('.star-empty'+i).hide();  
+          } 
+          $('#starRemark').html('&nbsp;&nbsp;' + title);
+     });
+     $('.starHover').mouseout(function(){
+            $('.str').hide();  
+            $('.estr').show();  
+            $('#starRemark').html('');
+          var starid = $('#selectedStar').val(); 
+          if(starid !=  0)
+          {   
+              for(i = 1; i <= starid ; i++)
+              { 
+                $('.star'+i).show();  
+                $('.star-empty'+i).hide();  
+              } 
+          } 
+     });
+     
+      $('#iAgree').click(function(){ 
+          var agree  = $('#iAgree:checked').val() ? true : false;  
+          if(agree == true)
+          {
+            $('#submitReview').removeAttr('disabled');
+          }else{
+            $('#submitReview').attr('disabled',""); 
+          }
+     });
+
+      $('.reportFlagBtn').click(function(){
+         var reviewId = $(this).attr('data-reviewid');
+         $('#reviewId').val(reviewId); 
+         $('#reportFlag').modal('show');
+      });
+
+     $('#submitReviewFlag').click(function(){ 
+          var problem  = $('#problem').val();  
+          var details  = $('#details').val();  
+          var email    = $('#email').val();
+          var reviewId    = $('#reviewId').val();
+
+          if(email && details) 
+          { 
+              var data = {
+                  problem : problem,
+                  details : details,
+                  email   : email,
+                  reviewId : reviewId
+                }  
+                $.ajax({
+                  type:'POST',
+                  url:'/Ajax/submitReviewFlag',
+                  data:data,
+                  success:function(res)
+                  {
+                    $('#reviewSubmitAlert').html('<div class="alert alert-success">'+
+                                                  '<b>Flagged successfully!</b>'+
+                                                  '<br>We will take another look at this review.'+ 
+                                                  'Thanks for helping make the site more useful to everyone.</div>');
+                    $('#reviewSubmitForm').hide();    
+                  }
+                }); 
+          }else{
+             $('#reviewSubmitAlert').html('<div class="alert alert-danger">Complete all details!</div>');
+          }
+
+     });   
+
+  }); 
+
+
+
 //   setTimeout(function() {
 //             var fk_user_id  = $('#fk_user_id').val(); 
 //             var property_id = $('#property_id').val();
@@ -275,3 +463,4 @@ $(document).ready(function(){
 //               }
 //             }); 
 // }, 5000);
+

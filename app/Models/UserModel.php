@@ -108,7 +108,57 @@ class UserModel extends Model
               $data[] = $r;
           } 
           return $data;  
-    }  
+    }
+
+
+    function userSearchFilter($location = NULL,$name = NULL,$service = NULL,$role = NULL,$status = NULL)
+    {    
+         $PropertyModel = model('PropertyModel');
+         $builder = $this->db->table($this->users_tb.' as A');  
+         $builder->select(['A.*','B.*','C.status_name','C.status_badge']); 
+         $builder->join($this->user_detail_tb.' as B','B.user_id = A.id','left');
+         $builder->join($this->status_tb.' as C','C.id = A.status','left'); 
+         $builder->join($this->cities.' as D','D.id = B.city','left');
+         $builder->groupStart(); 
+         if($name)
+         {
+            $builder->like('B.firstname',$name,'both');
+            $builder->orLike('A.username',$name,'both');  
+         }
+         if($location) 
+         {
+            $builder->like('D.city_name',$location,'both');
+            $builder->orLike('B.zip',$location,'both');
+            $builder->orLike('B.address1',$location);
+            $builder->orLike('B.address2',$location);
+          //$builder->orLike('B.service_area',$location);
+         }
+         $builder->groupEnd();  
+         if($role)
+         {
+            $builder->where('A.role',$role); 
+         }
+         if($status)
+         {
+            $builder->where('A.status',$status); 
+         }
+
+         $query = $builder->get();
+         $data  = array();       
+          foreach($query->getResultArray() as $r)
+          {   
+              $getAllReviews = $this->getAllReviews($userType = 'seller',$userId = $r['user_id'],$status = 1);
+              $getCurrentReview = $this->getCurrentReview($userType = 'seller',$userId = $r['user_id'],$status = 1);
+              $totalPropertiesSoldByUser = $PropertyModel->totalPropertiesSoldByUser($userId = $r['user_id']);
+              $getPropertiesByUserId = $PropertyModel->getPropertiesByUserId($userId = $r['user_id']);
+              $r['reviewsCount'] = is_array($getAllReviews) ? count($getAllReviews) : 0;
+              $r['currentReview'] = (count($getCurrentReview) > 0) ? $getCurrentReview : NULL; 
+              $r['salesCount'] = is_array($totalPropertiesSoldByUser) ? count($totalPropertiesSoldByUser) : 0;
+              $r['listingsCount'] = is_array($getPropertiesByUserId) ? count($getPropertiesByUserId) : 0;
+              $data[] = $r; 
+          } 
+          return $data;  
+    }    
 
 
 
@@ -198,6 +248,19 @@ class UserModel extends Model
          } 
     }
 
+    function getUserIdFromUsername($username) 
+    {
+         $builder = $this->db->table($this->users_tb);
+         $builder->select('id');
+         $builder->where($this->users_tb.'.username',$username); 
+         $query = $builder->get(); 
+        foreach($query->getResultArray() as $r)
+        {
+           $data[] = $r['id'];
+        }
+        return $data;  
+    }
+
 
     function isUserSuspendedOrBanned($userId) 
     {
@@ -217,6 +280,40 @@ class UserModel extends Model
 
 
     function getAllReviews($userType = NULL,$userId = NULL,$status = NULL)
+    {
+        $builder = $this->db->table($this->reviews_tb);  
+        $builder->select([$this->reviews_tb.'.*',$this->reviews_tb.'.id as review_id',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->reviews_tb.'.status','left'); 
+        
+         if(isset($userType))  
+         {
+             if($userType == 'seller')
+             {
+                $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->reviews_tb.'.buyer_id','left'); 
+                $builder->where($this->reviews_tb.'.seller_id',$userId);
+             }
+             if($userType == 'buyer') 
+             {  
+                $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->reviews_tb.'.seller_id'); 
+                $builder->where($this->reviews_tb.'.buyer_id',$userId);
+             }
+         }
+
+         if(isset($status)) 
+         {
+             $builder->where($this->reviews_tb.'.status', $status);
+         }
+        $builder->orderBy($this->reviews_tb.'.id','DESC');  
+        $query = $builder->get();
+        $data = array();  
+        foreach($query->getResultArray() as $r)
+        {
+            $data[] = $r;  
+        }  
+        return $data;     
+    } 
+
+    function getCurrentReview($userType = NULL,$userId = NULL,$status = NULL)
     {
         $builder = $this->db->table($this->reviews_tb);  
         $builder->select([$this->reviews_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
@@ -239,14 +336,54 @@ class UserModel extends Model
          {
              $builder->where($this->reviews_tb.'.status', $status);
          }
-          
+        $builder->orderBy($this->reviews_tb.'.id','DESC');
+        $builder->limit(1);   
         $query = $builder->get();
         $data = array();  
-        foreach($query->getResultArray() as $r)
+        foreach($query->getResultArray() as $r) 
         {
             $data[] = $r;  
-        }  
+        }   
         return $data;     
+    }
+
+
+    function getUserRatings($userType = NULL,$userId = NULL,$status = NULL)
+    {
+        $builder = $this->db->table($this->reviews_tb);
+        if(isset($userType)) 
+         {
+             if($userType == 'seller')
+             {
+                $builder->where($this->reviews_tb.'.seller_id',$userId);
+             }
+             if($userType == 'buyer') 
+             {  
+                $builder->where($this->reviews_tb.'.buyer_id',$userId);
+             }
+         }
+         if(isset($status))
+         {
+             $builder->where($this->reviews_tb.'.status', $status);
+         }
+        $builder->where($this->reviews_tb.'.rating !=', NULL); 
+        $query = $builder->get();
+        $data  = $query->getResultArray();
+        $count = is_array($data) ? count($data) : 0;
+        if(is_array($data)  && count($data) > 0)
+        {
+           $totalRating = $count * 5;
+           foreach($query->getResultArray() as $r) 
+            {
+                $totalUsersRatingsArray[] = $r['rating'];  
+            }   
+           $totalUsersRatings = array_sum($totalUsersRatingsArray);
+           $rating =   $totalUsersRatings * 5/$totalRating;
+           return $rating; 
+        }else{
+          return 0;
+        }
+      
     } 
 
 

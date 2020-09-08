@@ -119,8 +119,14 @@
                                             foreach($row['images'] as $key => $image)
                                             {   
                                                 if($key == 0)
-                                                {
-                                                    echo '<img src="'.publicFolder().'/property-images/'.$image['image_name'].'" class="card-img" width="150">';
+                                                { 
+                                                    if(isImageExists(publicFolder().'/property-images/thumbnails/'.$image['image_name']) == true)
+                                                    {
+                                                        echo '<img src="'.publicFolder().'/property-images/thumbnails/'.$image['image_name'].'" class="card-img" width="150">';     
+                                                    }else{
+                                                       echo '<img src="'.publicFolder().'/images/empty-image-3.png" class="card-img" width="150">';
+                                                    }
+                                                    
                                                 }
                                             }
                                              echo '<label class="badge badge-dark" style="position: absolute;margin: 5px -70px;">'.count($row['images']).' Photo</label>';  echo '<label class="badge badge-dark" style="position: absolute;margin: 5px -70px;">'.count($row['images']).' Photo</label>'; 
@@ -138,11 +144,12 @@
                                               <p class="card-text">'.$row['title'].'</p>
                                               <p class="card-text">'.word_limiter($row['description'],25).'..</p>
                                               <p class="card-text"> 
-                                                 <h6>New construction <span class="badge badge-success">New</span> | '.($row['builtup_area'] ? $row['builtup_area'].' sft' : "" ).' | '.$row['bhk_type'].' | '.$row['facing'].' | '.$row['status_type'].'</h6>
+                                                 <h6>New construction <span class="badge badge-success">New</span> | '.($row['builtup_area'] ? $row['builtup_area'].' sft' : "" ).' | '.$row['bhk_type'].' | '.ucfirst($row['facing']).' | '.humanize($row['status_type']).'</h6>
                                                 <a href="'.base_url().'/property-detail/'.$row['id'].'" class="btn btn-primary btn-sm float-right">Interested</a>
                                               </p>
                                                <p class="card-text">
-                                                Posted By : '.$row['firstname'].' '.$row['lastname'].' ('.$row['role'].')  | Posted At : '.date('D, d M Y', strtotime($row['created_at'])).' | <a href="'.base_url().'/property-detail/'.$row['id'].'" target="__self" class="text-success">Full Detail</a>
+                                                <small>Posted By : '.$row['firstname'].' '.$row['lastname'].' ('.$row['role'].')  | Posted At : '.date('D, d M Y', strtotime($row['created_at'])).' | <a href="'.base_url().'/property-detail/'.$row['id'].'" target="__self" class="text-success">Full Detail</a>
+                                                </small>
                                               </p>
                                             </div>
                                           </div>

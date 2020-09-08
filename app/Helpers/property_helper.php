@@ -71,4 +71,24 @@ if(! function_exists('totalUserReviews'))
   	 $getAllReviews = $UserModel->getAllReviews($userType,$userId,$status); 
      return $getAllReviews ? count($getAllReviews) : 0;         
   }   
-}     
+}
+
+if(! function_exists('isAdsRunning'))
+{
+   function isAdsRunning($propertyId)
+   {  
+       $PaymentModel  = model('PaymentModel');  
+       $return = $PaymentModel->isAdsRunning($propertyId);
+       return $return;   
+   }
+} 
+
+
+if(! function_exists('adsPricePerDay'))
+{
+   function adsPricePerDay()
+   {  
+       $price = 5;
+       return $price; 
+   }
+}    

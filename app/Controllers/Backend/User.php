@@ -109,7 +109,7 @@ class User extends BackendController
                 {      
                        if(in_array($img->getClientExtension(),$exts))
                        {          
-                               if($img->getSizeByUnit('mb') > 4) 
+                               if($img->getSizeByUnit('mb') > 4)  
                                {
                                               $invalid_size =  "Please upload image between 1MB-4MB"; 
                                }else{
@@ -483,13 +483,11 @@ class User extends BackendController
             $total_sold = $this->PropertyModel->totalPropertiesSoldByUser(segment(5));
             $data['total_sold'] = $total_sold ? $total_sold : 0 ;   
     }elseif($data['section'] == "add"){ 
-      if($this->request->getPost('addStaff'))  
+      if($this->request->getPost('addCustomer'))  
         { 
              if(! $this->validate([
               'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
               'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
-              'display_name' => 'required|min_length[2]|max_length[30]|alpha',
-              'username'    => 'min_length[0]|max_length[50]|alpha_numeric',
               'mobile'      => 'min_length[10]|max_length[15]|numeric',
               'email'       => 'min_length[5]|max_length[40]|valid_email', 
               'address1'    => 'min_length[5]|max_length[100]',

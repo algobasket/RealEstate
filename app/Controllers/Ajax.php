@@ -9,6 +9,7 @@ class Ajax extends BaseController
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel');      
         $this->UserModel      = model('UserModel');        
+        $this->CrudModel      = model('CrudModel');          
 	} 
 
    function addPropertyPageLoad()
@@ -159,6 +160,26 @@ class Ajax extends BaseController
          echo '<span class="text-danger float-right">&nbsp;&nbsp;| '.$username.' already taken!</span>'; 
        }
     }
+
+
+    function submitReviewFlag()
+    {
+        $problem = $this->request->getPost('problem');  
+        $details = $this->request->getPost('details');  
+        $email   = $this->request->getPost('email');
+        $reviewId   = $this->request->getPost('reviewId');
+        //print_r($_POST); 
+        $this->CrudModel->C('_report',[
+         'report_type' => 'review_report', 
+         'review_id' => $reviewId,   
+         'problem' => $problem,
+         'details' => $details, 
+         'email'   => $email, 
+         'created_at'  => date('Y-m-d h:i:s'),
+         'updated_at'  => date('Y-m-d h:i:s'),
+         'status' => 4 
+        ]); 
+    } 
 
 
 

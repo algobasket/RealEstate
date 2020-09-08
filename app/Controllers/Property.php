@@ -10,6 +10,7 @@ class Property extends BaseController
         $this->PropertyModel  = model('PropertyModel'); 
         $this->UserModel      = model('UserModel');  
         helper('inflector'); 
+        helper('number');  
 	} 
 
 

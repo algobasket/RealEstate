@@ -320,8 +320,8 @@ class Auth extends BaseController
           			      'ip'           => $this->request->getIPAddress(),
           			      //'access_code'  => $access_code,
           			      'role'         => $this->request->getPost('rolename'),
-          			      'created_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
-          			      'updated_at'   => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
+          			      'created_at'  => date('Y-m-d h:i:s'),
+                      'updated_at'  => date('Y-m-d h:i:s'),
 		                ],[ 
                       'firstname' => "",
                       'lastname'  => "",  
@@ -338,8 +338,8 @@ class Auth extends BaseController
                           'ip'         => $this->request->getIPAddress(),
                           'user_agent' => $agent->getAgentString(), 
                           'operation'  => "register",  
-                          'created_at' => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s'), 
-                          'updated_at' => date_format(date_create('2020-01-01'), 'Y-m-d h:i:s')
+                          'created_at'  => date('Y-m-d h:i:s'),
+                          'updated_at'  => date('Y-m-d h:i:s'),
                    ]);
 
                    $this->sendEmail(
@@ -553,4 +553,4 @@ class Auth extends BaseController
 
 
 
-}  	
+}    	

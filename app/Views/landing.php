@@ -66,7 +66,7 @@
 		</div>
 		<br>
 		<div class="input-group">
-          <input type="text" class="form-control form-control-lg searchArea" placeholder="All areas in Delhi">
+          <input type="text" class="form-control form-control-lg searchArea" placeholder="All areas in <?php echo currentLocation()['city'];?>">
 		</div>
     <div class="input-group" id="searchResult">
           
@@ -100,14 +100,18 @@
                         foreach($fp['images'] as $key => $img) : ?>
                         <?php $active = ($key == 1) ? "active": "" ;?> 
                         <div class="carousel-item <?= $active;?>"> 
-                            <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
+                            <?php if(isImageExists(publicFolder().'/property-images/'.$img['image_name']) == true){ ?>
+                               <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
+                            <?php }else{ ?>
+                               <img src="<?= publicFolder().'/images/empty-image-3.png';?>" class="d-block w-100 imgp" alt="..."> 
+                            <?php } ?>
                         </div>
                         <?php endforeach ?>
                         <?php }else{ ?>
                          <div class="carousel-item active"> 
                             <img src="<?= publicFolder().'/images/empty-image-3.png';?>" class="d-block w-100 imgp" style="width:80%" alt="...">
                         </div>
-                        <?php } ?> 
+                        <?php } ?>  
                          <!------------END FOREACH-------------> 
                       </div>
                     </div>
@@ -125,7 +129,7 @@
                                   <a href="<?= base_url().'/property-detail/'.$fp['id'];?>" class="stretched-link text-dark text-decoration-none">
                                     <h5><?= number_to_currency($fp['rent_per_mon'], 'INR');?> per month</h5>
                                   </a> 
-                                  <?php endif ?>
+                                  <?php endif ?> 
                                    <!------------END IF-------------> 
                       <p class="card-text"><b><?= ucfirst($fp['title']);?></b></p>
                       <div class="d-flex justify-content-between align-items-center">

@@ -503,3 +503,100 @@ if(!function_exists('allowedImageExt')){
 		return json_encode(['jpg','png','webp','jpeg','JPG','PNG','WEBP','JPEG']);  
 	}
 }
+
+if(!function_exists('nowCurrency'))
+{
+   function nowCurrency() 
+   {
+   	 return 'INR';
+   }
+}
+
+if(!function_exists('getUserStarRatings')){
+	function getUserRatings($userType,$userId,$status)
+	{
+		$UserModel = model('UserModel');
+		$getUserRatings = $UserModel->getUserRatings($userType,$userId,$status);
+		$intval = intval($getUserRatings);
+		$fraction = $getUserRatings - $intval;
+		$rem = 5 - $intval;
+		if($getUserRatings > 0)
+		{
+           for($i = 0;$i < $intval;$i++)
+           {
+              echo '<img src="'.publicFolder().'/images/star.png" width="20" >';
+           }
+           if($fraction != 0)
+           {
+              echo '<img src="'.publicFolder().'/images/half-star.png" width="20" >';
+              $rem = $rem - 1 ;
+           }
+           for($j = 0;$j < $rem;$j++)
+           {
+              echo '<img src="'.publicFolder().'/images/star-empty.png" width="20" >';
+           }
+		}else{
+		   for($i = 0;$i < 5;$i++)
+           {
+               echo '<img src="'.publicFolder().'/images/star-empty.png" width="20" >';
+           } 
+		}
+	}
+}
+
+
+if(!function_exists('ratingCalculator')){ 
+	function ratingCalculator($getUserRatings){
+		$intval = intval($getUserRatings);
+		$fraction = $getUserRatings - $intval;
+		$rem = 5 - $intval;
+		if($getUserRatings > 0)
+		{
+           for($i = 0;$i < $intval;$i++)
+           {
+              echo '<img src="'.publicFolder().'/images/star.png" width="20" >';
+           }
+           if($fraction != 0)
+           {
+              echo '<img src="'.publicFolder().'/images/half-star.png" width="20" >';
+              $rem = $rem - 1 ;
+           }
+           for($j = 0;$j < $rem;$j++)
+           {
+              echo '<img src="'.publicFolder().'/images/star-empty.png" width="20" >';
+           }
+		}else{
+		   for($i = 0;$i < 5;$i++)
+           {
+               echo '<img src="'.publicFolder().'/images/star-empty.png" width="20" >';
+           } 
+		}
+	}
+}
+
+if(!function_exists('getUserRatingsNumber')){ 
+	function getUserRatingsNumber($userType,$userId,$status)
+	{
+		$UserModel = model('UserModel');
+		$getUserRatings = $UserModel->getUserRatings($userType,$userId,$status);
+		return floatval($getUserRatings);
+	}
+}
+
+if(!function_exists('isImageExists')){
+	function isImageExists($url) 
+	{
+	    $ch = curl_init($url);
+	    curl_setopt($ch, CURLOPT_NOBODY, true);
+	    curl_exec($ch);
+	    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+	    if ($code == 200) {
+	        $status = true;
+	    } else {
+	        $status = false;
+	    }
+	    curl_close($ch);
+	    return $status;
+	}
+}

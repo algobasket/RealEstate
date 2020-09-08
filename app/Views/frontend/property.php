@@ -19,13 +19,21 @@
        <div class="row">
             <?php if($propertyDetail['listing_type'] == "sell") : ?>
                 
-                     <div class="col-8"><h4><?= displayPrice($propertyDetail['total_price']);?> | <?= $propertyDetail['title'];?></h4></div>
+                     <div class="col-8">
+                        <h4>
+                          <?= number_to_currency($propertyDetail['total_price'], 'INR');?> | <?= $propertyDetail['title'];?>
+                        </h4>
+                     </div> 
 
                
            <?php endif ?>
            <?php if($propertyDetail['listing_type'] == "rent") : ?>
                 
-                     <div class="col-8"><h4><?= displayPrice($propertyDetail['rent_per_mon']);?> | <?= $propertyDetail['title'];?></h4></div>
+                     <div class="col-8">
+                        <h4> 
+                           <?= number_to_currency($propertyDetail['rent_per_mon'], 'INR');?> - Monthly | <?= $propertyDetail['title'];?>
+                        </h4>
+                      </div>
                
            <?php endif ?>  
                    
@@ -110,10 +118,12 @@
                 <div class="col-md-8"><h3>Property Overview</h3></div>
                 <div class="col-md-4">
                     <?php if($propertyDetail['listing_type'] == "sell") : ?>
-                        <div class="col-8"><h4><?= displayPrice($propertyDetail['total_price']);?></h4></div>
+                        <div class="col-8">
+                          <h4>Listed For <?= number_to_currency($propertyDetail['total_price'], 'INR');?></h4>
+                        </div>
                      <?php endif ?>
                      <?php if($propertyDetail['listing_type'] == "rent") : ?>
-                        <div class="col-8"><h4><?= displayPrice($propertyDetail['rent_per_mon']);?> / Month</h4></div>                         
+                        <div class="col-8"><h4><?= number_to_currency($propertyDetail['rent_per_mon'], 'INR');?> - Monthly</h4></div>                         
                      <?php endif ?>
                 </div>
         </div>

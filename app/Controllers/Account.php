@@ -9,7 +9,9 @@ class Account extends BaseController
         $this->PropertyModel  = model('PropertyModel');     
         $this->MessageModel   = model('MessageModel');      
         $this->CrudModel      = model('CrudModel'); 
-        helper('inflector');       
+        helper('inflector');
+        helper('number');       
+        helper('property');       
 	}
 
    public function index() 

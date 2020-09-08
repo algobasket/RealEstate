@@ -11,9 +11,11 @@ class Home extends BaseController
         $this->CrudModel      = model('CrudModel'); 
         helper('geography'); 
         helper('number'); 
+        helper('text'); 
+        helper('inflector'); 
 	}
 
-	public function index()
+	public function index() 
 	{
 		$data['title']         = "Welcome to PropertyRaja"; 
 		$data['featured']      = $this->PropertyModel->getAllFeaturedProperties($status = 1); 
@@ -47,8 +49,8 @@ class Home extends BaseController
           $data['listing_type']  = $this->request->getGet('listing_type') ? $this->request->getGet('listing_type') : NULL;
           $data['city']          = $this->request->getGet('city') ? $this->request->getGet('city') : NULL;
 	      
-	      $array = NULL;
-          $role  = NULL; 
+	        $array = NULL;
+          $role  = NULL;  
           
 	      if($this->request->getGet('listing_type'))
 	      {
@@ -170,15 +172,78 @@ class Home extends BaseController
     {
        $data['title'] = "Find Agent";
        $data['agents'] = $this->UserModel->getAllUsersByRole('agent');
-	   return view('frontend/find-agent',$data); 
+       if(@$_GET['location'] !="" || @$_GET['name'] !="") 
+       {  
+          $location = isset($_GET['location']) ? $_GET['location'] : ""; 
+          $name = isset($_GET['name']) ? $_GET['name'] : ""; 
+          $service = isset($_GET['service']) ? $_GET['service'] : "";  
+          $data['sAgents'] = $this->UserModel->userSearchFilter($location,$name,$service,$role = 'agent',$status = 1);
+          //print_r($data['sAgents']);     
+       }
+	     return view('frontend/find-agent',$data); 
+    }
+
+    public function publicProfile() 
+    {
+       $data['title'] = "Agent Profile";
+       $username = segment(2);
+       $data['sAgents'] = $this->UserModel->userSearchFilter(NULL,$name = $username,NULL,$role = 'agent',$status = 1);
+       $userId = $this->UserModel->getUserIdFromUsername($username);
+       $data['getAllReviews'] = $this->UserModel->getAllReviews($userType = 'seller',$userId,$status = 1);
+       if(segment(3) == 'write-review')
+       { 
+         if($this->request->getPost('submitReview'))
+         {
+            $overStar = $this->request->getPost('selectedStar');
+            $process_expertise = $this->request->getPost('process_expertise');
+            $responsiveness     = $this->request->getPost('responsiveness');
+            $negotiation_skills = $this->request->getPost('negotiation_skills');
+            $local_knowledge  = $this->request->getPost('local_knowledge');
+            $service_provided = $this->request->getPost('service_provided');
+            $complete_address = $this->request->getPost('complete_address');
+            //$propertyId     = $this->request->getPost('property_id');    
+            $property_link    = $this->request->getPost('property_link');
+            $complete_address = $this->request->getPost('complete_address');
+            $title = $this->request->getPost('title');
+
+            $message = $this->request->getPost('message');   
+           
+            $this->CrudModel->C('_reviews',[
+              //'property_id' => $propertyId,
+              'buyer_id'    => cUserId(),
+              'seller_id'   => $userId,
+              'property_link' => $property_link,
+              'title'         => $title,
+              'service_provided' => $service_provided,
+              'complete_address'   => $complete_address, 
+              'local_knowledge'    => $local_knowledge,
+              'process_expertise'  => $process_expertise,
+              'responsiveness'     => $responsiveness,
+              'negotiation_skills' => $negotiation_skills, 
+              'comment' => $message,
+              'rating'  => $overStar,
+              'created_at'  => date('Y-m-d h:i:s'),
+              'updated_at'  => date('Y-m-d h:i:s'),
+              'status' => 1     
+            ]);
+            $this->session->setFlashdata('alert',successAlert('Your review submitted and we will approve it soon'));
+            return redirect()->to('/public-profile/'.$username.'/write-review/success');    
+         } 
+         return view('frontend/write-review',$data); 
+       }else{
+         return view('frontend/public-profile',$data); 
+       }
+            
     }
 
     public function test() 
     {   
-    	 $StatisticModel = model('StatisticModel');
+
+       // $StatisticModel = model('StatisticModel');
     	// $r = $MessageModel->getAllUserContacts(21);
-    	$r = $StatisticModel->totalTargetAmountByUser(24); 
-    	print_r($r);  
+    	// $r = $StatisticModel->totalTargetAmountByUser(24);
+      $u = $this->UserModel->getUserRatings($userType = 'seller',$userId = 23,$status = 1);  
+    	print_r($u);  
     }                  
     
 }

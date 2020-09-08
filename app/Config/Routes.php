@@ -96,7 +96,9 @@ $routes->get('testimonials/', 'Home::testimonials');
 $routes->get('policy/', 'Home::policy');
 $routes->get('report/', 'Home::report'); 
 $routes->get('safety/', 'Home::safety');  
-$routes->get('find-agent/', 'Home::findAgent');  
+$routes->get('find-agent/', 'Home::findAgent');    
+$routes->get('public-profile/(:any)', 'Home::publicProfile');  
+$routes->post('public-profile/(:any)', 'Home::publicProfile');  
 
 
 //Dashboard Controller 
