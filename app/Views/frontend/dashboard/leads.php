@@ -7,9 +7,9 @@
 <main role="main"> 
   <div class="album py-5 bg-light">
     <div class="container-fluid"> 
-           <h1 class="display-4" style="font-size: 30px">Welcome Agent</h1>
+           <h1 class="display-4" style="font-size: 30px">Welcome <?php echo ucfirst(\Config\Services::session()->get('role'));?></h1>
 
-            <div class="card"> 
+            <div class="card">  
               <div class="card-header"><?= $this->include('frontend/dashboard/tabs') ?></div>
               <div class="card-body">
                 <h1 class="display-4">Leads <b class="text-muted float-right" style="font-size: 20px;margin-top:20px">Showing 06 Result . Active</b> </h1> 

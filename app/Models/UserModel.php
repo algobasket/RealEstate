@@ -19,6 +19,7 @@ class UserModel extends Model
        protected $appointments_tb = '_appointments';  
        protected $lead_source_tb = '_lead_source';   
        protected $roles_tb = '_roles';   
+       protected $role_access_tb = '_user_role_access';   
  
     
     function getUserCountry($userId = NULL)
@@ -475,13 +476,33 @@ class UserModel extends Model
     }
 
     
-
-
-    function userRatings()
+    function userRolePermissions($id = NULL, $role = NULL, $status = NULL) 
     {
-      
-    }
-
-
+       $builder = $this->db->table($this->role_access_tb);
+       $builder->select([$this->role_access_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+       $builder->join($this->status_tb,$this->status_tb.'.id ='.$this->role_access_tb.'.status','left');
+       if($id)
+       {
+         $builder->where($this->role_access_tb.'.id',$id);  
+       } 
+       if($role)
+       {
+         $builder->where($this->role_access_tb.'.role',$role);   
+       }
+       if($status)
+       {
+         $builder->where($this->role_access_tb.'.status',$status);   
+       }    
+       $query = $builder->get();
+       $data = array();
+         if(is_array($query->getResultArray()))
+         {
+            foreach($query->getResultArray() as $r)
+            {
+                $data[] = $r;  
+            }   
+            return $data; 
+         }  
+    } 
 
 }

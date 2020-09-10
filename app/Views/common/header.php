@@ -82,7 +82,8 @@
                 <div class="dropdown-divider"></div> 
                 <a class="dropdown-item" href="<?= base_url();?>/logout">Logout</a>
                 <?php }elseif(\Config\Services::session()->get('role') == "developer"){ ?>
-                <a class="dropdown-item" href="<?= base_url();?>/profile">Dashboard</a>
+                <a class="dropdown-item" href="<?= base_url();?>/dashboard/index">Dashboard</a>
+                <a class="dropdown-item" href="<?= base_url();?>/dashboard/projects">Project Panel</a>
                 <a class="dropdown-item" href="<?= base_url();?>/add-property">Add Property</a>
                 <a class="dropdown-item" href="<?= base_url();?>/profile">My Profile</a>
                 <a class="dropdown-item" href="<?= base_url();?>/favourites">Favourites</a>

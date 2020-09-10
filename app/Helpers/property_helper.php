@@ -53,14 +53,14 @@ if(! function_exists('totalPropertiesSoldByUser'))
   }
 }
 
-if(! function_exists('totalPropertiesSoldByUser'))
-{
-  function totalPropertiesSoldByUser($userId){
-     $PropertyModel  = model('PropertyModel');  
-  	 $total_sold = $PropertyModel->totalPropertiesSoldByUser($userId);
-     return $total_sold;      
-  }
-}  
+// if(! function_exists('totalPropertiesSoldByUser'))
+// {
+//   function totalPropertiesSoldByUser($userId){
+//      $PropertyModel  = model('PropertyModel');  
+//   	 $total_sold = $PropertyModel->totalPropertiesSoldByUser($userId);
+//      return $total_sold;      
+//   }
+// }  
 
 
 if(! function_exists('totalUserReviews'))  

@@ -11,7 +11,7 @@
 <main role="main"> 
   <div class="album py-5 bg-light">
     <div class="container-fluid"> 
-      <h1 class="display-4" style="font-size: 30px">Welcome Agent</h1>
+      <h1 class="display-4" style="font-size: 30px">Welcome <?php echo ucfirst(\Config\Services::session()->get('role'));?></h1> 
      
             <div class="card">
               <div class="card-header"> 
@@ -51,7 +51,16 @@
                   <div class="card bg-light mb-3" style="max-width: 18rem;">
                     <div class="card-header"> Σ(Target Vs Actual)%</div>
                     <div class="card-body">
-                      <h5 class="display-4 card-title"><?= ($totalActual/$totalTarget)*100;?>%</h5> 
+                      <h5 class="display-4 card-title">
+                        <?php
+                          if($totalTarget == 0)
+                          {
+                            echo 0;
+                          }else{
+                            echo ($totalActual/$totalTarget)*100;
+                          } 
+                        ?>%
+                      </h5> 
                     </div>
                   </div>
                 </div> 

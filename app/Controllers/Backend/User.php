@@ -16,6 +16,7 @@ class User extends BackendController
       $this->PropertyModel  = model('PropertyModel');     
       $this->GeographyModel  = model('GeographyModel');
       helper('property');       
+      helper('inflector');            
   }   
 
 
@@ -162,8 +163,8 @@ class User extends BackendController
              if(! $this->validate([
               'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
               'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
-              'display_name' => 'required|min_length[2]|max_length[20]|alpha',
-              'username'    => 'min_length[0]|max_length[15]|alpha_numeric',
+              'display_name' => 'required|min_length[2]|max_length[20]',
+              'username'    => 'required|min_length[0]|max_length[15]',
               'mobile'      => 'min_length[10]|max_length[15]|numeric',
               'email'       => 'min_length[5]|max_length[40]|valid_email', 
               'address1'    => 'min_length[5]|max_length[100]',
@@ -228,7 +229,7 @@ class User extends BackendController
     $data['title'] = "Developer";
     $data['section'] = segment(4); 
     
-    if($data['section'] == "profile"){  
+    if($data['section'] == "profile"){   
      
       $data['profile'] = $this->UserModel->getUserDetail(segment(5));  
 
@@ -297,8 +298,8 @@ class User extends BackendController
              if(! $this->validate([
               'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
               'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
-              'display_name' => 'required|min_length[2]|max_length[30]|alpha',
-              'username'    => 'min_length[0]|max_length[50]|alpha_numeric',
+              'display_name' => 'required|min_length[2]|max_length[30]',
+              'username'    => 'required|min_length[0]|max_length[50]',
               'mobile'      => 'min_length[10]|max_length[15]|numeric',
               'email'       => 'min_length[5]|max_length[40]|valid_email', 
               'address1'    => 'min_length[5]|max_length[100]',
@@ -431,8 +432,8 @@ class User extends BackendController
              if(! $this->validate([
               'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
               'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
-              'display_name' => 'required|min_length[2]|max_length[30]|alpha',
-              'username'    => 'min_length[0]|max_length[50]|alpha_numeric',
+              'display_name' => 'required|min_length[2]|max_length[30]',   
+              'username'    => 'required|min_length[0]|max_length[50]',
               'mobile'      => 'min_length[10]|max_length[15]|numeric',
               'email'       => 'min_length[5]|max_length[40]|valid_email', 
               'address1'    => 'min_length[5]|max_length[100]',
@@ -614,8 +615,8 @@ class User extends BackendController
              if(! $this->validate([
               'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
               'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
-              'display_name' => 'required|min_length[2]|max_length[30]|alpha',
-              'username'    => 'min_length[0]|max_length[50]|alpha_numeric',
+              'display_name' => 'required|min_length[2]|max_length[30]',
+              'username'    => 'required|min_length[0]|max_length[50]',
               'mobile'      => 'min_length[10]|max_length[15]|numeric',
               'email'       => 'min_length[5]|max_length[40]|valid_email', 
               'address1'    => 'min_length[5]|max_length[100]',
@@ -668,8 +669,8 @@ class User extends BackendController
              if(! $this->validate([
               'firstname'    => 'required|min_length[1]|max_length[20]|alpha',  
               'lastname'     => 'required|min_length[1]|max_length[20]|alpha',
-              'display_name' => 'required|min_length[2]|max_length[30]|alpha',
-              'username'    => 'min_length[0]|max_length[50]|alpha_numeric',
+              'display_name' => 'required|min_length[2]|max_length[30]',
+              'username'    => 'required|min_length[0]|max_length[50]',
               'mobile'      => 'min_length[10]|max_length[15]|numeric',
               'email'       => 'min_length[5]|max_length[40]|valid_email', 
               'address1'    => 'min_length[5]|max_length[100]',
@@ -757,6 +758,66 @@ class User extends BackendController
                 </li>'; 
           }          
           echo '</ul>';                                                                       
+   }
+
+
+   function rolePermissions()    
+   { 
+     $data['title'] = "Role Permissions";
+     $section = segment(4);
+     if($section == "add")
+     {  
+        if($this->request->getPost('addRolePermission'))
+        {
+           $access = trim($this->request->getPost('access'));
+           $array  = explode(',',$access);
+           $json   = json_encode($array,true);
+           $this->CrudModel->C('_user_role_access',[
+            'role'   => $this->request->getPost('role'),
+            'access' => $json,
+            'status' => $this->request->getPost('status'),
+            'created_at' => date('Y-m-d h:i:s'), 
+            'updated_at' => date('Y-m-d h:i:s') 
+           ]);
+           $this->session->setFlashdata('alert',successAlert('New Role Permission Added!'));
+           return redirect()->to('/backend/user/rolePermissions/add');    
+        }
+        $data['section'] = "add";
+     }
+      if($section == "edit")
+     {  
+        $data['section'] = "edit";
+        if($this->request->getPost('editRolePermission'))
+        {
+           $access = trim($this->request->getPost('access'));
+           $array  = explode(',',$access);
+           $json   = json_encode($array,true);
+           $this->CrudModel->U(
+            '_user_role_access',
+            ['id' => segment(5)],
+            [
+              'role'   => $this->request->getPost('role'),
+              'access' => $json,
+              'status' => $this->request->getPost('status'),
+              'updated_at' => date('Y-m-d h:i:s') 
+           ]);   
+           $this->session->setFlashdata('alert',successAlert('Role Permission Updated!'));
+           return redirect()->to('/backend/user/rolePermissions/edit/'.segment(5));     
+        }
+        $data['rolePermissions'] = $this->UserModel->userRolePermissions(segment(5));
+     }  
+     if($section == "")
+     {  
+        $data['section'] = NULL; 
+        $data['rolePermissions'] = $this->UserModel->userRolePermissions(); 
+     }
+     if($section == "delete")
+     {
+        $this->CrudModel->D('_user_role_access',['id' => segment(5)]);
+        $this->session->setFlashdata('alert',redAlert('Role Permission Deleted!'));
+        return redirect()->to('/backend/user/rolePermissions');    
+     }    
+     return view('backend/role-permissions',$data);   
    }
 
 

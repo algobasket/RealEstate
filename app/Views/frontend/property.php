@@ -91,7 +91,13 @@
               <?php foreach($propertyDetail['images'] as $key => $img) : ?> 
                 <?php $active = ($key == 1) ? "active": "" ;?> 
                 <div class="carousel-item <?= $active;?>"> 
-                    <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 img-lg" /> 
+
+                     <?php if(isImageExists($img['image_name'],'propertyImages') == true){ ?>
+                         <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 img-lg" /> 
+                     <?php }else{ ?>  
+                         <img src="<?= publicFolder().'/images/no-image-2.png';?>" class="d-block w-100 img-lg" /> 
+                     <?php } ?>  
+                    
                 </div>
                 <?php endforeach ?>
               <?php }else{ ?>
@@ -197,14 +203,19 @@
          <div class="row">
               <div class="col-md-8">
                 <h3>Amenities</h3>
-                     <?php foreach($propertyDetail['amenitiesName'] as $am) : ?>
+                     <?php if(is_array($propertyDetail['amenitiesName'])){  ?>
+                          <?php foreach($propertyDetail['amenitiesName'] as $am) : ?>
                             <div class="shadow btn btn-sm btn-outline-danger" style="margin:2px">
                               <?= $am['name'];?> 
                             </div>
-                     <?php endforeach ?> 
+                          <?php endforeach ?> 
+                     <?php }else{ ?>
+                         No Amenities Available    
+                     <?php } ?>
+                     
               </div>
                <div class="col-6 col-md-4">
-                  Posted On : <?php echo $propertyDetail['created_at'];?>
+                  Posted On : <?php echo date('D, d M Y', strtotime($propertyDetail['created_at']));?>
                </div>
               
          </div>
@@ -218,9 +229,16 @@
                   <div class="shadow media position-relative">
                      
                      <?php if($propertyDetail['contact']['profile_pic']){ ?>
-                        <img src="<?= publicFolder();?>/user-images/thumbnails/<?= $propertyDetail['contact']['profile_pic'];?>" class="mr-3" alt="..." width="200">
+                        
+                        <?php if(isImageExists($propertyDetail['contact']['profile_pic'],'profileThumbnails') == true){ ?> 
+                           <img src="<?= publicFolder();?>/user-images/thumbnails/<?= $propertyDetail['contact']['profile_pic'];?>" class="mr-3" alt="..." width="200">
+                        <?php }else{ ?>   
+                           <img src="<?= publicFolder();?>/images/agent-c.png" class="img-circled" width="150"/> 
+                        <?php } ?> 
+
+
                      <?php }else{ ?>
-                     <img src="<?= publicFolder();?>/images/agent-c.png" class="img-circled" width="150"/>    
+                       <img src="<?= publicFolder();?>/images/agent-c.png" class="img-circled" width="150"/>    
                      <?php } ?>
 
                     <div class="media-body"><br>
@@ -233,36 +251,46 @@
                       </b>
                       <?php endif ?>
                     
-                     <?php if($propertyDetail['contact']['role'] != "customer") : ?> 
+                     <?php if($propertyDetail['contact']['role'] != "customer" && $propertyDetail['contact']['role'] != "admin") : ?> 
                       <h5>
-                        Rating <img src="<?= publicFolder();?>/images/star.png" width="20">
-                        <img src="<?= publicFolder();?>/images/star.png" width="20" >
-                        <img src="<?= publicFolder();?>/images/star.png" width="20">
-                        <img src="<?= publicFolder();?>/images/star.png" width="20">
-                        <img src="<?= publicFolder();?>/images/star-empty.png" width="20">
+                        Rating <?php getUserRatings('seller',$propertyDetail['contact']['user_id'],1);?> 
                       </h5>
                     <?php endif ?>
                     
                     <?php if($propertyDetail['contact']['user_id'] != cUserId()) : ?> 
-                      <a href="javascript:void(0)" class="btn btn-danger">
-                         <img src="<?= publicFolder();?>/images/contact-phone2.png" alt="..." width="25">
+                     
+                        
                          <?php if($propertyDetail['contact']['role'] =='customer' && $propertyDetail['contact']['activity'] =='sell'){ ?>
-                           Contact <?php echo ucfirst("Owner");?>
+                            <a href="javascript:void(0)" class="btn btn-danger">
+                               <img src="<?= publicFolder();?>/images/contact-phone2.png" alt="..." width="25">
+                               Contact <?php echo ucfirst("Owner");?>
+                             </a>   
                          <?php }elseif($propertyDetail['contact']['role'] =='customer' && $propertyDetail['contact']['activity'] =='buy_rent'){ ?>
-                           Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
+                            <a href="javascript:void(0)" class="btn btn-danger">
+                               <img src="<?= publicFolder();?>/images/contact-phone2.png" alt="..." width="25">
+                               Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
+                            </a>   
                          <?php }elseif($propertyDetail['contact']['role'] =='agent'){ ?>
-                           Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
-                         <?php }else{ ?> 
-                           Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
+                            <a href="<?= base_url();?>/public-profile/<?= $propertyDetail['contact']['username'];?>" target="_-blank" class="btn btn-danger">
+                               <img src="<?= publicFolder();?>/images/contact-phone2.png" alt="..." width="25">
+                                Contact <?php echo ucfirst($propertyDetail['contact']['role']);?>
+                            </a>    
+                         <?php }elseif($propertyDetail['contact']['role'] =='admin'){ ?>
+                            <br>
+                            <a href="javascript:void(0)" class="btn btn-danger">
+                               <img src="<?= publicFolder();?>/images/contact-phone2.png" alt="..." width="25">
+                               Contact Us 
+                            </a>    
                          <?php } ?>  
-                      </a>
-                  
+                     
 
                    <?php endif ?>
 
-                      <br>
-                      <?php if($propertyDetail['contact']['role'] != "customer") : ?>
-                        <b>3 Reviews | 6 Recent Sales</b>
+                      <br> 
+                      <?php if($propertyDetail['contact']['role'] != "customer" && $propertyDetail['contact']['role'] != "admin") : ?>
+                        <b>
+                          <?php echo totalUserReviews('seller',$propertyDetail['contact']['user_id'],1);?> Reviews 
+                          | <?php echo totalPropertiesSoldByUser($propertyDetail['contact']['user_id']);?> Recent Sales</b>
                       <?php endif ?>
                     </div>
                   </div>

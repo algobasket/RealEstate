@@ -57,6 +57,13 @@
       <a href="<?= base_url();?>/backend/user/staff" class="stretched-link"></a>
     </li>
 
+    <li class="list-group-item openMenu <?php echo (segment(2) == "user" && segment(3) == "rolePermissions") ? "active" : "" ;?>">
+      Role Permissions<br>  
+    <small>Role Permissions</small>
+      <span class="badge badge-info float-right"><?php echo adminSCounter()['staffs'];?></span>
+      <a href="<?= base_url();?>/backend/user/rolePermissions" class="stretched-link"></a>
+    </li>
+
     <li class="list-group-item openMenu <?php echo (segment(2) == "payment" && segment(3) == "adsPayments") ? "active" : "" ;?>">
       Payments<br> 
     <small> Sponsored/Featured Ads Payments</small>

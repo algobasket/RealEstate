@@ -33,7 +33,7 @@ class Payment extends BackendController
     $data['section'] = "";
     $data['adsPayments'] = $this->PaymentModel->getAllPropertyAdsPayments(NULL);
     //print_r($data['adsPayments']);
-    echo $this->PaymentModel->isAdsRunning(20); 
+    //echo $this->PaymentModel->isAdsRunning(20); 
     return view('backend/property-ads-payment',$data);
   }
 

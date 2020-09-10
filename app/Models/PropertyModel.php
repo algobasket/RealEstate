@@ -18,6 +18,7 @@ class PropertyModel extends Model
        protected $property_fav_tb    = '_favourites'; 
        protected $property_interested_tb = '_interested';  
        protected $property_sales_tb = '_sales';   
+       protected $projects_tb = '_project';    
        protected $status_tb = '_status';   
         
 
@@ -361,14 +362,18 @@ class PropertyModel extends Model
    }    
 
 
-   function getPropertiesByUserId($userId)  
+   function getPropertiesByUserId($userId)   
    {  
-       $builder = $this->db->table($this->properties_tb); 
-       $builder->where(['user_id' => $userId,'status' => 1]);  
-       $query = $builder->get(); 
-        if(!empty($query->getResultArray()))
+       $builder = $this->db->table($this->properties_tb);
+       $builder->select([$this->properties_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']);
+       $builder->join($this->status_tb,$this->status_tb.'.id='.$this->properties_tb.'.status','LEFT'); 
+       $builder->where([$this->properties_tb.'.user_id' => $userId,$this->properties_tb.'.status' => 1]);   
+       $query = $builder->get();
+       $data = array(); 
+        if(is_array($query->getResultArray()))
         {
-           foreach($query->getResultArray() as $r){ 
+           foreach($query->getResultArray() as $r)
+           { 
              $r['images'] = $this->getPropertyImages($r['id']);
              $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']);
              $r['propertyType']  = $this->getPropertyTypeFromPropertyId($r['property_type']);
@@ -377,7 +382,29 @@ class PropertyModel extends Model
            } 
            return $data;   
         } 
-   } 
+   }
+
+   function getProjectsByUserId($userId)   
+   {       
+       $builder = $this->db->table($this->properties_tb);
+       $builder->select([$this->properties_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']);
+       $builder->join($this->status_tb,$this->status_tb.'.id='.$this->properties_tb.'.status','LEFT'); 
+       $builder->where([$this->properties_tb.'.user_id' => $userId,$this->properties_tb.'.status' => 1]);   
+       $query = $builder->get();
+       $data = array(); 
+        if(is_array($query->getResultArray()))
+        {
+           foreach($query->getResultArray() as $r)
+           { 
+             $r['images'] = $this->getPropertyImages($r['id']);
+             $r['amenitiesName'] = $this->getAmenitiesByPropertyId($r['id']);
+             $r['propertyType']  = $this->getPropertyTypeFromPropertyId($r['property_type']);
+             $r['contact']  = $this->getPropertyContact($r['user_id']);
+             $data[] = $r;
+           } 
+           return $data;   
+        } 
+   }    
 
 
    function getPropertiesByUserFavourite($userId) 
@@ -604,7 +631,32 @@ class PropertyModel extends Model
        $builder = $this->db->table($this->users_sess_logs_tb); 
        $builder->insert($data);
        return true; 
-    }     
+    } 
+
+    function getProjects($projectId = NULL,$status = NULL) 
+    {
+       $builder = $this->db->table($this->projects_tb);
+       $builder->select([$this->projects_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']);
+       $builder->join($this->status_tb,$this->status_tb.'.id='.$this->projects_tb.'.status','LEFT'); 
+       if($projectId)
+       {
+          $builder->where([$this->projects_tb.'.id' => $projectId]);
+       }
+       if($status)
+       {
+          $builder->where([$this->projects_tb.'.status' => $status]); 
+       }
+       $query = $builder->get();
+       $data = array();
+        if(is_array($query->getResultArray()))
+        { 
+           foreach($query->getResultArray() as $r)
+           { 
+              $data[]  = $r;     
+           }
+           return $data;   
+        }          
+    }    
 
 
 

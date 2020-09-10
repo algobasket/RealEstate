@@ -44,21 +44,32 @@ class MessageModel extends Model
 
     function getChatUsers($userId)    
     {     
-         $userPropertiesIds = $this->userPropertiesIds($userId);   
+
+         $userPropertiesIds = $this->userPropertiesIds($userId);
+         if(!is_array($userPropertiesIds))
+         {
+           $userPropertiesIds = array();
+         }
+         //print_r($userPropertiesIds); exit;   
          $builder = $this->db->table($this->property_interested_tb);
          $builder->select('*');  
          $builder->join($this->users_tb,$this->users_tb.'.id = '.$this->property_interested_tb.'.user_id');
          $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id = '.$this->property_interested_tb.'.user_id');
          $builder->join($this->properties_tb,$this->properties_tb.'.id = '.$this->property_interested_tb.'.property_id');
-         $builder->whereIn($this->properties_tb.'.id',$userPropertiesIds); 
+         if(is_array($userPropertiesIds))
+         {  
+           //$builder->whereIn($this->properties_tb.'.id',$userPropertiesIds); 
+         }
          $query = $builder->get();
-         $data = array();
+         $data = array(); 
          if(is_array($query->getResultArray()))
          {
             foreach($query->getResultArray() as $r)
-                 $data[] = $r;
+            {
+              $data[] = $r;
+            }  
             return $data;    
-         }    
+         }     
     } 
 
 

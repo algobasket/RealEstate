@@ -2,14 +2,19 @@
 
 class Dashboard extends BaseController
 {   
+
+
 	function __construct()
 	{
         $this->AccountModel   = model('AccountModel');   
         $this->GeographyModel = model('GeographyModel');   
         $this->PropertyModel  = model('PropertyModel');
         $this->StatisticModel  = model('StatisticModel');
+        $this->CrudModel       = model('CrudModel'); 
         helper('number');   
 	}
+
+
 
 	public function index()
 	{
@@ -22,6 +27,61 @@ class Dashboard extends BaseController
 		$data['totalTarget']      = $this->StatisticModel->totalTargetAmountByUser(cUserId()); 
 	    return view('frontend/dashboard/dashboard',$data);        
 	}
+    
+
+
+    public function projects()
+	{
+		   $data['title'] = "Developer Projects | Welcome to PropertyRaja";
+		   $section = segment(3);
+		   if($section == "add")
+		   {   
+		   	  $data['section'] = 'add';
+		   	  if($this->request->getPost('addProject'))
+		   	  {
+	              $this->CrudModel->C('_project',[ 
+	             'user_id' => cUserId(),
+	             'project_name' => $this->request->getPost('project_name'), 
+	             'created_at'  => date('Y-m-d h:i:s'),
+	             'updated_at'  => date('Y-m-d h:i:s'),
+	             'status' => $this->request->getPost('status') 
+	          ]);
+	             $this->session->setFlashdata('alert',successAlert('Project Created!')); 
+	             return redirect()->to('/dashboard/projects/add');    
+		   	  }      
+		   }
+
+		   if($section == "edit")
+		   {  
+		   	  $data['section'] = 'edit';
+		   	  if($this->request->getPost('editProject'))
+		   	  {
+	              $this->CrudModel->U('_project',['id' => segment(4)],[ 
+	             'user_id' => cUserId(),
+	             'project_name' => $this->request->getPost('project_name'), 
+	             'updated_at'  => date('Y-m-d h:i:s'), 
+	             'status' => $this->request->getPost('status') 
+	          ]);
+	             $this->session->setFlashdata('alert',successAlert('Project Updated!')); 
+	             return redirect()->to('/dashboard/projects/edit/'.segment(4));    
+		   	  }     
+	          $data['projects'] = $this->PropertyModel->getProjects(
+	          	$projectId = segment(4),
+	          	$userId = cUserId(), 
+	          	$status = NULL);     
+		   } 
+
+		   if($section == "all" || $section == "" || $section == NULL) 
+		   {  
+		   	  $data['section'] = 'all';
+	          $data['projects'] = $this->PropertyModel->getProjects(
+	          	$projectId = NULL,
+	          	$userId = cUserId(),
+	          	$status = NULL);    
+		   } 
+	     return view('frontend/dashboard/projects',$data);    
+	}
+
 
 
 	public function listings()

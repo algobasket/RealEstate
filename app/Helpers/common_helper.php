@@ -1,18 +1,18 @@
 <?php
 
-
-if(!function_exists('segment')){ 
+if(!function_exists('segment'))
+{ 
     
 	    function segment($param) 
 	    {
 	      $request = \Config\Services::request();
 		  return $request->uri->getSegment($param);
 	    }  
+}  
 
-   }
 
-
-if(!function_exists('getGet')){  
+if(!function_exists('getGet'))
+{  
     
 	    function getGet($param) 
 	    {
@@ -20,9 +20,10 @@ if(!function_exists('getGet')){
 		  return $request->getGet($param);
 	    }  
 
-   }
+}
 
-if(!function_exists('isLoggedIn')){
+if(!function_exists('isLoggedIn'))
+{
 	
 	function isLoggedIn()   
 	{
@@ -49,7 +50,8 @@ if(!function_exists('isLoggedIn')){
 
 }
 
-if(!function_exists('cUserId')){  
+if(!function_exists('cUserId'))
+{  
 
 	    function cUserId() 
 	    {
@@ -58,7 +60,8 @@ if(!function_exists('cUserId')){
 
    }
 
-if(!function_exists('count_digit')){   
+if(!function_exists('count_digit'))
+{   
 
 	    function count_digit($number)
 	    {
@@ -68,7 +71,8 @@ if(!function_exists('count_digit')){
 	
 
 
-if(!function_exists('divider')){
+if(!function_exists('divider'))
+{
 
 	    function divider($number_of_digits)
 	    {
@@ -88,7 +92,8 @@ if(!function_exists('divider')){
 
 
 
-if(!function_exists('displayPrice')){
+if(!function_exists('displayPrice'))
+{
 
 	function displayPrice($num)
 	{
@@ -118,7 +123,8 @@ if(!function_exists('displayPrice')){
   }
 
 
-if(!function_exists('convertCurrency')){
+if(!function_exists('convertCurrency'))
+{
 
 	function convertCurrency($number)
 	{
@@ -316,7 +322,8 @@ if(!function_exists('isTabActive'))
  }
 
 
- if(!function_exists('isTabActive')){ 
+ if(!function_exists('isTabActive'))
+ { 
 
       function isTabActive($name,$name2)
       {
@@ -379,20 +386,23 @@ if(!function_exists('roleList'))
     }
 }
 
-if(!function_exists('removeSpace')){ 
+if(!function_exists('removeSpace'))
+{ 
 	function removeSpace($json){
       return str_replace(" ","",trim($json));
 	}
 }
 
-if(!function_exists('userDetail')){
+if(!function_exists('userDetail'))
+{
 	function userDetail($userId){
        $userModel = model('userModel');  
        return $userModel->getUserDetail($userId); 
 	}
 }
 
-if(!function_exists('getSettings')){
+if(!function_exists('getSettings'))
+{
 	function getSettings($name) 
 	{
        $CrudModel = model('CrudModel');   
@@ -401,21 +411,24 @@ if(!function_exists('getSettings')){
 }
 
 
-if(!function_exists('allMessagesReceived')){
+if(!function_exists('allMessagesReceived'))
+{
 	function allMessagesReceived(){ 
 		$MessageModel = model('MessageModel');
 		return $MessageModel->allMessagesReceived(cUserId(),0);
 	}
 }
 
-if(!function_exists('allNotificationsReceived')){
+if(!function_exists('allNotificationsReceived'))
+{
 	function allNotificationsReceived(){ 
 		$AccountModel = model('AccountModel');
 		return $AccountModel->allNotificationsReceived(cUserId(),0);
 	}
 }
 
-if(!function_exists('tabNotificationCount')){
+if(!function_exists('tabNotificationCount'))
+{
    function tabNotificationCount()    
    {
    	 if(session('userId'))
@@ -451,7 +464,8 @@ if(!function_exists('tabNotificationCount')){
 }
 
 
-if(!function_exists('adminSCounter')){   
+if(!function_exists('adminSCounter'))
+{   
    function adminSCounter()    
    {
    	 if(session('userId'))
@@ -485,7 +499,8 @@ if(!function_exists('adminSCounter')){
 }
 
 
-if(!function_exists('publicFolder')){    
+if(!function_exists('publicFolder'))
+{    
    function publicFolder()  
    {
    	  if($_SERVER['HTTP_HOST'] != "localhost:8080") 
@@ -493,6 +508,19 @@ if(!function_exists('publicFolder')){
          return base_url().'/public';    
    	  }else{
    	  	return base_url(); 
+   	  }  
+   }
+}
+
+if(!function_exists('publicLiveFolder'))
+{    
+   function publicLiveFolder()  
+   {
+   	  if($_SERVER['HTTP_HOST'] != "localhost:8080") 
+   	  {
+         return $_SERVER['DOCUMENT_ROOT'].'/public';    
+   	  }else{
+   	  	 return $_SERVER['DOCUMENT_ROOT']; 
    	  }  
    }
 }
@@ -512,7 +540,8 @@ if(!function_exists('nowCurrency'))
    }
 }
 
-if(!function_exists('getUserStarRatings')){
+if(!function_exists('getUserStarRatings'))
+{
 	function getUserRatings($userType,$userId,$status)
 	{
 		$UserModel = model('UserModel');
@@ -545,7 +574,8 @@ if(!function_exists('getUserStarRatings')){
 }
 
 
-if(!function_exists('ratingCalculator')){ 
+if(!function_exists('ratingCalculator'))
+{ 
 	function ratingCalculator($getUserRatings){
 		$intval = intval($getUserRatings);
 		$fraction = $getUserRatings - $intval;
@@ -574,7 +604,8 @@ if(!function_exists('ratingCalculator')){
 	}
 }
 
-if(!function_exists('getUserRatingsNumber')){ 
+if(!function_exists('getUserRatingsNumber'))
+{ 
 	function getUserRatingsNumber($userType,$userId,$status)
 	{
 		$UserModel = model('UserModel');
@@ -583,20 +614,46 @@ if(!function_exists('getUserRatingsNumber')){
 	}
 }
 
-if(!function_exists('isImageExists')){
-	function isImageExists($url) 
-	{
-	    $ch = curl_init($url);
-	    curl_setopt($ch, CURLOPT_NOBODY, true);
-	    curl_exec($ch);
-	    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+if(!function_exists('isImageExists'))
+{
+	function isImageExists($imageName = NULL,$type = NULL)    
+	{  
+		if($imageName && $type)
+		{
+            if($type == 'propertyThumbnails') 
+			{
+	          $filePath = publicLiveFolder().'/property-images/thumbnails/'.$imageName;
+			}
+			if($type == 'propertyImages') 
+			{
+	          $filePath = publicLiveFolder().'/property-images/'.$imageName;
+			}
+			if($type == 'profileThumbnails')
+			{
+	          $filePath = publicLiveFolder().'/user-images/thumbnails/'.$imageName;
+			}   
+		    $file_exists = file_exists($filePath);
+			if($file_exists)    
+			{
+			    $status = true;
+			}else{
+			    $status = false;
+			}     
+		    return $status;
+		}		
+	}  
+}
 
-	    if ($code == 200) {
-	        $status = true;
-	    } else {
-	        $status = false;
-	    }
-	    curl_close($ch);
-	    return $status;
+if(!function_exists('roleAccess')) 
+{ 
+	function roleAccess($role = NULL)
+	{
+       $UserModel = model('UserModel');
+       $UserRolePermissions = $UserModel->userRolePermissions($id = NULL, $role, $status = 1); 
+       foreach($UserRolePermissions as $perm)
+       {
+          $access = json_decode($perm['access'],true);
+       }
+       return $access; 
 	}
 }

@@ -100,11 +100,17 @@
                         foreach($fp['images'] as $key => $img) : ?>
                         <?php $active = ($key == 1) ? "active": "" ;?> 
                         <div class="carousel-item <?= $active;?>"> 
-                            <?php if(isImageExists(publicFolder().'/property-images/'.$img['image_name']) == true){ ?>
-                               <img src="<?= publicFolder().'/property-images/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
-                            <?php }else{ ?>
+                            
+                            <?php if(isImageExists($img['image_name'],'propertyThumbnails') == true){ ?>  
+
+                               <img src="<?= publicFolder().'/property-images/thumbnails/'.$img['image_name'];?>" class="d-block w-100 imgp" alt="...">
+
+                            <?php }else{ ?>  
+
                                <img src="<?= publicFolder().'/images/empty-image-3.png';?>" class="d-block w-100 imgp" alt="..."> 
+
                             <?php } ?>
+
                         </div>
                         <?php endforeach ?>
                         <?php }else{ ?>

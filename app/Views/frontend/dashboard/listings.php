@@ -7,11 +7,11 @@
 <main role="main"> 
   <div class="album py-5 bg-light">
     <div class="container-fluid"> 
-           <h1 class="display-4" style="font-size: 30px">Welcome Agent</h1>
+           <h1 class="display-4" style="font-size: 30px">Welcome <?php echo ucfirst(\Config\Services::session()->get('role'));?></h1>
 
             <div class="card"> 
                 <div class="card-header">
-                  <?= $this->include('frontend/dashboard/tabs') ?>  
+                  <?= $this->include('frontend/dashboard/tabs') ?>   
                 </div>
               <div class="card-body">
                 <h1 class="display-4">My Listings <b class="text-muted float-right" style="font-size: 20px;margin-top:20px">Showing 06 Result . Active</b> </h1> 
@@ -33,22 +33,29 @@
                       </thead>
                       <tbody>
                       <?php if(is_array($listings)) : ?>
-                        <?php foreach($listings as $property) : ?>
+                        <?php $i = 1;foreach($listings as $property) : ?>
                         <tr>
-                          <th scope="row">1</th>
+                          <th scope="row"><?= $i;?></th>
                           <td style="width: 200px">  
-                      
+                              
+                              <?php if(is_array($property['images'])){ ?>
+                                   
+                                   <?php foreach($property['images'] as $key => $img) : ?>
+                                       <?php if($key == 1){ ?>
+                                           <?php if(isImageExist($img['image_name'],'propertyThumbnails') == true){ ?>
+                                               <img src="<?= publicFolder().'/property-images/thumbnails/'.$img['image_name'];?>" class="rounded imgp" />
+                                           <?php }else{ ?> 
+                                               <img src="<?= publicFolder().'/images/empty-image-3.png';?>" class="d-block w-100 imgp" alt="..."> 
+                                           <?php } ?> 
+                                          
+                                       <?php } ?> 
+                                   <?php endforeach ?>
+
+                              <?php }else{ ?>
+                                  <img src="<?= publicFolder().'/images/empty-image-3.png';?>" class="d-block w-100 imgp" alt="...">
+                              <?php } ?>
                                
-                               <?php foreach($property['images'] as $key => $img) : ?>
-                                   
-                                   <?php if($key == 1){ ?>
-                                   
-                                      <img src="<?= base_url().'/property-images/'.$img['image_name'];?>" class="rounded imgp" />
-                                   
-                                     
-                                   <?php } ?> 
-                                    
-                               <?php endforeach ?>
+                              
 
                                <?php if($property['has_ads'] == "1") : ?>
                                   <label class="badge badge-warning" style="position: absolute;margin:10px 0 0 -70px">Featured</label> 
@@ -79,11 +86,11 @@
                               </h6>       
                                          
                               <?php if($property['listing_type'] =="sell") : ?> 
-                                <?= number_to_currency($property['total_price'], 'INR');?>
+                                  <h3>Listed Price - <?= number_to_currency($property['total_price'], 'INR');?></h3>
                               <?php endif ?>  
 
                               <?php if($property['listing_type'] =="rent") : ?>
-                                   <h3><?= number_to_currency($property['rent_per_mon'], 'INR') .' <small>per month</small>';?></h3>
+                                   <h3><?= number_to_currency($property['rent_per_mon'], 'INR') . ' - Monthly';?></h3>
                               <?php endif ?> 
                                
                               <label class="badge badge-success">Available for <?= ucfirst($property['listing_type']);?></label> 
@@ -101,17 +108,19 @@
                             </a>
                           </td>
                           <td><b>345+<span class="text-success">06</span></b><br>Total Views</td>
-                          <td><?= $property['created_at'];?><br><?= time_stamp(strtotime($property['created_at']));?></td>
+                          <td><?= date('D, d M Y', strtotime($property['created_at']));?><br><?= time_stamp(strtotime($property['created_at']));?></td>
                           <td>
-                            <h5><span class="badge badge-success">Active</span></h5>
-                            <?= $property['posession_date'] ? "Till " . $property['posession_date'] : "";?>
+                            <h5>
+                              <span class="badge badge-success">Active</span>
+                              <?= $property['status'];?>
+                            </h5>
                           </td>
                           <td>
                             <img src="<?= publicFolder();?>/images/edit.png" data-toggle="tooltip" data-placement="bottom" title="Edit this property"><br> <br>
                             <img src="<?= publicFolder();?>/images/delete.png" data-toggle="tooltip" data-placement="bottom" title="Delete this property" width="28px">
                           </td>
                         </tr>
-                        <?php endforeach ?> 
+                        <?php $i++;endforeach ?> 
                         <?php endif ?>
                     
                       </tbody>

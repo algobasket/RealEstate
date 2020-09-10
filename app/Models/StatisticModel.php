@@ -84,7 +84,7 @@ class StatisticModel extends Model
            }
             $total =  array_sum($data);
          }
-         return $total; 
+         return @$total; 
     }
 
    
