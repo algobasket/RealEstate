@@ -13,6 +13,7 @@ class Home extends BaseController
         helper('number'); 
         helper('text'); 
         helper('inflector'); 
+        helper('property'); 
 	}
 
 	public function index() 

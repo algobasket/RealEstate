@@ -447,6 +447,7 @@ if(!function_exists('tabNotificationCount'))
         $contacts     = $MessageModel->getAllUserContacts(cUserId());
         $messages     = $MessageModel->allMessagesReceived(cUserId(),$status = NULL);  
         $reviews      = $UserModel->getAllReviews('seller',cUserId(),$status = NULL);
+        $projects     = $PropertyModel->getProjects($projectId = NULL,$userId = cUserId(),$status = NULL);
         
         return [
          'listings' => count($listings),
@@ -457,7 +458,8 @@ if(!function_exists('tabNotificationCount'))
          'profit' => count($profit),
          'contacts' => count($contacts),
          'messages' => $messages,
-         'reviews' => count($reviews)  
+         'reviews' => count($reviews),
+         'projects' => count($projects) 
         ];
    	 }  
    }
@@ -512,6 +514,7 @@ if(!function_exists('publicFolder'))
    }
 }
 
+
 if(!function_exists('publicLiveFolder'))
 {    
    function publicLiveFolder()  
@@ -525,12 +528,15 @@ if(!function_exists('publicLiveFolder'))
    }
 }
 
-if(!function_exists('allowedImageExt')){
+
+if(!function_exists('allowedImageExt'))
+{
 	function allowedImageExt() 
 	{
 		return json_encode(['jpg','png','webp','jpeg','JPG','PNG','WEBP','JPEG']);  
 	}
 }
+
 
 if(!function_exists('nowCurrency'))
 {
@@ -546,7 +552,7 @@ if(!function_exists('getUserStarRatings'))
 	{
 		$UserModel = model('UserModel');
 		$getUserRatings = $UserModel->getUserRatings($userType,$userId,$status);
-		$intval = intval($getUserRatings);
+		$intval   = intval($getUserRatings); 
 		$fraction = $getUserRatings - $intval;
 		$rem = 5 - $intval;
 		if($getUserRatings > 0)
@@ -610,9 +616,9 @@ if(!function_exists('getUserRatingsNumber'))
 	{
 		$UserModel = model('UserModel');
 		$getUserRatings = $UserModel->getUserRatings($userType,$userId,$status);
-		return floatval($getUserRatings);
+		return round($getUserRatings,1); 
 	}
-}
+} 
 
 if(!function_exists('isImageExists'))
 {
@@ -656,4 +662,26 @@ if(!function_exists('roleAccess'))
        }
        return $access; 
 	}
+}
+
+if(!function_exists('createPageViewLog')) 
+{ 
+  function createPageViewLog($id = NULL,$userId = NULL,$type = NULL)  
+  {    
+     if($type == "property" && $id != NULL)
+     {   
+         helper('geography');
+         $userId    = $userId ? $userId : NULL;
+         $CrudModel = model('CrudModel');
+         $CrudModel->C('_property_view_logs',[
+            'property_id' => $id,  
+            'user_id'     => $userId,  
+            'ip'          => $_SERVER['REMOTE_ADDR'],
+            'location'    => json_encode(currentLocation(),true),
+            'created_at'  => date('Y-m-d h:i:s'),
+	        'updated_at'  => date('Y-m-d h:i:s'),
+	        'status'      => 1 
+         ]);
+     }
+  }
 }

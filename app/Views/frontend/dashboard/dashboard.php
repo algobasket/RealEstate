@@ -8,11 +8,50 @@
     font-weight: bold;
   }
 </style>
+<script>
+       window.onload = function() {
+ 
+        var chart = new CanvasJS.Chart("chartContainer", {
+          animationEnabled: true,
+          title:{
+            text: "Sales Data"
+          },
+          axisY: {
+            title: "Property Price (in INR)",
+            includeZero: true,
+            prefix: "₹"
+          },
+          data: [{
+            type: "bar",
+            yValueFormatString: "₹#,##0",
+            indexLabel: "{y}",
+            indexLabelPlacement: "inside",
+            indexLabelFontWeight: "bolder",
+            indexLabelFontColor: "white",
+            dataPoints: <?php echo actualSalesData(); ?>
+          }]
+        });
+        chart.render();
+         
+        }
+   </script>
 <main role="main"> 
   <div class="album py-5 bg-light">
-    <div class="container-fluid"> 
-      <h1 class="display-4" style="font-size: 30px">Welcome <?php echo ucfirst(\Config\Services::session()->get('role'));?></h1> 
-     
+        <div class="container<?= \Config\Services::session()->get('fluid') ? '-fluid' : '';?>"> 
+           
+           <h1 class="display-4" style="font-size: 30px">
+            Welcome <?php echo ucfirst(\Config\Services::session()->get('role'));?>
+            <?php if(\Config\Services::session()->get('fluid')){ ?>
+                <a href="<?= base_url();?>/dashboard/removeFluid" class="text-decoration-none text-dark float-right">
+                  <i class="fas fa-compress-arrows-alt" style="font-size: 15px"></i>
+                </a> 
+            <?php }else{ ?>
+                <a href="<?= base_url();?>/dashboard/applyFluid" class="text-decoration-none text-dark float-right">
+                  <i class="fas fa-expand-arrows-alt" style="font-size: 15px"></i>
+                </a> 
+            <?php } ?>  
+            </h1>
+
             <div class="card">
               <div class="card-header"> 
                <?= $this->include('frontend/dashboard/tabs') ?>

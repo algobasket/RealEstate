@@ -72,21 +72,22 @@ class MessageModel extends Model
          }     
     } 
 
-
+ 
 
     function userPropertiesIds($userId) 
     {
        $builder = $this->db->table($this->properties_tb); 
        $builder->where('user_id',$userId);  
        $query = $builder->get(); 
-        if(!empty($query->getResultArray()))
-        {
-           foreach($query->getResultArray() as $r)
-           { 
-              $data[] = $r['id'];  
-           }  
-           return $data;   
-        }  
+       $data = array();  
+         if(is_array($query->getResultArray()))
+         {
+            foreach($query->getResultArray() as $r)
+            {
+              $data[] = $r['id'];
+            }  
+            return $data;    
+         }    
     }
 
     function getMessages($propertyId,$fkUserId,$userId)

@@ -37,7 +37,7 @@
                                       <?php getUserRatings('seller',$profile['user_id'],$status = 1);?>                         
                                       (<?= getUserRatingsNumber('seller',$profile['user_id'],$status = 1);?>) 
                                     </h6>
-                                    <h6>Reviews : <span>0</span></h6>
+                                    <h6>Reviews : <span><?= totalUserReviews('seller',$profile['user_id'],1);?></span></h6>
                                      <h6>
                                         Activity - <?= strtoupper((str_replace('_', ' / ', $profile['activity'])));?>
                                     </h6>
@@ -86,9 +86,9 @@
                               <br/>
           
                             <p>SOCIAL MEDIA</p>                           
-                            <a href="<?= $profile['facebook'];?>" target="__self">Facebook</a><br/>
-                            <a href="<?= $profile['linkedin'];?>" target="__self">LinkedIn</a><br/>
-                            <a href="<?= $profile['twitter'];?>" target="__self">Twitter</a><br/>                            
+                            <a href="<?= $profile['facebook'];?>" target="__blank">Facebook</a><br/>
+                            <a href="<?= $profile['linkedin'];?>" target="__blank">LinkedIn</a><br/>
+                            <a href="<?= $profile['twitter'];?>" target="__blank">Twitter</a><br/>                            
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -203,6 +203,7 @@
                    <h4 class="col-md-12">Ratings & Reviews <small><a href="<?= base_url();?>/public-profile/<?= segment(2);?>/write-review" class="btn btn-outline-danger btn-sm float-right">Write a review</a></small></h4> 
                    <br><br>
                    <ul class="list-unstyled">
+                     <?php if(is_array($getAllReviews)){ ?> 
                       <?php foreach($getAllReviews as $review){ ?> 
                       <li class="media">
                         <img src="<?= publicFolder();?>/user-images/thumbnails/<?= $review['profile_pic'];?>" width="60" class="mr-3" alt="..."> 
@@ -233,6 +234,19 @@
                             <div class="col-md-4"><?php ratingCalculator($review['negotiation_skills']);?></div>
                           </div>
                           
+                          <br>
+                          <?= $review['comment'];?>
+                        </div>
+                      </li>
+                      <?php } ?>
+                      <?php }else{ ?>
+                      <li class="media">
+                        <div class="media-body">
+                          <h5 class="mt-0 mb-1">
+                             <small class="float-right">  
+                               No Review
+                             </small>
+                          </h5> 
                           <br>
                           <?= $review['comment'];?>
                         </div>

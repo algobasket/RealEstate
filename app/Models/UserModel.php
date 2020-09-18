@@ -93,6 +93,73 @@ class UserModel extends Model
     }
 
 
+    function getAllLeadsbyUserId($status = NULL,$id = NULL,$userId = NULL)         
+    {    
+         $PropertyModel = model('PropertyModel');    
+         $builder = $this->db->table($this->property_interested_tb.' as A');   
+         $builder->select('A.*,B.title,D.firstname,D.lastname,E.status_name,E.status_badge,F.source_name');
+         $builder->join(
+          $this->properties_tb.' as B',
+          'B.id = A.property_id'
+        );
+
+         $builder->join(
+           $this->users_tb.' as C',
+          'C.id = A.user_id'
+        );
+
+         $builder->join(
+          $this->user_detail_tb.' as D',
+          'D.user_id = A.user_id'
+        );
+
+         $builder->join(
+          $this->status_tb.' as E',
+          'E.id = A.status'
+        );
+
+         $builder->join(
+          $this->lead_source_tb.' as F',
+          'F.id = A.lead_source_id'
+        );
+        
+        if(isset($status))
+         {
+             $builder->where('A.status', $status);
+         }
+
+         if(isset($id))
+         {
+             $builder->where('A.id',$id); 
+         }
+
+         if($userId)
+         {
+             $MessageModel = model('MessageModel');
+             $userPropertiesIds = $MessageModel->userPropertiesIds($userId);
+             //print_r($userPropertiesIds); 
+             if(count($userPropertiesIds) >0 && isset($userPropertiesIds))
+             {  
+               $builder->whereIn('A.property_id',$userPropertiesIds); 
+             }
+         } 
+        
+
+         $query = $builder->get();
+         $data = array();
+        if(is_array($query->getResultArray()))
+        { 
+           foreach($query->getResultArray() as $r)
+           {
+             $r['images'] = $PropertyModel->getPropertyImages($r['property_id']);
+             $data[] = $r;
+           }  
+            return $data;    
+        } 
+           
+    }
+
+
 
     function getAllUsersByRole($role)
     {
@@ -392,7 +459,7 @@ class UserModel extends Model
     function getAllUserAppointment($userType = NULL,$userId = NULL,$status = NULL)
     { 
         $builder = $this->db->table($this->appointments_tb);  
-        $builder->select([$this->appointments_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->select([$this->appointments_tb.'.*',$this->appointments_tb.'.id as appointment_id',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
         $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->appointments_tb.'.buyer_id'); 
         $builder->join($this->status_tb,$this->status_tb.'.id='.$this->appointments_tb.'.status'); 
         if(isset($status))
@@ -420,6 +487,29 @@ class UserModel extends Model
           return $data; 
         }
             
+    }
+
+
+     function getAppointmentDetail($appointmentId)
+    { 
+        $builder = $this->db->table($this->appointments_tb);  
+        $builder->select([$this->appointments_tb.'.*',$this->user_detail_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']); 
+        $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id='.$this->appointments_tb.'.buyer_id'); 
+        $builder->join($this->status_tb,$this->status_tb.'.id='.$this->appointments_tb.'.status'); 
+         if($appointmentId)
+         {
+             $builder->where($this->appointments_tb.'.id', $appointmentId); 
+         }
+        $query = $builder->get();
+        $data = array();
+        if(is_array($query->getResultArray()))  
+        {
+           foreach($query->getResultArray() as $r)
+          {
+              $data[] = $r;  
+          }  
+          return $data; 
+        }     
     }
 
 

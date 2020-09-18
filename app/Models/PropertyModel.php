@@ -248,6 +248,22 @@ class PropertyModel extends Model
           } 
    }
 
+   function getProjectDetail($projectId) 
+   {
+         $builder = $this->db->table($this->projects_tb); 
+         $builder->where(['id' => $projectId]);   
+         $query = $builder->get();
+         $data = array();
+        if(is_array($query->getResultArray()))
+        { 
+           foreach($query->getResultArray() as $r)
+           { 
+              $data[]  = $r;      
+           }
+           return $data;   
+        }       
+   }  
+
 
 
     function getProperties()   
@@ -575,12 +591,42 @@ class PropertyModel extends Model
         $builder = $this->db->table($this->property_sales_tb);
         $builder->where(['seller_id' => $userId]);    
         $query = $builder->get(); 
-        $data = array();
+        $data = array(); 
         if(is_array($query->getResultArray()))
         { 
            foreach($query->getResultArray() as $r)
            { 
               $data[]  = $this->getPropertyDetail($r['property_id']);     
+           }
+           return $data;   
+        }       
+   }
+
+
+    function salesByUser($userId)  
+   {
+        $builder = $this->db->table($this->property_sales_tb);
+        $builder->select(
+          [
+            $this->property_sales_tb.'.*',
+            $this->user_detail_tb.'.firstname',
+            $this->user_detail_tb.'.lastname',
+            $this->status_tb.'.status_name',
+            $this->status_tb.'.status_badge'
+          ] 
+        );  
+        $builder->join($this->user_detail_tb,$this->user_detail_tb.'.user_id = '.$this->property_sales_tb.'.buyer_id','left'); 
+        $builder->join($this->status_tb,$this->status_tb.'.id ='.$this->property_sales_tb.'.status','left'); 
+        $builder->where([$this->property_sales_tb.'.seller_id' => $userId]); 
+        //echo $builder->getCompiledSelect();     
+        $query = $builder->get(); 
+        $data = array();
+        if(is_array($query->getResultArray()))
+        { 
+           foreach($query->getResultArray() as $r)
+           { 
+              $r['propertyDetail']  = $this->getPropertyDetail($r['property_id']);     
+              $data[]  = $r;      
            }
            return $data;   
         }       
@@ -633,7 +679,7 @@ class PropertyModel extends Model
        return true; 
     } 
 
-    function getProjects($projectId = NULL,$status = NULL) 
+    function getProjects($projectId = NULL,$userId = NULL,$status = NULL) 
     {
        $builder = $this->db->table($this->projects_tb);
        $builder->select([$this->projects_tb.'.*',$this->status_tb.'.status_name',$this->status_tb.'.status_badge']);
@@ -645,6 +691,10 @@ class PropertyModel extends Model
        if($status)
        {
           $builder->where([$this->projects_tb.'.status' => $status]); 
+       }
+       if($userId)
+       {
+          $builder->where([$this->projects_tb.'.user_id' => $userId]);  
        }
        $query = $builder->get();
        $data = array();

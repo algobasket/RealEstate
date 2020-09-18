@@ -6,19 +6,36 @@
 
 <main role="main"> 
   <div class="album py-5 bg-light">
-    <div class="container-fluid"> 
-           <h1 class="display-4" style="font-size: 30px">Welcome <?php echo ucfirst(\Config\Services::session()->get('role'));?></h1>
+         
+          <div class="container<?= \Config\Services::session()->get('fluid') ? '-fluid' : '';?>"> 
+          
+            <h1 class="display-4" style="font-size: 30px"> 
+            Welcome <?php echo ucfirst(\Config\Services::session()->get('role'));?>
+            <?php if(\Config\Services::session()->get('fluid')){ ?>
+                <a href="<?= base_url();?>/dashboard/removeFluid" class="text-decoration-none text-dark float-right">
+                  <i class="fas fa-compress-arrows-alt" style="font-size: 15px"></i>
+                </a>
+            <?php }else{ ?>
+                <a href="<?= base_url();?>/dashboard/applyFluid" class="text-decoration-none text-dark float-right">
+                  <i class="fas fa-expand-arrows-alt" style="font-size: 15px"></i>
+                </a> 
+            <?php } ?>  
+            </h1>
+
 
             <div class="card"> 
                 <div class="card-header">
                   <?= $this->include('frontend/dashboard/tabs') ?>   
                 </div>
               <div class="card-body">
-                <h1 class="display-4">My Listings <b class="text-muted float-right" style="font-size: 20px;margin-top:20px">Showing 06 Result . Active</b> </h1> 
+                <h1 class="display-4">
+                My Listings 
+                 <a href="<?= base_url();?>/add-property" target="__blank" class="btn btn-danger btn-sm float-right"><i class="fas fa-plus"></i> Add Property</a> 
+              </h1> 
                 
                 
                 <div class="table-responsive">
-                 <table class="table table-hover">
+                 <table class="table table-hover small">
                       <thead class="thead-light">
                         <tr>
                           <th scope="col">#</th>

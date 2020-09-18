@@ -11,7 +11,7 @@
      <?php if(in_array('projects',roleAccess(\Config\Services::session()->get('role')))) : ?> 
      <li class="nav-item">
         <a class="nav-link <?= isTabActive("projects",2);?>" href="<?= base_url();?>/dashboard/projects">
-         Projects <span class="badge badge-danger"><?= tabNotificationCount()['listings'];?></span>
+         Projects <span class="badge badge-danger"><?= tabNotificationCount()['projects'];?></span>
           <span class="sr-only">unread messages</span>
       </a> 
     </li>

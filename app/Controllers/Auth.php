@@ -13,8 +13,7 @@ class Auth extends BaseController
         $this->UserModel    = model('UserModel');   
         helper('cookie');     
         helper('geography');
-        helper('common');
-               
+        helper('common');        
 	 }      
 
 
@@ -47,7 +46,8 @@ class Auth extends BaseController
               'mobile-number' => 'required|min_length[10]|max_length[12]|numeric',  
               'password'      => 'required|min_length[6]|max_length[20]',
            ])){
-               
+               $this->session->setFlashdata('alert',redAlert(\Config\Services::validation()->listErrors()));
+               return redirect()->back()->withInput(); 
            }else{
                   $isLoggedIn = $this->AuthModel->login(
                 	    $this->request->getPost('mobile-number'),
@@ -90,7 +90,7 @@ class Auth extends BaseController
 
                       return redirect()->to('/Auth/verify');            
                 }else{
-                 $this->session->setFlashdata('alert',redAlert('User Not Found</div>'));
+                 $this->session->setFlashdata('alert',redAlert('User Not Found'));
                  return redirect()->back()->withInput();
                } 
            }
@@ -120,7 +120,8 @@ class Auth extends BaseController
               'mobile-number' => 'required|min_length[10]|max_length[12]|numeric',  
               'password'      => 'required|min_length[6]|max_length[20]',
            ])){
-               
+               $this->session->setFlashdata('alert',redAlert(\Config\Services::validation()->listErrors()));
+               return redirect()->back()->withInput();
            }else{
                   $isLoggedIn = $this->AuthModel->login(
                       $this->request->getPost('mobile-number'),
@@ -191,7 +192,8 @@ class Auth extends BaseController
               'mobile-number' => 'required|min_length[10]|max_length[12]|numeric',  
               'password'      => 'required|min_length[6]|max_length[20]',
            ])){
-               
+               $this->session->setFlashdata('alert',redAlert(\Config\Services::validation()->listErrors()));
+               return redirect()->back()->withInput();
            }else{
                   $isLoggedIn = $this->AuthModel->login(
                       $this->request->getPost('mobile-number'),
@@ -278,7 +280,7 @@ class Auth extends BaseController
                 }else{
                  $this->session->setFlashdata('alert',redAlert('Staff Not Found'));
                  //return redirect()->to('/login-staff');
-                  return redirect()->back()->withInput(); 
+                  return redirect()->back()->withInput();  
                } 
            }
 		} 
@@ -551,6 +553,10 @@ class Auth extends BaseController
        return true;  
     }
 
-
+   function test()
+   {
+       helper('property'); 
+      print_r(actualSales()); 
+   }
 
 }    	

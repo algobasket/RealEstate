@@ -17,124 +17,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css" integrity="sha512-SUJFImtiT87gVCOXl3aGC00zfDl6ggYAw5+oheJvRJ8KBXZrr/TMISSdVJ5bBarbQDRC2pR5Kto3xTR0kpZInA==" crossorigin="anonymous" />  
     
 
-
-
-    <script src="https://kit.fontawesome.com/6fd02afa84.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/6fd02afa84.js" crossorigin="anonymous"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha512-QEiC894KVkN9Tsoi6+mKf8HaCLJvyA6QIRzY5KrfINXYuP9NxdIkRQhGq3BZi0J4I7V5SidGM3XUQ5wFiMDuWg==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" integrity=" sha512-G8JE1Xbr0egZE5gNGyUm1fF764iHVfRXshIoUWCTPAbKkkItp/6qal5YAHXrxEu4HNfPTQs6HOu3D5vCGS1j3w==" crossorigin="anonymous"></script>  
-    <script>
-        window.onload = function () {
-
-        var options = {
-          animationEnabled: true,
-          theme: "light2",
-          title: {
-            text: "Monthly Sales Data"
-          },
-          axisX: {
-            valueFormatString: "MMM"
-          },
-          axisY: {
-            prefix: "Lac-",
-            labelFormatter: addSymbols
-          },
-          toolTip: {
-            shared: true
-          },
-          legend: {
-            cursor: "pointer",
-            itemclick: toggleDataSeries
-          },
-          data: [
-            {
-              type: "column",
-              name: "Actual Sales",
-              showInLegend: true,
-              xValueFormatString: "MMMM YYYY",
-              yValueFormatString: "Lac-#,##0",
-              dataPoints: [
-                { x: new Date(2020, 0), y: 20000 },
-                { x: new Date(2020, 1), y: 25000 },
-                { x: new Date(2020, 2), y: 30000 },
-                { x: new Date(2020, 3), y: 70000, indexLabel: "High Renewals" },
-                { x: new Date(2020, 4), y: 40000 },
-                { x: new Date(2020, 5), y: 60000 },
-                { x: new Date(2020, 6), y: 55000 },
-                { x: new Date(2020, 7), y: 33000 },
-                { x: new Date(2020, 8), y: 45000 },
-                { x: new Date(2020, 9), y: 30000 },
-                { x: new Date(2020, 10), y: 50000 },
-                { x: new Date(2020, 11), y: 35000 }
-              ]
-            },
-            {
-              type: "line",
-              name: "Target Sales",
-              showInLegend: true,
-              yValueFormatString: "Lac-#,##0",
-              dataPoints: [
-                { x: new Date(2020, 0), y: 32000 },
-                { x: new Date(2020, 1), y: 37000 },
-                { x: new Date(2020, 2), y: 40000 },
-                { x: new Date(2020, 3), y: 52000 },
-                { x: new Date(2020, 4), y: 45000 },
-                { x: new Date(2020, 5), y: 47000 },
-                { x: new Date(2020, 6), y: 42000 },
-                { x: new Date(2020, 7), y: 43000 },
-                { x: new Date(2020, 8), y: 41000 },
-                { x: new Date(2020, 9), y: 42000 },
-                { x: new Date(2020, 10), y: 50000 },
-                { x: new Date(2020, 11), y: 45000 }
-              ]
-            },
-            {
-              type: "area",
-              name: "Profit",
-              markerBorderColor: "white", 
-              markerBorderThickness: 2,
-              showInLegend: true,
-              yValueFormatString: "Lac-#,##0",
-              dataPoints: [
-                { x: new Date(2020, 0), y: 4000 },
-                { x: new Date(2020, 1), y: 7000 },
-                { x: new Date(2020, 2), y: 12000 },
-                { x: new Date(2020, 3), y: 40000 },
-                { x: new Date(2020, 4), y: 20000 },
-                { x: new Date(2020, 5), y: 35000 },
-                { x: new Date(2020, 6), y: 33000 },
-                { x: new Date(2020, 7), y: 20000 },
-                { x: new Date(2020, 8), y: 25000 },
-                { x: new Date(2020, 9), y: 16000 },
-                { x: new Date(2020, 10), y: 29000 },
-                { x: new Date(2020, 11), y: 20000 }
-              ]
-            }]
-        };
-        $("#chartContainer").CanvasJSChart(options);
-
-        function addSymbols(e) {
-          var suffixes = ["", "K", "M", "B"];
-          var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
-
-          if (order > suffixes.length - 1)
-            order = suffixes.length - 1;
-
-          var suffix = suffixes[order];
-          return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
-        }
-
-        function toggleDataSeries(e) {
-          if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-            e.dataSeries.visible = false;
-          } else {
-            e.dataSeries.visible = true;
-          }
-          e.chart.render();
-        }
-        }
-</script>
-
-    <title><?= $title ? $title : "Site" ?></title>
+    
+    <title><?= $title ? $title : "Site" ?></title> 
   </head>
   <body>
 
@@ -234,21 +121,35 @@
             
         });
       });
+
       $(function () {
         $('[data-toggle="tooltip"]').tooltip()
       });
-    </script>
-    <script>
-$(document).ready(function() {
-    $('.datePicker')
-        .datepicker({
-            format: 'yyyy-mm-dd'
-        })
-        .on('changeDate', function(e) {
-            // Revalidate the date field
-            $('#eventForm').formValidation('revalidateField', 'date');
-        });
-});
+   
+    $(document).ready(function(){
+        $('.datePicker')
+            .datepicker({
+                format: 'yyyy-mm-dd' 
+            })
+            .on('changeDate', function(e) {
+                // Revalidate the date field
+                $('#eventForm').formValidation('revalidateField', 'date');
+            });
+
+            $(".datetimepicker").datetimepicker({
+                 format: 'yyyy-mm-dd hh:ii'
+               })
+            .on('changeDate', function(e) {
+                // Revalidate the date field
+                $('#eventForm').formValidation('revalidateField', 'date');
+            });
+
+         $('.deletePop').click(function(){ 
+              var link = $(this).attr('data-confirmedUrl'); 
+              $('.confirmedUrl').attr('href',link);   
+              $('.showModalPopup').modal('show'); 
+          });    
+    });
 </script>
 <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields

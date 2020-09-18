@@ -92,3 +92,33 @@ if(! function_exists('adsPricePerDay'))
        return $price; 
    }
 }    
+
+
+if(! function_exists('getPropertyDetail'))
+{
+   function getPropertyDetail($propertyId) 
+   {  
+       $PropertyModel  = model('PropertyModel');  
+       $return = $PropertyModel->getPropertyDetail($propertyId);
+       return $return;  
+   }
+} 
+
+if(! function_exists('getProjectDetail'))
+{
+   function getProjectDetail($projectId)
+   {  
+       $PropertyModel  = model('PropertyModel');  
+       $return = $PropertyModel->getProjectDetail($projectId); 
+       return $return;  
+   }
+} 
+
+if(!function_exists('actualSalesData'))
+{ 
+    function actualSalesData()    
+    {
+      $StatisticModel = model('StatisticModel');
+      return $StatisticModel->actualSalesData();  
+    }
+}  

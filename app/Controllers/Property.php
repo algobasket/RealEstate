@@ -20,7 +20,7 @@ class Property extends BaseController
 	{
 		  $data['title'] = "Property Detail | PropertyRaja.com"; 
 		  $propertyId = segment(2);
-      
+      createPageViewLog($id = $propertyId,$userId = cUserId() ? cUserId() : NULL,$type = 'property');
       $data['propertyDetail'] = $this->PropertyModel->getPropertyDetail($propertyId);
       $data['isInterested']   = $this->PropertyModel->isInterested(cUserId(),$propertyId);
       $data['isFavourited']   = $this->PropertyModel->isFavourited(cUserId(),$propertyId);

@@ -6,56 +6,57 @@
 <?= $this->include('common/header') ?>
 
 <main role="main">
-
   <section class="jumbotron">
     <div class="container">  
-     
-  <?php if($role == "customer") : ?> 
-  <h1>Sign-In</h1>
-  <p class="lead text-muted">India's No 1 Property Site</p>
-  <hr>  
-  <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
-  <?= \Config\Services::session()->getFlashdata('alert');?>  
-  <?= form_open('login') ?>
-  <?= csrf_field() ?>
-  <div class="form-group">
-    <label for="inputAddress2">Mobile Number</label>
-    <input type="text" name="mobile-number" class="form-control" id="mobile-number" placeholder="Mobile Number" value="<?= old('mobile-number');?>" />
-  </div>
-  <div class="form-group">
-    <label for="inputCity">Choose Password</label>
-    <input type="password" name="password" class="form-control" id="password" placeholder="Password" value="<?= old('password');?>"/>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck" name="remember_me" value="1"/>  
-      <label class="form-check-label" for="gridCheck">
-        Remember me
-      </label> 
-    </div>
-  </div>
-  <button type="submit" class="btn btn-light">Cancel</button>
-  <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" />
-  <a href="<?= base_url();?>/forgot-password" class="float-right">Forgot Login?</a>
-  <hr>
-   <div class="form-group">
-    <label for="inputAddress">
-    	Not a member?
-    	<a href="<?= base_url();?>/register">Sign-up</a>
-    </label> | 
-     
   
-  </div>
-<?= form_close() ?>
 
+
+      <?php if($role == "customer") : ?> 
+      <h1>Sign-In</h1>
+        <p class="lead text-muted">India's No 1 Property Site</p>
+      <hr>  
+      <?= \Config\Services::session()->getFlashdata('alert');?>  
+      <?= form_open('login') ?>
+      <?= csrf_field() ?>
+      <div class="form-group">
+           <label for="inputAddress2">Mobile Number</label>
+           <input type="text" name="mobile-number" class="form-control" id="mobile-number" placeholder="Mobile Number" value="<?= old('mobile-number');?>" />
+      </div>
+      <div class="form-group">
+           <label for="inputCity">Choose Password</label>
+           <input type="password" name="password" class="form-control" id="password" placeholder="Password" value="<?= old('password');?>"/>
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="gridCheck" name="remember_me" value="1"/>  
+          <label class="form-check-label" for="gridCheck">
+            Remember me
+          </label> 
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-light">Cancel</button>
+      <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" />
+      <a href="<?= base_url();?>/forgot-password" class="float-right">Forgot Login?</a>
+      <hr>
+      <div class="form-group">
+        <label for="inputAddress">
+        	Not a member?
+        	<a href="<?= base_url();?>/register">Sign-up</a>
+        </label> | 
+      </div>
+
+<?= form_close() ?>
 <?php endif ?>
  
+
+
+
  <?php if($role == "agent") : ?> 
  
  <h1>Sign-In | Agent</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
-  <hr>    
- <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
+  <hr>     
   <?= \Config\Services::session()->getFlashdata('alert');?>      
   <?= form_open('login-agent') ?>
   <?= csrf_field() ?> 
@@ -73,8 +74,7 @@
       <label class="form-check-label" for="gridCheck">
         Remember me
       </label> 
-    </div>
-  </div>
+    </div></div>
   <button type="submit" class="btn btn-light">Cancel</button>
   <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" />
   <hr>
@@ -84,15 +84,14 @@
       <a href="<?= base_url();?>/register">Sign-up</a>
     </label>
   </div>
-</form>
+<?= form_close() ?>  
 <?php endif ?>
 
 <?php if($role == "developer") : ?>  
  
  <h1>Sign-In | RealEstate Developer</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
-  <hr>    
-  <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
+  <hr>      
   <?= \Config\Services::session()->getFlashdata('alert');?>  
   <?= form_open('login-developer') ?>
   <?= csrf_field() ?> 
@@ -124,12 +123,14 @@
 </form>
 <?php endif ?>
 
- <?php if($role == "staff") : ?> 
+
+
+
+ <?php if($role == "staff") : ?>  
       
   <h1>Sign-In | Staff</h1>
   <p class="lead text-muted">India's No 1 Property Site</p>
-  <hr>    
-  <?= \Config\Services::validation()->listErrors() ? "<div class='alert-danger'>".\Config\Services::validation()->listErrors()."</div>" : ""; ?>  
+  <hr>     
   <?= \Config\Services::session()->getFlashdata('alert');?>  
   <?= form_open('login-staff') ?>
   <?= csrf_field() ?> 
@@ -170,7 +171,7 @@
   </div>
   <button type="submit" class="btn btn-light">Cancel</button>
   <input type="submit" class="btn btn-primary" name="sign-in" value="Sign In" /> 
-  <hr>
+    <hr>
    <div class="form-group">
     <label for="inputAddress">
       Not a member?
