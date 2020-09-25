@@ -249,7 +249,7 @@ class MessageModel extends Model
         $email = \Config\Services::email(); 
         
         $smtpSettings = json_decode(getSettings('EmailSmtpSettings')[0]['setting_json'],true);
-        
+        print_r($smtpSettings); 
         $config['protocol'] = $smtpSettings['protocol'];
         $config['SMTPHost'] = $smtpSettings['smtpHost']; 
         $config['SMTPUser'] = $smtpSettings['smtpUser'];

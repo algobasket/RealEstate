@@ -523,28 +523,29 @@ class Auth extends BaseController
 
     public function sendEmail($userId = null,$replaceData = null,$to = null,$subject = null,$template = null)      
     {   
-       $data['title'] = "PropertyRaja"; 
+       $data['title'] = "PropertyRaja";  
        
        $userDetail = $this->UserModel->getUserDetail($userId);  
        $TemplatesModel = model('TemplatesModel'); 
        $template   = $TemplatesModel->getEmailTemplate($template);    
       
        $parser = \Config\Services::parser();
+       $fullname = ucfirst($userDetail['firstname']).' '.ucfirst($userDetail['lastname']);  
        $parse  = [ 
-         'name'       => $userDetail['firstname'] ? ucfirst($userDetail['firstname']).' '.ucfirst($userDetail['lastname']) : ucfirst($userDetail['display_name']),
+         'name'       => $userDetail['firstname'] ? $fullname : ucfirst($userDetail['display_name']), 
          'os'         => "gg",   
          'browser'    => "gg", 
          'ip'         => get_client_ip(),
          'city'       => currentLocation()['city'],
          'state'      => currentLocation()['state'],
          'country'    => currentLocation()['country'],
-         'link'       =>  base_url() .'/change-password/',  
-         'base_url'   => 'https://propertyraja.algobasket.com/public'       
+         'link'       => base_url() .'/change-password/',  
+         'base_url'   => base_url()         
        ];  
        $parse = array_merge($parse,$replaceData);  
-       $html = $parser->setData($parse)->renderString($template, ['cascadeData'=>true]);
-       $data['template'] = $html;
-       $msg = view('email-template/login',$data,['saveData' => true]);
+       $html  = $parser->setData($parse)->renderString($template, ['cascadeData'=>true]);
+       $data['template'] = $html; 
+       $msg  = view('email-template/login',$data,['saveData' => true]);
        
        $from = json_decode(getSettings('NoReplyEmail')[0]['setting_json'],true); 
        
@@ -554,9 +555,16 @@ class Auth extends BaseController
     }
 
    function test()
-   {
-       helper('property'); 
-      print_r(actualSales()); 
-   }
+   {   
+       $from['name'] = "PropertyRaja"; 
+       $MessageModel = model('MessageModel'); 
+       $MessageModel->sendEmail(
+        $from,
+        'kripanidhi@live.com',
+        "",
+        "",
+        "Testttttt",
+        "Test123");   
+   } 
 
 }    	

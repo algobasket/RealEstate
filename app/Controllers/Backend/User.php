@@ -530,6 +530,10 @@ class User extends BackendController
              return redirect()->to('/backend/user/staff/edit/'.$userId);     
            } 
         } 
+    }elseif($data['section'] == "delete"){
+       $this->CrudModel->D('_users',['id' => segment(5)]); 
+       $this->session->setFlashdata('alert',redAlert("Customer's Record Deleted!"));
+       return redirect()->to('/backend/user/customers');  
     }else{ 
 
       $data['customers'] = $this->UserModel->getAllUsersByRole('customer');  

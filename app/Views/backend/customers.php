@@ -487,7 +487,7 @@
 
        <?php }else{ ?>
         
-
+        <?= \Config\Services::session()->getFlashdata('alert');?>
         <h3 class="display-4">Buyers & Owners</h3>
         <div class="table-responsive">
           <table class="table small">
